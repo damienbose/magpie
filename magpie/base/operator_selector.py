@@ -24,4 +24,4 @@ class WeightedSelector(AbstractOperatorSelector):
         assert len(self._operators) == len(self._weights), 'number of operators and weights must match'
     
     def select(self):
-        return random.choice(self._operators, weights=self._weights)
+        return random.choices(self._operators, weights=self._weights, k=1)[0]

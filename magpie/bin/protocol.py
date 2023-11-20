@@ -34,6 +34,9 @@ class BasicProtocol:
         # Set up our operator selector
         if sec['operator_selector'] == 'UniformSelector':
             self.search.config['operator_selector'] = magpie.base.UniformSelector(self.search.config['possible_edits'])
+        elif sec['operator_selector'] == 'WeightedSelector':
+            initial_weights = [float(w) for w in sec['initial_weights'].split()]
+            self.search.config['operator_selector'] = magpie.base.WeightedSelector(self.search.config['possible_edits'], initial_weights)
 
         bins = [[]]
         for s in sec['batch_instances'].splitlines():
