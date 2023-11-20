@@ -1,3 +1,0 @@
-Results Summary
-Starting Fitness: 0.1385
-Best Fitness: 0.0469
