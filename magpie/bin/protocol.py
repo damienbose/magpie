@@ -30,6 +30,10 @@ class BasicProtocol:
                 raise ValueError('Invalid config file: unknown edit type "{}" in "[software] possible_edits"'.format(edit))
         if self.search.config['possible_edits'] == []:
             raise ValueError('Invalid config file: "[search] possible_edits" must be non-empty!')
+        
+        # Set up our operator selector
+        if sec['operator_selector'] == 'UniformSelector':
+            self.search.config['operator_selector'] = magpie.base.UniformSelector(self.search.config['possible_edits'])
 
         bins = [[]]
         for s in sec['batch_instances'].splitlines():
