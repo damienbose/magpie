@@ -15,4 +15,4 @@ python3 -m bin.genetic_programming --scenario experiments/scenario/triangle_unif
 python3 -m bin.genetic_programming --scenario experiments/scenario/triangle_weighted.txt --algo GeneticProgrammingUniformConcat 
 
 # Parse results and produce summary statistics
-python3 experiments/parse_results.py --result_dir experiments/results
+python3 -m experiments.parse_results --result_dir experiments/results
