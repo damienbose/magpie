@@ -6,9 +6,6 @@ import glob
 import pickle
 import magpie
 
-FLOAT_REGEX = r"[-+]?(?:\d*\.*\d+)"
-
-
 def parse_results(result, output_dir):
     with open(output_dir / "result.txt", "w") as f:
         print(f"Results Summary", file=f)
