@@ -1,6 +1,9 @@
 import io
 import os
 import random
+import pickle
+from pathlib import Path
+import shutil
 
 import magpie
 
@@ -168,3 +171,23 @@ class BasicProtocol:
 
         # cleanup temporary software copies
         self.program.clean_work_dir()
+
+        # Update the results with values from our experiment
+        result.update(self.search.experiment_report)
+        result['operator_selector'] = self.search.config['operator_selector']
+
+        # Get path of current experiment results
+        experiment_path = Path(f"experiments/results/{self.search.__class__.__name__}/{self.search.config['operator_selector'].__class__.__name__}")
+        experiment_path.mkdir(parents=True, exist_ok=True)
+        experiment_logs_path = (experiment_path / "logs")
+        experiment_logs_path.mkdir(parents=True, exist_ok=True)
+
+        # Store as pickle file in experiment directory
+        with open(experiment_logs_path / 'raw_result.pkl', 'wb') as file:
+            pickle.dump(result, file)
+
+        base_path = os.path.join(magpie.config.log_dir, self.program.run_label)
+        shutil.copyfile(f"{base_path}.log", experiment_logs_path / "experiment.log")
+        shutil.copyfile(f"{base_path}.diff", experiment_logs_path / "experiment.diff")
+        shutil.copyfile(f"{base_path}.patch", experiment_logs_path / "experiment.patch")
+        

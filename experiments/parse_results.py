@@ -1,50 +1,41 @@
-
-
 import re, os
 import sys
 import argparse
 from pathlib import Path
+import glob
+import pickle
+import magpie
 
 FLOAT_REGEX = r"[-+]?(?:\d*\.*\d+)"
 
 
 def parse_results(result, output_dir):
-    # Name of algorithm
-    algorithm = re.findall(r"algorithm = (.*)", result)[0]
-
-    # Create the directory if it does not exist
-    output_dir = Path(output_dir) / algorithm
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    # Name of operator selection technique
-    operator_selector = re.findall(r"operator_selector = (.*)", result)[0]
-
-    # Create the directory if it does not exist
-    output_dir = Path(output_dir) / operator_selector
-    output_dir.mkdir(parents=True, exist_ok=True)
-
     with open(output_dir / "result.txt", "w") as f:
-        # Fitness Summary
-        starting_fitness = [*map(float, re.findall(r"INITIAL SUCCESS\s+(" + FLOAT_REGEX + r")", result))][0]
-        best_fitness = [*map(float, re.findall(r"Best fitness: (" + FLOAT_REGEX + r")", result))][0]
-
         print(f"Results Summary", file=f)
-        print(f"Starting Fitness: {starting_fitness:.4f}", file=f)
-        print(f"Best Fitness: {best_fitness:.4f}", file=f)
+        print(f"Starting Fitness: {result['initial_fitness']}", file=f)
+        print(f"Best Fitness: {result['best_fitness']}", file=f)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--log_dir", type=str)
-    parser.add_argument("--output_dir", type=str)
+    parser.add_argument("--result_dir", type=str)
     args = parser.parse_args()
 
-    log_path = Path(args.log_dir)
-    result_output_path = Path(args.output_dir)
+    result_output_path = Path(args.result_dir)
 
-    # Get all log files for all experiments
-    log_files = [f for f in log_path.glob("**/*.log") if f.is_file()]
+    # Get the list of subdirectories in the results directory
+    subdirectories = glob.glob(args.result_dir + '/*/*/*/')
 
-    for log_file in log_files:
-        with open(log_file) as f:
-            parse_results(f.read(), result_output_path)
-    
+    # Iterate over each subdirectory
+    for subdirectory in subdirectories:
+        # Check if the subdirectory is named "logs"
+        if subdirectory.endswith('logs/'):
+            # Get the path to the pickle file
+            pickle_file = Path(subdirectory) / 'raw_result.pkl'
+
+            # Load the pickle file
+            with open(pickle_file, 'rb') as f:
+                result = pickle.load(f)
+
+            # Parse the results
+            parse_results(result, Path(subdirectory).parent)

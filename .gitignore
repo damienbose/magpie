@@ -9,4 +9,5 @@ _magpie*
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
 .vscode/launch.json
-experiments/experiement_results
+
+experiments/results

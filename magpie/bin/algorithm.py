@@ -165,6 +165,9 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
         if self.program.base_fitness is None:
             self.program.base_fitness = current_fitness
 
+        # DB11: store results for experiment
+        self.experiment_report['warmup_values'] = warmup_values # Used to find standard deviation is runtime
+
     def evaluate_patch(self, patch, force=False, forget=False):
         contents = self.program.apply_patch(patch)
         diff = None

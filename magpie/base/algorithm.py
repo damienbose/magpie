@@ -15,6 +15,7 @@ class AbstractAlgorithm(ABC):
         self.config = {}
         self.config['possible_edits'] = []
         self.config['operator_selector'] = None
+        self.experiment_report = {} # Used to keep track for itermediate results for experiment
         self.stop = {}
         self.stop['wall'] = None # seconds
         self.stop['steps'] = None
