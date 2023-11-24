@@ -20,4 +20,3 @@ possible_edits =
     StmtReplacement
     StmtInsertion
     StmtDeletion
-    
