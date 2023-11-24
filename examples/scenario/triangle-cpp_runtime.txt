@@ -20,4 +20,4 @@ possible_edits =
     StmtReplacement
     StmtInsertion
     StmtDeletion
-operator_selector = UniformSelector
+    
