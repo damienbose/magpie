@@ -19,6 +19,7 @@ class StmtDeletion(NodeDeletion):
     NODE_TYPE = 'stmt'
 
 # Deletion: break continue decl_stmt do expr_stmt for goto if return switch while
+# Note NODE_TYPE is the node type in the target file
 class BreakDeletion(NodeDeletion):
     NODE_TYPE = 'break'
 
