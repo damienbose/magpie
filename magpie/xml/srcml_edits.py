@@ -18,6 +18,40 @@ class XmlLineMoving(NodeMoving):
 class StmtDeletion(NodeDeletion):
     NODE_TYPE = 'stmt'
 
+# break continue decl_stmt do expr_stmt for goto if return switch while
+class BreakDeletion(NodeDeletion):
+    NODE_TYPE = 'break'
+
+class ContinueDeletion(NodeDeletion):
+    NODE_TYPE = 'continue'
+
+class DeclStmtDeletion(NodeDeletion):
+    NODE_TYPE = 'decl_stmt'
+
+class DoDeletion(NodeDeletion):
+    NODE_TYPE = 'do'
+
+class ExprStmtDeletion(NodeDeletion):
+    NODE_TYPE = 'expr_stmt'
+
+class ForDeletion(NodeDeletion):
+    NODE_TYPE = 'for'
+
+class GotoDeletion(NodeDeletion):
+    NODE_TYPE = 'goto'
+
+class IfDeletion(NodeDeletion):
+    NODE_TYPE = 'if'
+
+class ReturnDeletion(NodeDeletion):
+    NODE_TYPE = 'return'
+
+class SwitchDeletion(NodeDeletion):
+    NODE_TYPE = 'switch'
+
+class WhileDeletion(NodeDeletion):
+    NODE_TYPE = 'while'
+
 class StmtReplacement(NodeReplacement):
     NODE_TYPE = 'stmt'
 

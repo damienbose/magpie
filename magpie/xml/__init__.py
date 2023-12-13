@@ -5,6 +5,7 @@ from .xml_edits import TextSetting, TextWrapping
 from .srcml_engine import SrcmlEngine
 from .srcml_edits import XmlLineReplacement, XmlLineInsertion, XmlLineDeletion, XmlLineMoving
 from .srcml_edits import StmtReplacement, StmtInsertion, StmtDeletion, StmtMoving, StmtSwap
+from .srcml_edits import BreakDeletion, ContinueDeletion, DeclStmtDeletion, DoDeletion, ExprStmtDeletion, ForDeletion, GotoDeletion, IfDeletion, ReturnDeletion, SwitchDeletion, WhileDeletion
 from .srcml_edits import ExprReplacement
 from .srcml_edits import ComparisonOperatorSetting, ArithmeticOperatorSetting
 from .srcml_edits import NumericSetting, RelativeNumericSetting
@@ -19,6 +20,9 @@ engines = [
 edits = [
     XmlLineReplacement, XmlLineInsertion, XmlLineDeletion, XmlLineMoving,
     StmtReplacement, StmtInsertion, StmtDeletion, StmtMoving, StmtSwap,
+
+    BreakDeletion, ContinueDeletion, DeclStmtDeletion, DoDeletion, ExprStmtDeletion, ForDeletion, GotoDeletion, IfDeletion, ReturnDeletion, SwitchDeletion, WhileDeletion,
+
     ExprReplacement,
     ComparisonOperatorSetting, ArithmeticOperatorSetting,
     NumericSetting, RelativeNumericSetting,
