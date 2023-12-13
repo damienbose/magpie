@@ -3,12 +3,11 @@ local_original_copy = True
 
 [srcml]
 rename =
-    number: literal_number
 focus = block break continue decl_stmt do expr_stmt for goto if return switch while
 internodes = block
 process_pseudo_blocks = True
-process_literals = True
-process_operators = True
+process_literals = False
+process_operators = False
 
 [software]
 path = examples/code/triangle-cpp_slow
@@ -28,9 +27,13 @@ max_time = 60
 warmup = 1
 warmup_strategy = last
 possible_edits =
+    DeclStmtDeletion
     ExprStmtDeletion
     IfDeletion
+    ReturnDeletion
 operator_selector = WeightedSelector
 initial_weights =
+    1
+    1
     1
     1
