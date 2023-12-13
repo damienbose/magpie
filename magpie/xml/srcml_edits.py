@@ -18,7 +18,7 @@ class XmlLineMoving(NodeMoving):
 class StmtDeletion(NodeDeletion):
     NODE_TYPE = 'stmt'
 
-# break continue decl_stmt do expr_stmt for goto if return switch while
+# Deletion: break continue decl_stmt do expr_stmt for goto if return switch while
 class BreakDeletion(NodeDeletion):
     NODE_TYPE = 'break'
 
@@ -50,6 +50,85 @@ class SwitchDeletion(NodeDeletion):
     NODE_TYPE = 'switch'
 
 class WhileDeletion(NodeDeletion):
+    NODE_TYPE = 'while'
+
+# Replacement: break continue decl_stmt do expr_stmt for goto if return switch while
+class BreakReplacement(NodeDeletion):
+    NODE_TYPE = 'break'
+
+class ContinueReplacement(NodeDeletion):
+    NODE_TYPE = 'continue'
+
+class DeclStmtReplacement(NodeDeletion):
+    NODE_TYPE = 'decl_stmt'
+
+class DoReplacement(NodeDeletion):
+    NODE_TYPE = 'do'
+
+class ExprStmtReplacement(NodeDeletion):
+    NODE_TYPE = 'expr_stmt'
+
+class ForReplacement(NodeDeletion):
+    NODE_TYPE = 'for'
+
+class GotoReplacement(NodeDeletion):
+    NODE_TYPE = 'goto'
+
+class IfReplacement(NodeDeletion):
+    NODE_TYPE = 'if'
+
+class ReturnReplacement(NodeDeletion):
+    NODE_TYPE = 'return'
+
+class SwitchReplacement(NodeDeletion):
+    NODE_TYPE = 'switch'
+
+class WhileReplacement(NodeDeletion):
+    NODE_TYPE = 'while'
+
+# Insertion: break continue decl_stmt do expr_stmt for goto if return switch while
+class BreakInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'break'
+
+class ContinueInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'continue'
+
+class DeclStmtInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'decl_stmt'
+
+class DoInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'do'
+
+class ExprStmtInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'expr_stmt'
+
+class ForInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'for'
+
+class GotoInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'goto'
+
+class IfInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'if'
+
+class ReturnInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'return'
+
+class SwitchInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
+    NODE_TYPE = 'switch'
+
+class WhileInsertion(NodeDeletion):
+    NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'while'
 
 class StmtReplacement(NodeReplacement):
