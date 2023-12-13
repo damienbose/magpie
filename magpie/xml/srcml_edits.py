@@ -53,81 +53,81 @@ class WhileDeletion(NodeDeletion):
     NODE_TYPE = 'while'
 
 # Replacement: break continue decl_stmt do expr_stmt for goto if return switch while
-class BreakReplacement(NodeDeletion):
+class BreakReplacement(NodeReplacement):
     NODE_TYPE = 'break'
 
-class ContinueReplacement(NodeDeletion):
+class ContinueReplacement(NodeReplacement):
     NODE_TYPE = 'continue'
 
-class DeclStmtReplacement(NodeDeletion):
+class DeclStmtReplacement(NodeReplacement):
     NODE_TYPE = 'decl_stmt'
 
-class DoReplacement(NodeDeletion):
+class DoReplacement(NodeReplacement):
     NODE_TYPE = 'do'
 
-class ExprStmtReplacement(NodeDeletion):
+class ExprStmtReplacement(NodeReplacement):
     NODE_TYPE = 'expr_stmt'
 
-class ForReplacement(NodeDeletion):
+class ForReplacement(NodeReplacement):
     NODE_TYPE = 'for'
 
-class GotoReplacement(NodeDeletion):
+class GotoReplacement(NodeReplacement):
     NODE_TYPE = 'goto'
 
-class IfReplacement(NodeDeletion):
+class IfReplacement(NodeReplacement):
     NODE_TYPE = 'if'
 
-class ReturnReplacement(NodeDeletion):
+class ReturnReplacement(NodeReplacement):
     NODE_TYPE = 'return'
 
-class SwitchReplacement(NodeDeletion):
+class SwitchReplacement(NodeReplacement):
     NODE_TYPE = 'switch'
 
-class WhileReplacement(NodeDeletion):
+class WhileReplacement(NodeReplacement):
     NODE_TYPE = 'while'
 
 # Insertion: break continue decl_stmt do expr_stmt for goto if return switch while
-class BreakInsertion(NodeDeletion):
+class BreakInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'break'
 
-class ContinueInsertion(NodeDeletion):
+class ContinueInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'continue'
 
-class DeclStmtInsertion(NodeDeletion):
+class DeclStmtInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'decl_stmt'
 
-class DoInsertion(NodeDeletion):
+class DoInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'do'
 
-class ExprStmtInsertion(NodeDeletion):
+class ExprStmtInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'expr_stmt'
 
-class ForInsertion(NodeDeletion):
+class ForInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'for'
 
-class GotoInsertion(NodeDeletion):
+class GotoInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'goto'
 
-class IfInsertion(NodeDeletion):
+class IfInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'if'
 
-class ReturnInsertion(NodeDeletion):
+class ReturnInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'return'
 
-class SwitchInsertion(NodeDeletion):
+class SwitchInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'switch'
 
-class WhileInsertion(NodeDeletion):
+class WhileInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'while'
 
