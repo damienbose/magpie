@@ -1,6 +1,15 @@
 [magpie]
 local_original_copy = True
 
+[srcml]
+rename =
+    number: literal_number
+focus = block break continue decl_stmt do expr_stmt for goto if return switch while
+internodes = block
+process_pseudo_blocks = True
+process_literals = True
+process_operators = True
+
 [software]
 path = examples/code/triangle-cpp_slow
 target_files =
@@ -16,13 +25,12 @@ run_timeout = 1
 [search]
 max_steps = 100
 max_time = 60
+warmup = 1
 warmup_strategy = last
 possible_edits =
-    StmtReplacement
-    StmtInsertion
-    StmtDeletion
+    ExprStmtDeletion
+    IfDeletion
 operator_selector = WeightedSelector
 initial_weights =
-    0.2
-    0.4
-    0.4
+    1
+    1
