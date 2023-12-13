@@ -88,6 +88,7 @@ class WhileReplacement(NodeReplacement):
     NODE_TYPE = 'while'
 
 # Insertion: break continue decl_stmt do expr_stmt for goto if return switch while
+# Note: NODE_TYPE is the node type in the ingredient file
 class BreakInsertion(NodeInsertion):
     NODE_PARENT_TYPE = 'block'
     NODE_TYPE = 'break'
