@@ -6,19 +6,12 @@ class AbstractOperatorSelector(ABC):
         self._operators = operators
     
     @abstractmethod
-    def update_quality(self, operator, reward):
-        pass
-
-    @abstractmethod
     def select(self, **kwargs):
         pass
 
 class UniformSelector(AbstractOperatorSelector):
     def __init__(self, operators):
         super().__init__(operators)
-
-    def update_quality(self, operator, reward):
-        pass
 
     def select(self):
         return random.choice(self._operators)
@@ -30,9 +23,6 @@ class WeightedSelector(AbstractOperatorSelector):
 
         assert len(self._operators) == len(self._weights), 'number of operators and weights must match. Got {} operators and {} weights'.format(len(self._operators), len(self._weights))
         
-    def update_quality(self, operator, reward):
-        pass
-
     def select(self):
         return random.choices(self._operators, weights=self._weights, k=1)[0]
 
