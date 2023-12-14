@@ -10,4 +10,4 @@ _magpie*
 /*.egg-info
 .vscode/launch.json
 
-experiments/results
+# experiments/results
