@@ -42,6 +42,9 @@ class BasicProtocol:
         elif sec['operator_selector'] == 'WeightedSelector':
             initial_weights = [float(w) for w in sec['initial_weights'].split()]
             self.search.config['operator_selector'] = magpie.base.WeightedSelector(self.search.config['possible_edits'], initial_weights)
+        elif sec['operator_selector'] == 'WeightedSelector':
+            epsilon = float(sec['epsilon'])
+            self.search.config['operator_selector'] = magpie.base.EpsilonGreedy(self.search.config['possible_edits'], epsilon)
 
         bins = [[]]
         for s in sec['batch_instances'].splitlines():
