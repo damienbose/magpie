@@ -39,4 +39,17 @@ possible_edits =
     ExprStmtDeletion
     IfDeletion
     ReturnDeletion
-operator_selector = UniformSelector
+operator_selector = WeightedSelector
+initial_weights = 
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    0
+    1
+    0
+    0
