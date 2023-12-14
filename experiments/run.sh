@@ -7,12 +7,13 @@ rm -rf _magpie_work
 rm -rf experiments/results
 
 # Experiments: Local Search
-python3 -m bin.local_search --scenario experiments/scenario/triangle_uniform.txt --algo FirstImprovement
-python3 -m bin.local_search --scenario experiments/scenario/triangle_weighted.txt --algo FirstImprovement
-
-# Experiments: Genetic Programming
-python3 -m bin.genetic_programming --scenario experiments/scenario/triangle_uniform.txt --algo GeneticProgrammingUniformConcat
-python3 -m bin.genetic_programming --scenario experiments/scenario/triangle_weighted.txt --algo GeneticProgrammingUniformConcat 
+for i in {1..3}
+do
+    # Maybe worth changing the seed and the number of iterations here in a more robust manner; possible solution for trial number is to do the trials sequentially
+    echo "Running Sanity Check"
+    python3 -m bin.local_search --scenario experiments/scenario/sanity_check.txt --algo FirstImprovement
+    python3 -m bin.local_search --scenario experiments/scenario/triangle_uniform.txt --algo FirstImprovement
+done
 
 # Parse results and produce summary statistics
 python3 -m experiments.parse_results --result_dir experiments/results
