@@ -83,6 +83,20 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
         pass
 
     def hook_evaluation(self, patch, run, accept=False, best=False):
+        def calculate_reward(run):
+            # Note since we're trying to minimize fitness, we need to negate it.
+            # The higher the reward, the better
+
+            CONST_PENALTY = -1_205_521 * 10 # 1_205_521 is the fitness value of the program with no edits. TODO: discuss alternatives
+            if run.status == 'SUCCESS':
+                return -run.fitness
+            else:
+                return CONST_PENALTY 
+
+        # Update quality for RL
+        if self.config['operator_selector'].__class__.__name__ == "EpsilonGreedy":
+            self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, calculate_reward(run))
+
         if best:
             c = '*'
         elif accept:

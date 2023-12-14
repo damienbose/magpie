@@ -39,17 +39,8 @@ possible_edits =
     ExprStmtDeletion
     IfDeletion
     ReturnDeletion
-operator_selector = WeightedSelector
-initial_weights = 
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    1
-    0
-    0
+operator_selector = EpsilonGreedy
+epsilon = 0.2
+
+[search.ls]
+delete_prob = 0
