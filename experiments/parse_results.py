@@ -21,7 +21,7 @@ if __name__ == "__main__":
     result_output_path = Path(args.result_dir)
 
     # Get the list of subdirectories in the results directory
-    subdirectories = glob.glob(args.result_dir + '/*/*/*/')
+    subdirectories = glob.glob(args.result_dir + '/*/*/*/*/')
 
     # Iterate over each subdirectory
     for subdirectory in subdirectories:
