@@ -17,5 +17,3 @@ done
 
 # Parse results and produce summary statistics
 python3 -m experiments.parse_results --result_dir experiments/results
-
-# TEST
