@@ -54,6 +54,7 @@ class WhileDeletion(NodeDeletion):
     NODE_TYPE = 'while'
 
 # Replacement: break continue decl_stmt do expr_stmt for goto if return switch while
+# Note: NODE_TYPE is the node type in the target file, while the ingredient for replacement is any statement node ('stmt')
 class BreakReplacement(NodeReplacement):
     NODE_TYPE = 'break'
 
