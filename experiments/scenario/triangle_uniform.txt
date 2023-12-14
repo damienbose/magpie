@@ -5,12 +5,12 @@ local_original_copy = True
 path = examples/code/triangle-cpp_slow
 target_files =
     triangle.cpp.xml
-fitness = time
+fitness = perf_instructions
 
 setup_cmd = ./setup.sh
 compile_cmd = ./compile.sh
 test_cmd = ./build/test_triangle
-run_cmd = ./build/run_triangle
+run_cmd = perf stat ./build/run_triangle
 run_timeout = 1
 
 [search]
