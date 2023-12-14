@@ -1,1 +1,0 @@
-StmtDeletion(('triangle.cpp.xml', 'stmt', 1)) | StmtReplacement(('triangle.cpp.xml', 'stmt', 8), ('triangle.cpp.xml', 'stmt', 16)) | StmtInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'stmt', 0))
