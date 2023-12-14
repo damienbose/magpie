@@ -43,7 +43,7 @@ class NodeReplacement(Edit):
         if cls.NODE_TYPE in ["break", "continue", "decl_stmt", "do", "expr_stmt", "for", "goto", "if", "return", "switch", "while"]:
             value = program.random_target(ingr_file, 'stmt')
         else:
-            assert False, "Unknown node type: {}".format(cls.NODE_TYPE) # for debugging
+            # assert False, "Unknown node type: {}".format(cls.NODE_TYPE) # for debugging
             value = program.random_target(ingr_file, cls.NODE_TYPE)
         if value is None:
             return None

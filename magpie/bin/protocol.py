@@ -179,6 +179,14 @@ class BasicProtocol:
         # Get path of current experiment results
         experiment_path = Path(f"experiments/results/{self.search.__class__.__name__}/{self.search.config['operator_selector'].__class__.__name__}")
         experiment_path.mkdir(parents=True, exist_ok=True)
+        
+        trial_number = 0
+        for files in experiment_path.iterdir():
+            if files.is_dir():
+                trial_number += 1
+        experiment_path = experiment_path / f"trial_{trial_number}"
+        experiment_path.mkdir(parents=True, exist_ok=True)
+        
         experiment_logs_path = (experiment_path / "logs")
         experiment_logs_path.mkdir(parents=True, exist_ok=True)
 
@@ -187,7 +195,12 @@ class BasicProtocol:
             pickle.dump(result, file)
 
         base_path = os.path.join(magpie.config.log_dir, self.program.run_label)
-        shutil.copyfile(f"{base_path}.log", experiment_logs_path / "experiment.log")
-        shutil.copyfile(f"{base_path}.diff", experiment_logs_path / "experiment.diff")
-        shutil.copyfile(f"{base_path}.patch", experiment_logs_path / "experiment.patch")
+        if os.path.isfile(f"{base_path}.log"):
+            shutil.copyfile(f"{base_path}.log", experiment_logs_path / "experiment.log")
+
+        if os.path.isfile(f"{base_path}.diff"):
+            shutil.copyfile(f"{base_path}.diff", experiment_logs_path / "experiment.diff")
+
+        if os.path.isfile(f"{base_path}.patch"):
+            shutil.copyfile(f"{base_path}.patch", experiment_logs_path / "experiment.patch")
         

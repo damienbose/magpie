@@ -45,11 +45,12 @@ class XmlEngine(AbstractEngine):
         locations = aux({}, '.', contents_of_file)
 
         # Combine all the possible statements into one list for replacement operator
-        statements = ["break", "continue", "decl_stmt", "do", "expr_stmt", "for", "goto", "if", "return", "switch", "while"]
-        locations["stmt"] = []
-        for statement in statements:
-            if statement in locations:
-                locations["stmt"] += locations[statement]
+        if 'stmt' not in locations:
+            statements = ["break", "continue", "decl_stmt", "do", "expr_stmt", "for", "goto", "if", "return", "switch", "while"]
+            locations["stmt"] = []
+            for statement in statements:
+                if statement in locations:
+                    locations["stmt"] += locations[statement]
         return locations
 
     def location_names(self, file_locations, target_file, target_type):
