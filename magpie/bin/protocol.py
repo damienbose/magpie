@@ -35,7 +35,9 @@ class BasicProtocol:
             raise ValueError('Invalid config file: "[search] possible_edits" must be non-empty!')
         
         # Set up our operator selector
-        if sec['operator_selector'] == 'UniformSelector':
+        if 'operator_selector' not in sec:
+            self.search.config['operator_selector'] = magpie.base.UniformSelector(self.search.config['possible_edits'])
+        elif sec['operator_selector'] == 'UniformSelector':
             self.search.config['operator_selector'] = magpie.base.UniformSelector(self.search.config['possible_edits'])
         elif sec['operator_selector'] == 'WeightedSelector':
             initial_weights = [float(w) for w in sec['initial_weights'].split()]
