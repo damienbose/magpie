@@ -9,12 +9,9 @@ rm -rf _magpie_work
 rm -rf experiments/results
 
 # Experiments: Local Search
-for i in {1..3}
+for i in {1..1}
 do
-    # Maybe worth changing the seed and the number of iterations here in a more robust manner; possible solution for trial number is to do the trials sequentially
-    echo "Running Sanity Check"
-    python3 -m bin.local_search --scenario experiments/scenario/sanity_check.txt --algo FirstImprovement
-    python3 -m bin.local_search --scenario experiments/scenario/triangle_uniform.txt --algo FirstImprovement
+    python3 -m bin.local_search --scenario experiments/scenario/test_example.txt --algo RandomSearch --seed $i --output_dir experiments/results/epsilon_greedy/random_search/trial_$i
 done
 
 # Parse results and produce summary statistics
