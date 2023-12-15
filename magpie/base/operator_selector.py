@@ -42,8 +42,21 @@ class EpsilonGreedy(AbstractOperatorSelector):
         # Keep track of previous operator for update_quality
         self.prev_operator = None
 
+    def calculate_reward(self, run):
+                """ current 1, previous 5
+                if run.status != 'SUCCESS':    
+                    0
+                relative fitness = previous / current # only update previous if it complied       
+                """
+                if run.status != 'SUCCESS':
+                    return 0
+                else:
+                    return self.program.base_fitness / run.fitness # Return relative improvement from base fitness (TODO: can change to previous fitness)
+                
+    def update_quality(self, operator, run):
+
+        reward = self.calculate_reward(run)
         
-    def update_quality(self, operator, reward): # Note: reward = -fitness, since we're trying to minimize fitness
         self._action_count[operator] += 1
         self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator]
 
