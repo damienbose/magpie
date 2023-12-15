@@ -43,3 +43,4 @@ operator_selector = UniformSelector
 
 [search.ls]
 delete_prob = 0
+max_neighbours = 20

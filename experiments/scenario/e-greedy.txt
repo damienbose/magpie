@@ -44,3 +44,4 @@ epsilon = 0.2
 
 [search.ls]
 delete_prob = 0
+max_neighbours = 20

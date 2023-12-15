@@ -217,6 +217,43 @@ class FirstImprovement(LocalSearch):
         self.stats['steps'] += 1
         return current_patch, current_fitness
 
+class FirstImprovementNoTabu(LocalSearch):
+    def setup(self):
+        super().setup()
+        self.name = 'First Improvement No Tabu'
+
+    def explore(self, current_patch, current_fitness):
+        # move
+        patch = copy.deepcopy(current_patch)
+        self.mutate(patch)
+
+        # compare
+        run = self.evaluate_patch(patch)
+        accept = best = False
+        if run.status == 'SUCCESS':
+            if not self.dominates(current_fitness, run.fitness):
+                accept = True
+                if self.dominates(run.fitness, self.report['best_fitness']):
+                    self.report['best_fitness'] = run.fitness
+                    self.report['best_patch'] = patch
+                    best = True
+
+        # accept
+        if accept:
+            current_patch = patch
+            current_fitness = run.fitness
+            self.stats['neighbours'] = 0
+        else:
+            self.stats['neighbours'] += 1
+            self.check_if_trapped()
+
+        # hook
+        self.hook_evaluation(patch, run, accept, best)
+
+        # next
+        self.stats['steps'] += 1
+        return current_patch, current_fitness
+
 
 class BestImprovement(LocalSearch):
     def setup(self):
@@ -263,6 +300,54 @@ class BestImprovement(LocalSearch):
         else:
             if len(patch.edits) < len(current_patch.edits):
                 self.local_tabu.add(patch)
+            self.stats['neighbours'] += 1
+            self.check_if_trapped()
+
+        # hook
+        self.hook_evaluation(patch, run, accept, best)
+
+        # next
+        self.stats['steps'] += 1
+        return current_patch, current_fitness
+    
+class BestImprovementNoTabu(LocalSearch):
+    def setup(self):
+        super().setup()
+        self.name = 'Best Improvement No Tabu'
+        self.config['max_neighbours'] = 20
+        self.local_best_patch = None
+        self.local_best_fitness = None
+
+    def explore(self, current_patch, current_fitness):
+        # move
+        patch = copy.deepcopy(current_patch)
+        self.mutate(patch)
+
+        # compare
+        run = self.evaluate_patch(patch)
+        accept = best = False
+        if run.status == 'SUCCESS':
+            if not self.dominates(current_fitness, run.fitness):
+                if not self.dominates(self.local_best_fitness, run.fitness):
+                    self.local_best_patch = patch
+                    self.local_best_fitness = run.fitness
+                    if self.dominates(run.fitness, self.report['best_fitness']):
+                        self.report['best_fitness'] = run.fitness
+                        self.report['best_patch'] = patch
+                        best = True
+
+        # accept
+        accept = self.stats['neighbours'] >= self.config['max_neighbours']
+        if accept:
+            if self.local_best_patch is not None:
+                current_patch = self.local_best_patch
+                current_fitness = self.local_best_fitness
+                self.local_best_patch = None
+                self.local_best_fitness = None
+                self.stats['neighbours'] = 0
+            else:
+                self.check_if_trapped()
+        else:
             self.stats['neighbours'] += 1
             self.check_if_trapped()
 
