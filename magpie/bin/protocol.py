@@ -13,6 +13,9 @@ class BasicProtocol:
         self.program = None
 
     def setup(self, config):
+        # Out file config
+        self.search.config['final_out_dir'] = config['magpie']['final_out_dir']
+
         # shared parameters
         sec = config['search']
         self.search.config['warmup'] = int(sec['warmup'])
@@ -182,16 +185,9 @@ class BasicProtocol:
         result['operator_selector'] = self.search.config['operator_selector']
 
         # Get path of current experiment results
-        experiment_path = Path(f"experiments/results/{self.search.__class__.__name__}/{self.search.config['operator_selector'].__class__.__name__}")
+        experiment_path = Path(self.search.config['final_out_dir'])
         experiment_path.mkdir(parents=True, exist_ok=True)
-        
-        trial_number = 0
-        for files in experiment_path.iterdir():
-            if files.is_dir():
-                trial_number += 1
-        experiment_path = experiment_path / f"trial_{trial_number}"
-        experiment_path.mkdir(parents=True, exist_ok=True)
-        
+                
         experiment_logs_path = (experiment_path / "logs")
         experiment_logs_path.mkdir(parents=True, exist_ok=True)
 

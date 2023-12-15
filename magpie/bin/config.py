@@ -5,6 +5,7 @@ default_config = {
         'seed': '',
         'log_dir': '_magpie_logs',
         'work_dir': '_magpie_work',
+        'final_out_dir': '_magpie_out_trash',
         'local_original_copy': False,
         'local_original_name': '__original__',
         'output_encoding': 'ascii',
