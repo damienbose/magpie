@@ -52,7 +52,7 @@ class EpsilonGreedy(AbstractOperatorSelector):
                 if run.status != 'SUCCESS':
                     return 0
                 else:
-                    return self.program.base_fitness / run.fitness # Return relative improvement from base fitness (TODO: can change to previous fitness)
+                    return self.program.base_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
                 
     def update_quality(self, operator, run):
 
