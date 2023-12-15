@@ -1,0 +1,45 @@
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -1,6 +1,7 @@
+ #include "triangle.hpp"
+ 
+ void delay() {
++  double tmp;
+   const struct timespec ms = {0, (long int) (0.001*1e9)}; //tv_sec=0, tv_nsec (0.001 seconds)
+   nanosleep(&ms,NULL); /*ignores possible errors*/
+ }
+@@ -11,11 +12,7 @@
+   delay();
+ 
+   // Sort the sides so that a <= b <= c
+-  if(a > b) {
+-    tmp = a;
+-    a = b;
+-    b = tmp;
+-  }
++  
+ 
+   if(a > c) {
+     tmp = a;
+@@ -24,7 +21,13 @@
+   }
+ 
+   if(b > c) {
++    double tmp;
+     tmp = b;
++    if(a > b) {
++      tmp = a;
++      a = b;
++      b = tmp;
++    }
+     b = c;
+     c = tmp;
+   }
+@@ -32,6 +35,7 @@
+   if(a + b <= c)
+     /*auto*/{
+       return INVALID;
++      const struct timespec ms = {0, (long int) (0.001*1e9)};
+     }/*auto*/
+   if(a == b && b == c)
+     /*auto*/{

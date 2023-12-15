@@ -1,0 +1,47 @@
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -8,19 +8,16 @@
+ int classify_triangle(double a, double b, double c) {
+   double tmp;
+ 
+-  delay();
++  
+ 
+   // Sort the sides so that a <= b <= c
+-  if(a > b) {
+-    tmp = a;
+-    a = b;
+-    b = tmp;
+-  }
++  
+ 
+   if(a > c) {
+     tmp = a;
+     a = c;
+     c = tmp;
++    double tmp;
+   }
+ 
+   if(b > c) {
+@@ -32,14 +29,21 @@
+   if(a + b <= c)
+     /*auto*/{
+       return INVALID;
++      if(a > c) {
++        tmp = a;
++        a = c;
++        c = tmp;
++      }
+     }/*auto*/
+   if(a == b && b == c)
+     /*auto*/{
+       return EQUILATERAL;
++      return ISOSCELES;
+     }/*auto*/
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
+     }/*auto*/
+   return SCALENE;
++  return ISOSCELES;
+ }

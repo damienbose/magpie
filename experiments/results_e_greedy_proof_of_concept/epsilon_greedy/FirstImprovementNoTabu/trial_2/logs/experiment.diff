@@ -1,0 +1,39 @@
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -12,12 +12,14 @@
+ 
+   // Sort the sides so that a <= b <= c
+   if(a > b) {
++    double tmp;
+     tmp = a;
+     a = b;
+     b = tmp;
+   }
+ 
+   if(a > c) {
++    double tmp;
+     tmp = a;
+     a = c;
+     c = tmp;
+@@ -32,14 +34,21 @@
+   if(a + b <= c)
+     /*auto*/{
+       return INVALID;
++      const struct timespec ms = {0, (long int) (0.001*1e9)};
+     }/*auto*/
+   if(a == b && b == c)
+     /*auto*/{
+       return EQUILATERAL;
++      if(b > c) {
++        tmp = b;
++        b = c;
++        c = tmp;
++      }
+     }/*auto*/
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
+     }/*auto*/
+   return SCALENE;
++  c = tmp;
+ }

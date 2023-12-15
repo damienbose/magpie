@@ -1,0 +1,1 @@
+IfReplacement(('triangle.cpp.xml', 'if', 1), ('triangle.cpp.xml', 'stmt', 16)) | IfDeletion(('triangle.cpp.xml', 'if', 1)) | ExprStmtReplacement(('triangle.cpp.xml', 'expr_stmt', 1), ('triangle.cpp.xml', 'stmt', 14)) | ReturnInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'return', 1)) | IfDeletion(('triangle.cpp.xml', 'if', 0))

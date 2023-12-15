@@ -1,0 +1,1 @@
+ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 1)) | ExprStmtInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'expr_stmt', 9)) | IfDeletion(('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 13), ('triangle.cpp.xml', 'if', 3))

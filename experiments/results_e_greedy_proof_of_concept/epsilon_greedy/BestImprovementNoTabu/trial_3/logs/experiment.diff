@@ -1,0 +1,33 @@
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -2,7 +2,8 @@
+ 
+ void delay() {
+   const struct timespec ms = {0, (long int) (0.001*1e9)}; //tv_sec=0, tv_nsec (0.001 seconds)
+-  nanosleep(&ms,NULL); /*ignores possible errors*/
++  nanosleep(&ms,NULL);
++  double tmp; /*ignores possible errors*/
+ }
+ 
+ int classify_triangle(double a, double b, double c) {
+@@ -17,11 +18,7 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  tmp = a;
+ 
+   if(b > c) {
+     tmp = b;
+@@ -36,6 +33,7 @@
+   if(a == b && b == c)
+     /*auto*/{
+       return EQUILATERAL;
++      c = tmp;
+     }/*auto*/
+   if(a == b || b == c)
+     /*auto*/{

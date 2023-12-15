@@ -1,0 +1,583 @@
+2023-12-15 03:21:28,008	[DEBUG]	==== CONFIG ====
+[magpie]
+import = 
+seed = 7
+log_dir = _magpie_logs
+work_dir = _magpie_work
+final_out_dir = experiments/results_e_greedy_proof_of_concept/epsilon_greedy/BestImprovementNoTabu/trial_7
+local_original_copy = True
+local_original_name = __original__
+output_encoding = ascii
+edit_retries = 10
+default_timeout = 30
+default_lengthout = 10000.0
+diff_method = unified
+trust_local_filesystem = True
+
+[software]
+path = examples/code/triangle-cpp_slow
+target_files = 
+	triangle.cpp.xml
+program = BasicProgram
+engine_rules = 
+	*.params : ConfigFileParamsEngine
+	*.xml : SrcmlEngine
+	* : LineEngine
+engine_config = 
+	*.params : [params]
+	*.xml : [srcml]
+init_cmd = 
+init_timeout = 60
+init_lengthout = -1
+setup_cmd = ./setup.sh
+setup_timeout = 
+setup_lengthout = 
+compile_cmd = ./compile.sh
+compile_timeout = 
+compile_lengthout = 
+test_cmd = ./build/test_triangle
+test_timeout = 
+test_lengthout = 
+run_cmd = perf stat ./build/run_triangle
+run_timeout = 1
+run_lengthout = 
+batch_timeout = 
+batch_lengthout = 
+batch_bin_fitness_strategy = aggregate
+batch_fitness_strategy = sum
+fitness = perf_instructions
+
+[srcml]
+rename = 
+focus = block break continue decl_stmt do expr_stmt for goto if return switch while
+internodes = block
+process_pseudo_blocks = True
+process_literals = False
+process_operators = False
+
+[params]
+timing = test run
+cli_prefix = --
+cli_glue = =
+cli_boolean = show
+cli_boolean_prefix_true = 
+cli_boolean_prefix_false = no-
+silent_prefix = @
+silent_suffix = $
+
+[search]
+protocol = BasicProtocol
+algorithm = BestImprovementNoTabu
+possible_edits = 
+	DeclStmtReplacement
+	ExprStmtReplacement
+	IfReplacement
+	ReturnReplacement
+	DeclStmtInsertion
+	ExprStmtInsertion
+	IfInsertion
+	ReturnInsertion
+	DeclStmtDeletion
+	ExprStmtDeletion
+	IfDeletion
+	ReturnDeletion
+warmup = 5
+warmup_strategy = last
+max_steps = 100
+max_time = 60
+target_fitness = 
+cache_maxsize = 40
+cache_keep = 0.2
+batch_instances = 
+batch_shuffle = True
+batch_bin_shuffle = False
+batch_sample_size = 1
+operator_selector = EpsilonGreedy
+epsilon = 0.2
+
+[search.ls]
+delete_prob = 0
+max_neighbours = 20
+when_trapped = continue
+accept_fail = False
+tabu_length = 10
+
+[search.gp]
+pop_size = 10
+delete_prob = 0.5
+offspring_elitism = 0.1
+offspring_crossover = 0.5
+offspring_mutation = 0.4
+uniform_rate = 0.5
+batch_reset = True
+
+[search.minify]
+do_cleanup = True
+do_rebuild = True
+do_simplify = True
+round_robin_limit = 3
+
+
+2023-12-15 03:21:28,013	[INFO]	==== WARMUP ====
+2023-12-15 03:21:30,652	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-15 03:21:30,652	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-15 03:21:31,641	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-15 03:21:31,642	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-15 03:21:32,612	[DEBUG]	EXEC>  SUCCESS 1841695
+2023-12-15 03:21:32,612	[INFO]	WARM    SUCCESS               1841695                 
+2023-12-15 03:21:33,593	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-15 03:21:33,594	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-15 03:21:34,562	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-15 03:21:34,563	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-15 03:21:34,563	[INFO]	INITIAL SUCCESS               1204239                 
+2023-12-15 03:21:34,564	[INFO]	==== START: BestImprovementNoTabu ====
+2023-12-15 03:21:34,718	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 16))
+2023-12-15 03:21:34,719	[INFO]	1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-15 03:21:34,862	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 1), ('triangle.cpp.xml', 'stmt', 3))
+2023-12-15 03:21:34,863	[INFO]	2       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-15 03:21:35,691	[DEBUG]	ExprStmtReplacement(('triangle.cpp.xml', 'expr_stmt', 3), ('triangle.cpp.xml', 'stmt', 11))
+2023-12-15 03:21:35,691	[INFO]	3       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:36,696	[DEBUG]	EXEC>  SUCCESS 1204338
+2023-12-15 03:21:36,696	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 6), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:21:36,697	[INFO]	4       SUCCESS               1204338 (100.01%) [1 edit(s)] 
+2023-12-15 03:21:37,508	[DEBUG]	IfReplacement(('triangle.cpp.xml', 'if', 4), ('triangle.cpp.xml', 'stmt', 0))
+2023-12-15 03:21:37,509	[INFO]	5       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:38,299	[DEBUG]	ReturnReplacement(('triangle.cpp.xml', 'return', 2), ('triangle.cpp.xml', 'stmt', 9))
+2023-12-15 03:21:38,299	[INFO]	6       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:39,280	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-15 03:21:39,281	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 14), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:39,281	[INFO]	7       SUCCESS               1204239 (100.0%) [1 edit(s)] 
+2023-12-15 03:21:40,270	[DEBUG]	EXEC>  SUCCESS 1204299
+2023-12-15 03:21:40,271	[DEBUG]	ExprStmtInsertion(('triangle.cpp.xml', '_inter_block', 23), ('triangle.cpp.xml', 'expr_stmt', 4))
+2023-12-15 03:21:40,271	[INFO]	8       SUCCESS               1204299 (100.0%) [1 edit(s)] 
+2023-12-15 03:21:40,413	[DEBUG]	ReturnInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'return', 2))
+2023-12-15 03:21:40,414	[INFO]	9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-15 03:21:40,536	[DEBUG]	DeclStmtDeletion(('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-15 03:21:40,537	[INFO]	10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-15 03:21:41,303	[DEBUG]	ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 10))
+2023-12-15 03:21:41,304	[INFO]	11      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:41,465	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 5), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:41,466	[INFO]	12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-15 03:21:42,413	[DEBUG]	EXEC>  SUCCESS 1203979
+2023-12-15 03:21:42,414	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:21:42,415	[INFO]	13      SUCCESS              *1203979 (99.98%) [1 edit(s)] 
+2023-12-15 03:21:42,416	[DEBUG]	--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -17,11 +17,7 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  
+ 
+   if(b > c) {
+     tmp = b;
+
+2023-12-15 03:21:43,241	[DEBUG]	ReturnDeletion(('triangle.cpp.xml', 'return', 1))
+2023-12-15 03:21:43,241	[INFO]	14      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:43,391	[DEBUG]	ExprStmtInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'expr_stmt', 0))
+2023-12-15 03:21:43,392	[INFO]	15      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-15 03:21:43,393	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:21:43,393	[INFO]	16      SUCCESS               1203979 (99.98%) [1 edit(s)] 
+2023-12-15 03:21:44,157	[DEBUG]	ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 2))
+2023-12-15 03:21:44,157	[INFO]	17      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:44,954	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:21:44,954	[INFO]	18      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:45,923	[DEBUG]	EXEC>  SUCCESS 1204349
+2023-12-15 03:21:45,924	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:21:45,925	[INFO]	19      SUCCESS               1204349 (100.01%) [1 edit(s)] 
+2023-12-15 03:21:46,764	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:21:46,764	[INFO]	20      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-15 03:21:47,583	[DEBUG]	ReturnReplacement(('triangle.cpp.xml', 'return', 2), ('triangle.cpp.xml', 'stmt', 14))
+2023-12-15 03:21:47,583	[INFO]	21      TEST_CODE_ERROR      +None  [1 edit(s)]       
+2023-12-15 03:21:47,584	[DEBUG]	--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -39,7 +39,11 @@
+     }/*auto*/
+   if(a == b || b == c)
+     /*auto*/{
+-      return ISOSCELES;
++      if(a > c) {
++        tmp = a;
++        a = c;
++        c = tmp;
++      }
+     }/*auto*/
+   return SCALENE;
+ }
+
+2023-12-15 03:21:48,406	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfDeletion(('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:21:48,407	[INFO]	22      TEST_CODE_ERROR       None  [2 edit(s)]       
+2023-12-15 03:21:48,408	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-15 03:21:48,408	[INFO]	23      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:48,409	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 19), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:48,409	[INFO]	24      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:49,236	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | ReturnInsertion(('triangle.cpp.xml', '_inter_block', 16), ('triangle.cpp.xml', 'return', 2))
+2023-12-15 03:21:49,236	[INFO]	25      TEST_CODE_ERROR       None  [2 edit(s)]       
+2023-12-15 03:21:50,239	[DEBUG]	EXEC>  SUCCESS 1203979
+2023-12-15 03:21:50,240	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 1), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:50,241	[INFO]	26      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:51,068	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:51,068	[INFO]	27      TEST_CODE_ERROR       None  [2 edit(s)]       
+2023-12-15 03:21:51,070	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 19), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:51,070	[INFO]	28      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:52,024	[DEBUG]	EXEC>  SUCCESS 1204104
+2023-12-15 03:21:52,024	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 7), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-15 03:21:52,025	[INFO]	29      SUCCESS               1204104 (99.99%) [2 edit(s)] 
+2023-12-15 03:21:52,202	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 12), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:52,202	[INFO]	30      COMPILE_CODE_ERROR    None  [2 edit(s)]       
+2023-12-15 03:21:52,204	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:52,206	[INFO]	31      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:52,342	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:21:52,342	[INFO]	32      COMPILE_CODE_ERROR    None  [2 edit(s)]       
+2023-12-15 03:21:52,344	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:21:52,344	[INFO]	33      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:53,312	[DEBUG]	EXEC>  SUCCESS 1204114
+2023-12-15 03:21:53,313	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:21:53,314	[INFO]	34      SUCCESS               1204114 (99.99%) [2 edit(s)] 
+2023-12-15 03:21:53,315	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:21:53,316	[INFO]	35      SUCCESS               1203979 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:53,477	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 3), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:21:53,478	[INFO]	36      COMPILE_CODE_ERROR    None  [2 edit(s)]       
+2023-12-15 03:21:54,509	[DEBUG]	EXEC>  SUCCESS 1204096
+2023-12-15 03:21:54,509	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:21:54,510	[INFO]	37      SUCCESS               1204096 (99.99%) [2 edit(s)] 
+2023-12-15 03:21:55,518	[DEBUG]	EXEC>  SUCCESS 1204168
+2023-12-15 03:21:55,519	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 6), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:21:55,519	[INFO]	38      SUCCESS               1204168 (99.99%) [2 edit(s)] 
+2023-12-15 03:21:56,351	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:21:56,351	[INFO]	39      TEST_CODE_ERROR       None  [2 edit(s)]       
+2023-12-15 03:21:57,341	[DEBUG]	EXEC>  SUCCESS 1771236
+2023-12-15 03:21:57,342	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 7), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:21:57,343	[INFO]	40      SUCCESS               1771236 (147.08%) [2 edit(s)] 
+2023-12-15 03:21:58,323	[DEBUG]	EXEC>  SUCCESS 1225600
+2023-12-15 03:21:58,324	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 5), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:21:58,325	[INFO]	41      SUCCESS               1225600 (101.77%) [2 edit(s)] 
+2023-12-15 03:21:59,344	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:21:59,345	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:21:59,346	[INFO]	42      SUCCESS              *1203978 (99.98%) [2 edit(s)] 
+2023-12-15 03:21:59,347	[DEBUG]	--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -17,11 +17,7 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  
+ 
+   if(b > c) {
+     tmp = b;
+@@ -40,6 +36,11 @@
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
++      if(b > c) {
++        tmp = b;
++        b = c;
++        c = tmp;
++      }
+     }/*auto*/
+   return SCALENE;
+ }
+
+2023-12-15 03:22:00,365	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:22:00,366	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:00,366	[INFO]	43      SUCCESS               1203978 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:01,389	[DEBUG]	EXEC>  SUCCESS 1204198
+2023-12-15 03:22:01,389	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 7), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:01,390	[INFO]	44      SUCCESS               1204198 (100.0%) [3 edit(s)] 
+2023-12-15 03:22:02,486	[DEBUG]	EXEC>  SUCCESS 1204027
+2023-12-15 03:22:02,487	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-15 03:22:02,488	[INFO]	45      SUCCESS               1204027 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:03,494	[DEBUG]	EXEC>  SUCCESS 1203980
+2023-12-15 03:22:03,495	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:03,495	[INFO]	46      SUCCESS               1203980 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:04,566	[DEBUG]	EXEC>  SUCCESS 1501783
+2023-12-15 03:22:04,566	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 24), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:04,567	[INFO]	47      SUCCESS               1501783 (124.71%) [3 edit(s)] 
+2023-12-15 03:22:05,408	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | ExprStmtInsertion(('triangle.cpp.xml', '_inter_block', 8), ('triangle.cpp.xml', 'expr_stmt', 7))
+2023-12-15 03:22:05,408	[INFO]	48      TEST_CODE_ERROR       None  [3 edit(s)]       
+2023-12-15 03:22:06,422	[DEBUG]	EXEC>  SUCCESS 1203979
+2023-12-15 03:22:06,423	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:06,423	[INFO]	49      SUCCESS               1203979 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:07,406	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:22:07,406	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:07,407	[INFO]	50      SUCCESS               1203978 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:08,355	[DEBUG]	EXEC>  SUCCESS 1203979
+2023-12-15 03:22:08,355	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:08,356	[INFO]	51      SUCCESS               1203979 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:09,308	[DEBUG]	EXEC>  SUCCESS 1204149
+2023-12-15 03:22:09,308	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 6), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:22:09,309	[INFO]	52      SUCCESS               1204149 (99.99%) [3 edit(s)] 
+2023-12-15 03:22:09,311	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:09,311	[INFO]	53      SUCCESS               1203980 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:09,436	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:09,436	[INFO]	54      COMPILE_CODE_ERROR    None  [3 edit(s)]       
+2023-12-15 03:22:09,550	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:22:09,550	[INFO]	55      COMPILE_CODE_ERROR    None  [3 edit(s)]       
+2023-12-15 03:22:10,277	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | ReturnReplacement(('triangle.cpp.xml', 'return', 3), ('triangle.cpp.xml', 'stmt', 6))
+2023-12-15 03:22:10,278	[INFO]	56      TEST_CODE_ERROR       None  [3 edit(s)]       
+2023-12-15 03:22:10,279	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 19), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:10,280	[INFO]	57      SUCCESS               1203978 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:11,206	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:22:11,207	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | ReturnInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'return', 3))
+2023-12-15 03:22:11,207	[INFO]	58      SUCCESS               1203978 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:11,994	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | ReturnReplacement(('triangle.cpp.xml', 'return', 1), ('triangle.cpp.xml', 'stmt', 21))
+2023-12-15 03:22:11,995	[INFO]	59      TEST_CODE_ERROR       None  [3 edit(s)]       
+2023-12-15 03:22:11,996	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:11,997	[INFO]	60      SUCCESS               1203978 (99.98%) [3 edit(s)] 
+2023-12-15 03:22:12,161	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | DeclStmtDeletion(('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-15 03:22:12,162	[INFO]	61      COMPILE_CODE_ERROR    None  [3 edit(s)]       
+2023-12-15 03:22:13,163	[DEBUG]	EXEC>  SUCCESS 1204096
+2023-12-15 03:22:13,163	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:13,164	[INFO]	62      SUCCESS               1204096 (99.99%) [3 edit(s)] 
+2023-12-15 03:22:13,329	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:22:13,329	[INFO]	63      COMPILE_CODE_ERROR   +None  [3 edit(s)]       
+2023-12-15 03:22:13,331	[DEBUG]	--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -6,6 +6,11 @@
+ }
+ 
+ int classify_triangle(double a, double b, double c) {
++  if(a > c) {
++    tmp = a;
++    a = c;
++    c = tmp;
++  }
+   double tmp;
+ 
+   delay();
+@@ -17,11 +22,7 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  
+ 
+   if(b > c) {
+     tmp = b;
+@@ -40,6 +41,11 @@
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
++      if(b > c) {
++        tmp = b;
++        b = c;
++        c = tmp;
++      }
+     }/*auto*/
+   return SCALENE;
+ }
+
+2023-12-15 03:22:13,332	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:22:13,333	[INFO]	64      SUCCESS               1203978 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:14,278	[DEBUG]	EXEC>  SUCCESS 1203977
+2023-12-15 03:22:14,278	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:14,279	[INFO]	65      SUCCESS              *1203977 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:14,281	[DEBUG]	--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -17,11 +17,7 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  
+ 
+   if(b > c) {
+     tmp = b;
+@@ -40,6 +36,16 @@
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
++      if(b > c) {
++        tmp = b;
++        b = c;
++        c = tmp;
++      }
++      if(a > b) {
++        tmp = a;
++        a = b;
++        b = tmp;
++      }
+     }/*auto*/
+   return SCALENE;
+ }
+
+2023-12-15 03:22:14,283	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:14,283	[INFO]	66      SUCCESS               1203978 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:14,438	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 3), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:22:14,438	[INFO]	67      COMPILE_CODE_ERROR    None  [4 edit(s)]       
+2023-12-15 03:22:15,418	[DEBUG]	EXEC>  SUCCESS 1204104
+2023-12-15 03:22:15,419	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-15 03:22:15,419	[INFO]	68      SUCCESS               1204104 (99.99%) [4 edit(s)] 
+2023-12-15 03:22:15,573	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:15,573	[INFO]	69      COMPILE_CODE_ERROR    None  [4 edit(s)]       
+2023-12-15 03:22:15,721	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:15,721	[INFO]	70      COMPILE_CODE_ERROR    None  [4 edit(s)]       
+2023-12-15 03:22:16,759	[DEBUG]	EXEC>  SUCCESS 1225610
+2023-12-15 03:22:16,759	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 14), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:16,760	[INFO]	71      SUCCESS               1225610 (101.77%) [4 edit(s)] 
+2023-12-15 03:22:16,919	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 3), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:22:16,919	[INFO]	72      COMPILE_CODE_ERROR    None  [4 edit(s)]       
+2023-12-15 03:22:17,910	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:22:17,910	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 13), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:17,911	[INFO]	73      SUCCESS               1203978 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:18,973	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-15 03:22:18,974	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfReplacement(('triangle.cpp.xml', 'if', 1), ('triangle.cpp.xml', 'stmt', 14))
+2023-12-15 03:22:18,975	[INFO]	74      SUCCESS               1204239 (100.0%) [4 edit(s)] 
+2023-12-15 03:22:19,802	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 9), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:19,802	[INFO]	75      TEST_CODE_ERROR       None  [4 edit(s)]       
+2023-12-15 03:22:20,804	[DEBUG]	EXEC>  SUCCESS 1204167
+2023-12-15 03:22:20,805	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 9), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:20,805	[INFO]	76      SUCCESS               1204167 (99.99%) [4 edit(s)] 
+2023-12-15 03:22:21,791	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:22:21,791	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 29), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:21,792	[INFO]	77      SUCCESS               1203978 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:21,794	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 29), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:21,794	[INFO]	78      SUCCESS               1203978 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:22,822	[DEBUG]	EXEC>  SUCCESS 1256453
+2023-12-15 03:22:22,822	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 30), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:22,823	[INFO]	79      SUCCESS               1256453 (104.34%) [4 edit(s)] 
+2023-12-15 03:22:22,982	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 0), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:22:22,983	[INFO]	80      COMPILE_CODE_ERROR    None  [4 edit(s)]       
+2023-12-15 03:22:23,128	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:22:23,128	[INFO]	81      COMPILE_CODE_ERROR    None  [4 edit(s)]       
+2023-12-15 03:22:23,131	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:23,131	[INFO]	82      SUCCESS               1203978 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:24,161	[DEBUG]	EXEC>  SUCCESS 1204026
+2023-12-15 03:22:24,161	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:24,162	[INFO]	83      SUCCESS               1204026 (99.98%) [4 edit(s)] 
+2023-12-15 03:22:25,129	[DEBUG]	EXEC>  SUCCESS 1204078
+2023-12-15 03:22:25,130	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:22:25,131	[INFO]	84      SUCCESS              +1204078 (99.99%) [4 edit(s)] 
+2023-12-15 03:22:25,133	[DEBUG]	--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -17,16 +17,17 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  
+ 
+   if(b > c) {
+     tmp = b;
+     b = c;
+     c = tmp;
++    if(a > c) {
++      tmp = a;
++      a = c;
++      c = tmp;
++    }
+   }
+ 
+   if(a + b <= c)
+@@ -40,6 +41,11 @@
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
++      if(b > c) {
++        tmp = b;
++        b = c;
++        c = tmp;
++      }
+     }/*auto*/
+   return SCALENE;
+ }
+
+2023-12-15 03:22:26,160	[DEBUG]	EXEC>  SUCCESS 1266243
+2023-12-15 03:22:26,160	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:26,161	[INFO]	85      SUCCESS               1266243 (105.15%) [5 edit(s)] 
+2023-12-15 03:22:26,996	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | ReturnReplacement(('triangle.cpp.xml', 'return', 0), ('triangle.cpp.xml', 'stmt', 4))
+2023-12-15 03:22:26,997	[INFO]	86      TEST_CODE_ERROR       None  [5 edit(s)]       
+2023-12-15 03:22:26,999	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 6))
+2023-12-15 03:22:26,999	[INFO]	87      SUCCESS               1203977 (99.98%) [5 edit(s)] 
+2023-12-15 03:22:27,150	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 12), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-15 03:22:27,151	[INFO]	88      COMPILE_CODE_ERROR    None  [5 edit(s)]       
+2023-12-15 03:22:28,217	[DEBUG]	EXEC>  SUCCESS 1204157
+2023-12-15 03:22:28,217	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:28,218	[INFO]	89      SUCCESS               1204157 (99.99%) [5 edit(s)] 
+2023-12-15 03:22:29,210	[DEBUG]	EXEC>  SUCCESS 1204051
+2023-12-15 03:22:29,211	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 17), ('triangle.cpp.xml', 'if', 3))
+2023-12-15 03:22:29,212	[INFO]	90      SUCCESS               1204051 (99.98%) [5 edit(s)] 
+2023-12-15 03:22:30,087	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 8), ('triangle.cpp.xml', 'if', 5))
+2023-12-15 03:22:30,088	[INFO]	91      TEST_CODE_ERROR       None  [5 edit(s)]       
+2023-12-15 03:22:31,078	[DEBUG]	EXEC>  SUCCESS 1204061
+2023-12-15 03:22:31,079	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:31,079	[INFO]	92      SUCCESS               1204061 (99.99%) [5 edit(s)] 
+2023-12-15 03:22:31,234	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 0), ('triangle.cpp.xml', 'if', 2))
+2023-12-15 03:22:31,234	[INFO]	93      COMPILE_CODE_ERROR    None  [5 edit(s)]       
+2023-12-15 03:22:32,242	[DEBUG]	EXEC>  SUCCESS 1203979
+2023-12-15 03:22:32,242	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 27), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:22:32,243	[INFO]	94      SUCCESS               1203979 (99.98%) [5 edit(s)] 
+2023-12-15 03:22:33,274	[DEBUG]	EXEC>  SUCCESS 1204060
+2023-12-15 03:22:33,275	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 11), ('triangle.cpp.xml', 'if', 1))
+2023-12-15 03:22:33,276	[INFO]	95      SUCCESS               1204060 (99.99%) [5 edit(s)] 
+2023-12-15 03:22:34,308	[DEBUG]	EXEC>  SUCCESS 1203978
+2023-12-15 03:22:34,308	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | ReturnInsertion(('triangle.cpp.xml', '_inter_block', 13), ('triangle.cpp.xml', 'return', 0))
+2023-12-15 03:22:34,309	[INFO]	96      SUCCESS               1203978 (99.98%) [5 edit(s)] 
+2023-12-15 03:22:35,319	[DEBUG]	EXEC>  SUCCESS 1203979
+2023-12-15 03:22:35,319	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 4))
+2023-12-15 03:22:35,320	[INFO]	97      SUCCESS               1203979 (99.98%) [5 edit(s)] 
+2023-12-15 03:22:35,323	[INFO]	==== END ====
+2023-12-15 03:22:35,324	[INFO]	
+2023-12-15 03:22:35,325	[INFO]	==== REPORT ====
+2023-12-15 03:22:35,325	[INFO]	Termination: time budget
+2023-12-15 03:22:35,326	[INFO]	Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/triangle-cpp_slow_1702610487.log
+2023-12-15 03:22:35,328	[INFO]	Patch file: _magpie_logs/triangle-cpp_slow_1702610487.patch
+2023-12-15 03:22:35,328	[INFO]	Diff file: _magpie_logs/triangle-cpp_slow_1702610487.diff
+2023-12-15 03:22:35,328	[INFO]	Best fitness: 1203977
+2023-12-15 03:22:35,329	[INFO]	Best patch: IfDeletion(('triangle.cpp.xml', 'if', 1)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 2)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'if', 3)) | IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 0))
+2023-12-15 03:22:35,330	[INFO]	Diff:
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -17,11 +17,7 @@
+     b = tmp;
+   }
+ 
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  
+ 
+   if(b > c) {
+     tmp = b;
+@@ -40,6 +36,16 @@
+   if(a == b || b == c)
+     /*auto*/{
+       return ISOSCELES;
++      if(b > c) {
++        tmp = b;
++        b = c;
++        c = tmp;
++      }
++      if(a > b) {
++        tmp = a;
++        a = b;
++        b = tmp;
++      }
+     }/*auto*/
+   return SCALENE;
+ }
+
