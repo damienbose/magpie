@@ -1,2 +1,0 @@
-All experiments complete!
-Total execution time: 00:47:30
