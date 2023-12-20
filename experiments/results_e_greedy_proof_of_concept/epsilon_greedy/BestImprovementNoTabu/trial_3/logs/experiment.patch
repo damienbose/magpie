@@ -1,1 +1,0 @@
-DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'decl_stmt', 1)) | ExprStmtInsertion(('triangle.cpp.xml', '_inter_block', 29), ('triangle.cpp.xml', 'expr_stmt', 10)) | IfReplacement(('triangle.cpp.xml', 'if', 1), ('triangle.cpp.xml', 'stmt', 4))

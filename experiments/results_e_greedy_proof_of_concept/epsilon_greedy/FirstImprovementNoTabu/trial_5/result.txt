@@ -1,3 +1,0 @@
-Results Summary
-Starting Fitness: 1308614
-Best Fitness: 1203914

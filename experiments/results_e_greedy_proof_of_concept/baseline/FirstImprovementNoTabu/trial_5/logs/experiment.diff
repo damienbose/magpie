@@ -1,54 +1,41 @@
 --- before: triangle.cpp
 +++ after: triangle.cpp
-@@ -1,21 +1,21 @@
- #include "triangle.hpp"
- 
- void delay() {
--  const struct timespec ms = {0, (long int) (0.001*1e9)}; //tv_sec=0, tv_nsec (0.001 seconds)
--  nanosleep(&ms,NULL); /*ignores possible errors*/
-+   //tv_sec=0, tv_nsec (0.001 seconds)
-+   /*ignores possible errors*/
- }
- 
+@@ -8,7 +8,7 @@
  int classify_triangle(double a, double b, double c) {
    double tmp;
  
 -  delay();
-+  
++  const struct timespec ms = {0, (long int) (0.001*1e9)};
  
    // Sort the sides so that a <= b <= c
--  if(a > b) {
--    tmp = a;
--    a = b;
--    b = tmp;
--  }
-+  if(a == b && b == c)
-+    /*auto*/{
-+      return EQUILATERAL;
-+      double tmp;
-+    }/*auto*/
- 
-   if(a > c) {
-     tmp = a;
-@@ -24,6 +24,7 @@
+   if(a > b) {
+@@ -17,11 +17,7 @@
+     b = tmp;
    }
  
+-  if(a > c) {
+-    tmp = a;
+-    a = c;
+-    c = tmp;
+-  }
++  tmp = a;
+ 
    if(b > c) {
-+    double tmp;
      tmp = b;
-     b = c;
-     c = tmp;
-@@ -35,11 +36,12 @@
+@@ -32,10 +28,16 @@
+   if(a + b <= c)
+     /*auto*/{
+       return INVALID;
++      return ISOSCELES;
      }/*auto*/
    if(a == b && b == c)
      /*auto*/{
--      return EQUILATERAL;
-+      
+       return EQUILATERAL;
++      if(a > b) {
++        tmp = a;
++        a = b;
++        b = tmp;
++      }
      }/*auto*/
    if(a == b || b == c)
      /*auto*/{
-       return ISOSCELES;
-+      return INVALID;
-     }/*auto*/
-   return SCALENE;
- }

@@ -1,13 +1,6 @@
 --- before: triangle.cpp
 +++ after: triangle.cpp
-@@ -2,13 +2,13 @@
- 
- void delay() {
-   const struct timespec ms = {0, (long int) (0.001*1e9)}; //tv_sec=0, tv_nsec (0.001 seconds)
--  nanosleep(&ms,NULL); /*ignores possible errors*/
-+   /*ignores possible errors*/
- }
- 
+@@ -8,7 +8,7 @@
  int classify_triangle(double a, double b, double c) {
    double tmp;
  
@@ -29,18 +22,13 @@
  
    if(b > c) {
      tmp = b;
-@@ -32,6 +28,7 @@
-   if(a + b <= c)
-     /*auto*/{
-       return INVALID;
-+      const struct timespec ms = {0, (long int) (0.001*1e9)};
-     }/*auto*/
-   if(a == b && b == c)
-     /*auto*/{
-@@ -42,4 +39,6 @@
+@@ -42,4 +38,9 @@
        return ISOSCELES;
      }/*auto*/
    return SCALENE;
-+  tmp = b;
-+  const struct timespec ms = {0, (long int) (0.001*1e9)};
++  if(a > c) {
++    tmp = a;
++    a = c;
++    c = tmp;
++  }
  }

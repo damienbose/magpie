@@ -1,1 +1,1 @@
-ExprStmtReplacement(('triangle.cpp.xml', 'expr_stmt', 1), ('triangle.cpp.xml', 'stmt', 14))
+ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 1))

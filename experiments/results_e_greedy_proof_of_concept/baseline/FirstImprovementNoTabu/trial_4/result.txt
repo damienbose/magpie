@@ -1,3 +1,3 @@
 Results Summary
-Starting Fitness: 1204240
-Best Fitness: 1201539
+Starting Fitness: 1205549
+Best Fitness: 1202772

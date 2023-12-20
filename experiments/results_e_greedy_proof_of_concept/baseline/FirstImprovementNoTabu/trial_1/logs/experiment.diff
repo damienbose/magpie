@@ -1,10 +1,12 @@
 --- before: triangle.cpp
 +++ after: triangle.cpp
-@@ -2,26 +2,23 @@
+@@ -1,21 +1,17 @@
+ #include "triangle.hpp"
  
  void delay() {
-   const struct timespec ms = {0, (long int) (0.001*1e9)}; //tv_sec=0, tv_nsec (0.001 seconds)
+-  const struct timespec ms = {0, (long int) (0.001*1e9)}; //tv_sec=0, tv_nsec (0.001 seconds)
 -  nanosleep(&ms,NULL); /*ignores possible errors*/
++   //tv_sec=0, tv_nsec (0.001 seconds)
 +   /*ignores possible errors*/
  }
  
@@ -15,34 +17,18 @@
 +  
  
    // Sort the sides so that a <= b <= c
-   if(a > b) {
-     tmp = a;
-     a = b;
-     b = tmp;
-+    const struct timespec ms = {0, (long int) (0.001*1e9)};
-   }
- 
--  if(a > c) {
+-  if(a > b) {
 -    tmp = a;
--    a = c;
--    c = tmp;
+-    a = b;
+-    b = tmp;
 -  }
 +  
  
-   if(b > c) {
-     tmp = b;
-@@ -36,10 +33,14 @@
-   if(a == b && b == c)
-     /*auto*/{
-       return EQUILATERAL;
-+      
-+      c = tmp;
-     }/*auto*/
-   if(a == b || b == c)
-     /*auto*/{
+   if(a > c) {
+     tmp = a;
+@@ -42,4 +38,5 @@
        return ISOSCELES;
-+      
-+      tmp = a;
      }/*auto*/
    return SCALENE;
++  c = tmp;
  }
