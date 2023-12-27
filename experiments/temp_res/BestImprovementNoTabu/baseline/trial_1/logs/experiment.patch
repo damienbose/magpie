@@ -1,0 +1,1 @@
+IfDeletion(('triangle.cpp.xml', 'if', 0)) | ExprStmtReplacement(('triangle.cpp.xml', 'expr_stmt', 1), ('triangle.cpp.xml', 'stmt', 15)) | IfDeletion(('triangle.cpp.xml', 'if', 3)) | ExprStmtReplacement(('triangle.cpp.xml', 'expr_stmt', 0), ('triangle.cpp.xml', 'stmt', 3))
