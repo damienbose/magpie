@@ -1,0 +1,366 @@
+2023-12-21 09:29:29,267	[DEBUG]	==== CONFIG ====
+[magpie]
+import = 
+seed = 2
+log_dir = _magpie_logs
+work_dir = _magpie_work
+final_out_dir = experiments/results/RandomSearch/epsilon_greedy/trial_2
+local_original_copy = True
+local_original_name = __original__
+output_encoding = ascii
+edit_retries = 10
+default_timeout = 30
+default_lengthout = 10000.0
+diff_method = unified
+trust_local_filesystem = True
+
+[software]
+path = examples/code/triangle-cpp_slow
+target_files = 
+	triangle.cpp.xml
+program = BasicProgram
+engine_rules = 
+	*.params : ConfigFileParamsEngine
+	*.xml : SrcmlEngine
+	* : LineEngine
+engine_config = 
+	*.params : [params]
+	*.xml : [srcml]
+init_cmd = 
+init_timeout = 60
+init_lengthout = -1
+setup_cmd = ./setup.sh
+setup_timeout = 
+setup_lengthout = 
+compile_cmd = ./compile.sh
+compile_timeout = 
+compile_lengthout = 
+test_cmd = ./build/test_triangle
+test_timeout = 
+test_lengthout = 
+run_cmd = perf stat ./build/run_triangle
+run_timeout = 1
+run_lengthout = 
+batch_timeout = 
+batch_lengthout = 
+batch_bin_fitness_strategy = aggregate
+batch_fitness_strategy = sum
+fitness = perf_instructions
+
+[srcml]
+rename = 
+focus = block break continue decl_stmt do expr_stmt for goto if return switch while
+internodes = block
+process_pseudo_blocks = True
+process_literals = False
+process_operators = False
+
+[params]
+timing = test run
+cli_prefix = --
+cli_glue = =
+cli_boolean = show
+cli_boolean_prefix_true = 
+cli_boolean_prefix_false = no-
+silent_prefix = @
+silent_suffix = $
+
+[search]
+protocol = BasicProtocol
+algorithm = RandomSearch
+possible_edits = 
+	DeclStmtReplacement
+	ExprStmtReplacement
+	IfReplacement
+	ReturnReplacement
+	DeclStmtInsertion
+	ExprStmtInsertion
+	IfInsertion
+	ReturnInsertion
+	DeclStmtDeletion
+	ExprStmtDeletion
+	IfDeletion
+	ReturnDeletion
+warmup = 5
+warmup_strategy = last
+max_steps = 100
+max_time = 60
+target_fitness = 
+cache_maxsize = 40
+cache_keep = 0.2
+batch_instances = 
+batch_shuffle = True
+batch_bin_shuffle = False
+batch_sample_size = 1
+operator_selector = EpsilonGreedy
+epsilon = 0.2
+
+[search.ls]
+delete_prob = 0
+max_neighbours = 20
+when_trapped = continue
+accept_fail = False
+tabu_length = 10
+
+[search.gp]
+pop_size = 10
+delete_prob = 0.5
+offspring_elitism = 0.1
+offspring_crossover = 0.5
+offspring_mutation = 0.4
+uniform_rate = 0.5
+batch_reset = True
+
+[search.minify]
+do_cleanup = True
+do_rebuild = True
+do_simplify = True
+round_robin_limit = 3
+
+
+2023-12-21 09:29:29,272	[INFO]	==== WARMUP ====
+2023-12-21 09:29:31,858	[DEBUG]	EXEC>  SUCCESS 1205552
+2023-12-21 09:29:31,859	[INFO]	WARM    SUCCESS               1205552                 
+2023-12-21 09:29:32,842	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:29:32,842	[INFO]	WARM    SUCCESS               1205551                 
+2023-12-21 09:29:33,764	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:29:33,765	[INFO]	WARM    SUCCESS               1205551                 
+2023-12-21 09:29:34,754	[DEBUG]	EXEC>  SUCCESS 1205549
+2023-12-21 09:29:34,755	[INFO]	WARM    SUCCESS               1205549                 
+2023-12-21 09:29:35,780	[DEBUG]	EXEC>  SUCCESS 1205550
+2023-12-21 09:29:35,781	[INFO]	WARM    SUCCESS               1205550                 
+2023-12-21 09:29:35,781	[INFO]	INITIAL SUCCESS               1205550                 
+2023-12-21 09:29:35,782	[INFO]	==== START: RandomSearch ====
+2023-12-21 09:29:35,923	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 2))
+2023-12-21 09:29:35,923	[INFO]	1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:36,696	[DEBUG]	IfReplacement(('triangle.cpp.xml', 'if', 1), ('triangle.cpp.xml', 'stmt', 22))
+2023-12-21 09:29:36,696	[INFO]	2       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:37,493	[DEBUG]	ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 8))
+2023-12-21 09:29:37,494	[INFO]	3       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:37,631	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 8))
+2023-12-21 09:29:37,632	[INFO]	4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:38,455	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:29:38,455	[INFO]	5       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:39,452	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:29:39,453	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 0))
+2023-12-21 09:29:39,453	[INFO]	6       SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:39,455	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 0))
+2023-12-21 09:29:39,455	[INFO]	7       SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:40,259	[DEBUG]	ExprStmtDeletion(('triangle.cpp.xml', 'expr_stmt', 10))
+2023-12-21 09:29:40,260	[INFO]	8       TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:40,417	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 1), ('triangle.cpp.xml', 'stmt', 17))
+2023-12-21 09:29:40,417	[INFO]	9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:40,555	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 11))
+2023-12-21 09:29:40,556	[INFO]	10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:40,674	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 13))
+2023-12-21 09:29:40,675	[INFO]	11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:40,808	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 1), ('triangle.cpp.xml', 'stmt', 12))
+2023-12-21 09:29:40,808	[INFO]	12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:41,601	[DEBUG]	ExprStmtReplacement(('triangle.cpp.xml', 'expr_stmt', 8), ('triangle.cpp.xml', 'stmt', 4))
+2023-12-21 09:29:41,601	[INFO]	13      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:41,773	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 21))
+2023-12-21 09:29:41,773	[INFO]	14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:42,772	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:29:42,772	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 28), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:42,773	[INFO]	15      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:43,567	[DEBUG]	ReturnReplacement(('triangle.cpp.xml', 'return', 1), ('triangle.cpp.xml', 'stmt', 5))
+2023-12-21 09:29:43,568	[INFO]	16      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:44,552	[DEBUG]	EXEC>  SUCCESS 1205599
+2023-12-21 09:29:44,553	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 17), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:44,554	[INFO]	17      SUCCESS               1205599 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:45,561	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:29:45,562	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 13), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:45,562	[INFO]	18      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:46,532	[DEBUG]	EXEC>  SUCCESS 1205603
+2023-12-21 09:29:46,532	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 26), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:46,533	[INFO]	19      SUCCESS               1205603 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:46,687	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 3), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:46,687	[INFO]	20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:46,844	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 9), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:46,844	[INFO]	21      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:47,832	[DEBUG]	EXEC>  SUCCESS 1205581
+2023-12-21 09:29:47,832	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:47,833	[INFO]	22      SUCCESS               1205581 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:48,800	[DEBUG]	EXEC>  SUCCESS 1205568
+2023-12-21 09:29:48,801	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 28), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:48,802	[INFO]	23      SUCCESS               1205568 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:49,586	[DEBUG]	ReturnDeletion(('triangle.cpp.xml', 'return', 0))
+2023-12-21 09:29:49,587	[INFO]	24      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:49,720	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 10), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:49,720	[INFO]	25      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:50,484	[DEBUG]	IfReplacement(('triangle.cpp.xml', 'if', 2), ('triangle.cpp.xml', 'stmt', 12))
+2023-12-21 09:29:50,485	[INFO]	26      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:50,618	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:50,618	[INFO]	27      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:51,579	[DEBUG]	EXEC>  SUCCESS 1205550
+2023-12-21 09:29:51,580	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:51,581	[INFO]	28      SUCCESS               1205550 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:52,433	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 16), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:52,433	[INFO]	29      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:53,434	[DEBUG]	EXEC>  SUCCESS 1205612
+2023-12-21 09:29:53,434	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 22), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:53,435	[INFO]	30      SUCCESS               1205612 (100.01%) [1 edit(s)] 
+2023-12-21 09:29:54,238	[DEBUG]	IfDeletion(('triangle.cpp.xml', 'if', 2))
+2023-12-21 09:29:54,238	[INFO]	31      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:55,027	[DEBUG]	ReturnDeletion(('triangle.cpp.xml', 'return', 3))
+2023-12-21 09:29:55,027	[INFO]	32      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:55,177	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:55,178	[INFO]	33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:55,331	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 12), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:55,332	[INFO]	34      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:56,329	[DEBUG]	EXEC>  SUCCESS 1205611
+2023-12-21 09:29:56,330	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 23), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:56,330	[INFO]	35      SUCCESS               1205611 (100.01%) [1 edit(s)] 
+2023-12-21 09:29:57,287	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:29:57,288	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 21), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:57,289	[INFO]	36      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:58,074	[DEBUG]	ExprStmtInsertion(('triangle.cpp.xml', '_inter_block', 8), ('triangle.cpp.xml', 'expr_stmt', 10))
+2023-12-21 09:29:58,074	[INFO]	37      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:29:58,075	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 28), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:58,076	[INFO]	38      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:29:58,214	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 9), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:29:58,215	[INFO]	39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:29:59,215	[DEBUG]	EXEC>  SUCCESS 1205580
+2023-12-21 09:29:59,215	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 21), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:29:59,216	[INFO]	40      SUCCESS               1205580 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:00,205	[DEBUG]	EXEC>  SUCCESS 1544841
+2023-12-21 09:30:00,206	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 18), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:00,206	[INFO]	41      SUCCESS               1544841 (128.14%) [1 edit(s)] 
+2023-12-21 09:30:01,201	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:30:01,202	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:01,202	[INFO]	42      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:02,239	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:30:02,239	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 22), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:02,240	[INFO]	43      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:02,393	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 9), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:02,393	[INFO]	44      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:03,167	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:03,168	[INFO]	45      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:03,169	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:03,169	[INFO]	46      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:04,120	[DEBUG]	EXEC>  SUCCESS 1418379
+2023-12-21 09:30:04,121	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 24), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:04,121	[INFO]	47      SUCCESS               1418379 (117.65%) [1 edit(s)] 
+2023-12-21 09:30:05,077	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:30:05,078	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 0), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:05,079	[INFO]	48      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:06,126	[DEBUG]	EXEC>  SUCCESS 1205580
+2023-12-21 09:30:06,127	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 12), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:06,127	[INFO]	49      SUCCESS               1205580 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:06,299	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 9), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:06,299	[INFO]	50      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:07,298	[DEBUG]	EXEC>  SUCCESS 1205598
+2023-12-21 09:30:07,299	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 16), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:07,299	[INFO]	51      SUCCESS               1205598 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:07,441	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 5), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:07,441	[INFO]	52      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:08,360	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:30:08,360	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 17), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:08,361	[INFO]	53      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:08,515	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:08,515	[INFO]	54      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:09,457	[DEBUG]	EXEC>  SUCCESS 1205550
+2023-12-21 09:30:09,457	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 26), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:09,458	[INFO]	55      SUCCESS               1205550 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:10,423	[DEBUG]	EXEC>  SUCCESS 1205610
+2023-12-21 09:30:10,424	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:10,424	[INFO]	56      SUCCESS               1205610 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:10,590	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 1), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:10,591	[INFO]	57      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:10,743	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:10,744	[INFO]	58      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:11,746	[DEBUG]	EXEC>  SUCCESS 1205677
+2023-12-21 09:30:11,746	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 4), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:11,747	[INFO]	59      SUCCESS               1205677 (100.01%) [1 edit(s)] 
+2023-12-21 09:30:11,748	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:11,749	[INFO]	60      SUCCESS               1205610 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:12,706	[DEBUG]	EXEC>  SUCCESS 1277014
+2023-12-21 09:30:12,706	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 26), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:12,707	[INFO]	61      SUCCESS               1277014 (105.93%) [1 edit(s)] 
+2023-12-21 09:30:13,679	[DEBUG]	EXEC>  SUCCESS 1205839
+2023-12-21 09:30:13,679	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 8), ('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:30:13,680	[INFO]	62      SUCCESS               1205839 (100.02%) [1 edit(s)] 
+2023-12-21 09:30:14,488	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 22), ('triangle.cpp.xml', 'if', 2))
+2023-12-21 09:30:14,489	[INFO]	63      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:14,635	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 5), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:14,636	[INFO]	64      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:14,637	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'decl_stmt', 1))
+2023-12-21 09:30:14,637	[INFO]	65      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:15,594	[DEBUG]	EXEC>  SUCCESS 1205736
+2023-12-21 09:30:15,595	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'if', 5))
+2023-12-21 09:30:15,596	[INFO]	66      SUCCESS               1205736 (100.02%) [1 edit(s)] 
+2023-12-21 09:30:16,597	[DEBUG]	EXEC>  SUCCESS 1205602
+2023-12-21 09:30:16,597	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 21), ('triangle.cpp.xml', 'if', 3))
+2023-12-21 09:30:16,598	[INFO]	67      SUCCESS               1205602 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:17,538	[DEBUG]	EXEC>  SUCCESS 1205738
+2023-12-21 09:30:17,539	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 8), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:17,540	[INFO]	68      SUCCESS               1205738 (100.02%) [1 edit(s)] 
+2023-12-21 09:30:17,692	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 0), ('triangle.cpp.xml', 'stmt', 16))
+2023-12-21 09:30:17,693	[INFO]	69      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:18,654	[DEBUG]	EXEC>  SUCCESS 1205551
+2023-12-21 09:30:18,654	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 31), ('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:30:18,655	[INFO]	70      SUCCESS               1205551 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:19,458	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:19,459	[INFO]	71      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:20,485	[DEBUG]	EXEC>  SUCCESS 1205640
+2023-12-21 09:30:20,486	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 22), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:20,487	[INFO]	72      SUCCESS               1205640 (100.01%) [1 edit(s)] 
+2023-12-21 09:30:20,628	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 1), ('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:30:20,629	[INFO]	73      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:21,409	[DEBUG]	ReturnReplacement(('triangle.cpp.xml', 'return', 3), ('triangle.cpp.xml', 'stmt', 13))
+2023-12-21 09:30:21,409	[INFO]	74      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:22,360	[DEBUG]	EXEC>  SUCCESS 1205641
+2023-12-21 09:30:22,360	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 12), ('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:30:22,361	[INFO]	75      SUCCESS               1205641 (100.01%) [1 edit(s)] 
+2023-12-21 09:30:23,146	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 10), ('triangle.cpp.xml', 'if', 5))
+2023-12-21 09:30:23,147	[INFO]	76      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:24,101	[DEBUG]	EXEC>  SUCCESS 1205577
+2023-12-21 09:30:24,101	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 28), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:24,102	[INFO]	77      SUCCESS               1205577 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:25,076	[DEBUG]	EXEC>  SUCCESS 1205586
+2023-12-21 09:30:25,077	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 30), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:25,077	[INFO]	78      SUCCESS               1205586 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:25,216	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 0), ('triangle.cpp.xml', 'if', 2))
+2023-12-21 09:30:25,216	[INFO]	79      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:26,170	[DEBUG]	EXEC>  SUCCESS 1205550
+2023-12-21 09:30:26,171	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 13), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:26,172	[INFO]	80      SUCCESS               1205550 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:27,124	[DEBUG]	EXEC>  SUCCESS 1205785
+2023-12-21 09:30:27,124	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 10), ('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:30:27,125	[INFO]	81      SUCCESS               1205785 (100.02%) [1 edit(s)] 
+2023-12-21 09:30:28,103	[DEBUG]	EXEC>  SUCCESS 1205585
+2023-12-21 09:30:28,103	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 17), ('triangle.cpp.xml', 'if', 2))
+2023-12-21 09:30:28,104	[INFO]	82      SUCCESS               1205585 (100.0%) [1 edit(s)] 
+2023-12-21 09:30:28,856	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 15), ('triangle.cpp.xml', 'if', 1))
+2023-12-21 09:30:28,856	[INFO]	83      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:29,819	[DEBUG]	EXEC>  SUCCESS 1205910
+2023-12-21 09:30:29,820	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 23), ('triangle.cpp.xml', 'if', 5))
+2023-12-21 09:30:29,820	[INFO]	84      SUCCESS               1205910 (100.03%) [1 edit(s)] 
+2023-12-21 09:30:30,642	[DEBUG]	ReturnDeletion(('triangle.cpp.xml', 'return', 1))
+2023-12-21 09:30:30,643	[INFO]	85      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:31,617	[DEBUG]	EXEC>  SUCCESS 1205661
+2023-12-21 09:30:31,618	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 6), ('triangle.cpp.xml', 'if', 3))
+2023-12-21 09:30:31,619	[INFO]	86      SUCCESS               1205661 (100.01%) [1 edit(s)] 
+2023-12-21 09:30:32,432	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 20), ('triangle.cpp.xml', 'if', 2))
+2023-12-21 09:30:32,432	[INFO]	87      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:33,263	[DEBUG]	ReturnInsertion(('triangle.cpp.xml', '_inter_block', 19), ('triangle.cpp.xml', 'return', 3))
+2023-12-21 09:30:33,264	[INFO]	88      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:33,406	[DEBUG]	DeclStmtInsertion(('triangle.cpp.xml', '_inter_block', 2), ('triangle.cpp.xml', 'decl_stmt', 0))
+2023-12-21 09:30:33,407	[INFO]	89      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:33,544	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 1), ('triangle.cpp.xml', 'if', 5))
+2023-12-21 09:30:33,544	[INFO]	90      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:34,537	[DEBUG]	EXEC>  SUCCESS 1205631
+2023-12-21 09:30:34,537	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 26), ('triangle.cpp.xml', 'if', 0))
+2023-12-21 09:30:34,538	[INFO]	91      SUCCESS               1205631 (100.01%) [1 edit(s)] 
+2023-12-21 09:30:35,502	[DEBUG]	EXEC>  SUCCESS 1275097
+2023-12-21 09:30:35,503	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 25), ('triangle.cpp.xml', 'if', 4))
+2023-12-21 09:30:35,503	[INFO]	92      SUCCESS               1275097 (105.77%) [1 edit(s)] 
+2023-12-21 09:30:35,652	[DEBUG]	DeclStmtReplacement(('triangle.cpp.xml', 'decl_stmt', 1), ('triangle.cpp.xml', 'stmt', 17))
+2023-12-21 09:30:35,652	[INFO]	93      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2023-12-21 09:30:36,449	[DEBUG]	IfInsertion(('triangle.cpp.xml', '_inter_block', 28), ('triangle.cpp.xml', 'if', 5))
+2023-12-21 09:30:36,450	[INFO]	94      TEST_CODE_ERROR       None  [1 edit(s)]       
+2023-12-21 09:30:36,451	[INFO]	==== END ====
+2023-12-21 09:30:36,451	[INFO]	
+2023-12-21 09:30:36,451	[INFO]	==== REPORT ====
+2023-12-21 09:30:36,452	[INFO]	Termination: time budget
+2023-12-21 09:30:36,452	[INFO]	Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/triangle-cpp_slow_1703150969.log

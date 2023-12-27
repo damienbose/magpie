@@ -1,0 +1,13 @@
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -7,6 +7,10 @@
+ 
+ int classify_triangle(double a, double b, double c) {
+   double tmp;
++  if(a + b <= c)
++    /*auto*/{
++      return INVALID;
++    }/*auto*/
+ 
+   delay();
+ 

@@ -1,0 +1,46 @@
+[magpie]
+local_original_copy = True
+
+[srcml]
+rename =
+focus = block break continue decl_stmt do expr_stmt for goto if return switch while
+internodes = block
+process_pseudo_blocks = True
+process_literals = False
+process_operators = False
+
+[software]
+path = examples/code/triangle-cpp_slow
+target_files =
+    triangle.cpp.xml
+fitness = perf_instructions
+
+setup_cmd = ./setup.sh
+compile_cmd = ./compile.sh
+test_cmd = ./build/test_triangle
+run_cmd = perf stat ./build/run_triangle
+run_timeout = 1
+
+[search]
+max_steps = 100
+max_time = 60
+warmup = 5
+warmup_strategy = last
+possible_edits =
+    DeclStmtReplacement
+    ExprStmtReplacement
+    IfReplacement
+    ReturnReplacement
+    DeclStmtInsertion
+    ExprStmtInsertion
+    IfInsertion
+    ReturnInsertion
+    DeclStmtDeletion
+    ExprStmtDeletion
+    IfDeletion
+    ReturnDeletion
+operator_selector = UniformSelector
+
+[search.ls]
+delete_prob = 0
+max_neighbours = 20

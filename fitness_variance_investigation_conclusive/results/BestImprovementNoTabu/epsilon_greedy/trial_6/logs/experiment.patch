@@ -1,0 +1,1 @@
+IfInsertion(('triangle.cpp.xml', '_inter_block', 13), ('triangle.cpp.xml', 'if', 2)) | IfDeletion(('triangle.cpp.xml', 'if', 0))

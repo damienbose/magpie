@@ -1,0 +1,10 @@
+--- before: triangle.cpp
++++ after: triangle.cpp
+@@ -24,6 +24,7 @@
+   }
+ 
+   if(b > c) {
++    double tmp;
+     tmp = b;
+     b = c;
+     c = tmp;
