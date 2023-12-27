@@ -5,6 +5,15 @@ from pathlib import Path
 import glob
 import pickle
 import magpie
+import pandas as pd
+
+def create_table_empty_table():
+    # Define the columns for the new dataframe
+    columns = ["search_algorithm", "rl_algorithm", "trial_number", "raw_result_file_path"] # TODO: fill in these statistics then make a jupyter notebook 
+    df_final = pd.DataFrame(columns=columns)
+    return df_final
+
+df_final = create_table_empty_table() # Where we store final results
 
 def process_trial(trial_result, output_dir):
     with open(output_dir / "result.txt", "w") as f:
@@ -53,3 +62,6 @@ if __name__ == "__main__":
     # Iterate over each subdirectory
     for subdirectory in subdirectories:
         process_search_algorithm(subdirectory)
+    
+    # Save the final dataframe
+    df_final.to_csv(result_output_path / "results.csv", index=False)

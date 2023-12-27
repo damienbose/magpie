@@ -48,4 +48,4 @@ seconds=$((duration % 60))
 printf "Total execution time: %02d:%02d:%02d\n" $hours $minutes $seconds
 
 # Parse results and produce summary statistics
-python3 -m experiments.parse_results --result_dir $result_dir
+python3 -m experiments.process_results.parse_results --result_dir $result_dir
