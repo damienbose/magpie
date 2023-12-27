@@ -21,15 +21,15 @@ start_time=$(date +%s)
 
 
 # Experiments: Local Search
-for i in {1..2}
+for i in {1..10}
 do
     # RandomSearch: baseline and e-greedy
-    python3 -m bin.local_search --scenario experiments/scenario/baseline.txt --algo RandomSearch --seed $i --output_dir $result_dir/RandomSearch/baseline/trial_$i
-    python3 -m bin.local_search --scenario experiments/scenario/e-greedy.txt --algo RandomSearch --seed $i --output_dir $result_dir/RandomSearch/epsilon_greedy/trial_$i
+    python3 -m bin.local_search --scenario experiments/scenario/baseline.txt --algo RandomSearch --seed $i --output_dir $result_dir/RandomSearch/baseline/trial_$i &
+    python3 -m bin.local_search --scenario experiments/scenario/e-greedy.txt --algo RandomSearch --seed $i --output_dir $result_dir/RandomSearch/epsilon_greedy/trial_$i &
 
     # BestImprovementNoTabu: baseline and e-greedy
-    python3 -m bin.local_search --scenario experiments/scenario/baseline.txt --algo BestImprovementNoTabu --seed $i --output_dir $result_dir/BestImprovementNoTabu/baseline/trial_$i
-    python3 -m bin.local_search --scenario experiments/scenario/e-greedy.txt --algo BestImprovementNoTabu --seed $i --output_dir $result_dir/BestImprovementNoTabu/epsilon_greedy/trial_$i
+    python3 -m bin.local_search --scenario experiments/scenario/baseline.txt --algo BestImprovementNoTabu --seed $i --output_dir $result_dir/BestImprovementNoTabu/baseline/trial_$i &
+    python3 -m bin.local_search --scenario experiments/scenario/e-greedy.txt --algo BestImprovementNoTabu --seed $i --output_dir $result_dir/BestImprovementNoTabu/epsilon_greedy/trial_$i &
 done
 
 # Wait for all child processes to complete
