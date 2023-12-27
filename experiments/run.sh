@@ -46,6 +46,3 @@ minutes=$(( (duration % 3600) / 60))
 seconds=$((duration % 60))
 # Print the duration in HH:MM:SS format
 printf "Total execution time: %02d:%02d:%02d\n" $hours $minutes $seconds
-
-# Parse results and produce summary statistics
-python3 -m experiments.process_results.parse_results --result_dir $result_dir
