@@ -39,7 +39,7 @@ if __name__ == "__main__":
         config['magpie']['seed'] = str(args.seed)
     
     # setup output directory
-    config['magpie']['final_out_dir'] = str(args.output_dir)
+    config['magpie']['final_out_dir'] = str(args.output_dir) # TODO: change so that only the result dir is needed and it calculates all the subDirs.
 
     # setup protocol
     magpie.bin.setup(config)
