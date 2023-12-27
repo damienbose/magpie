@@ -12,7 +12,7 @@ rm -rf _magpie_logs
 rm -rf _magpie_work
 rm -rf $result_dir
 
-# Rediect output
+# Redirect output
 mkdir -p $result_dir
 exec > $result_dir/experiment_run_statistics.txt
 
