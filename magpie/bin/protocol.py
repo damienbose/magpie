@@ -184,6 +184,9 @@ class BasicProtocol:
         result.update(self.search.experiment_report)
         result['operator_selector'] = self.search.config['operator_selector']
 
+        # TODO: add config to result
+        result['config'] = self.search.config
+
         # Get path of current experiment results
         experiment_path = Path(self.search.config['final_out_dir'])
         experiment_path.mkdir(parents=True, exist_ok=True)
