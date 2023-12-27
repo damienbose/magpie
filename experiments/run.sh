@@ -35,7 +35,7 @@ done
 # Wait for all child processes to complete
 wait
 
-echo "All experiments complete!" 
+echo "All experiments completed!" 
 
 # Record end time
 end_time=$(date +%s)
