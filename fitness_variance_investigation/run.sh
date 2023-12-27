@@ -20,7 +20,8 @@ exec > $result_dir/experiment_run_statistics.txt
 start_time=$(date +%s)
 
 # Experiments: Test out local search, looking at only warmup
-python3 -m bin.local_search --scenario fitness_variance_investigation/senario/minisat_runtime_xml_dummy.txt --algo RandomSearch --seed 42 --output_dir $result_dir
+python3 -m bin.local_search --scenario fitness_variance_investigation/senario/triangle_warmup_dummy.txt --algo RandomSearch --seed 42 --output_dir $result_dir/triangle &
+python3 -m bin.local_search --scenario fitness_variance_investigation/senario/minisat_warmup_dummy.txt --algo RandomSearch --seed 42 --output_dir $result_dir/minisat &
 
 # Wait for all child processes to complete
 wait

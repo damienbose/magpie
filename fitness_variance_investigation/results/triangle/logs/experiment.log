@@ -1,0 +1,318 @@
+2023-12-27 21:20:01,622	[DEBUG]	==== CONFIG ====
+[magpie]
+import = 
+seed = 42
+log_dir = _magpie_logs
+work_dir = _magpie_work
+final_out_dir = fitness_variance_investigation/results/triangle
+local_original_copy = True
+local_original_name = __original__
+output_encoding = ascii
+edit_retries = 10
+default_timeout = 300
+default_lengthout = 1e6
+diff_method = unified
+trust_local_filesystem = True
+
+[software]
+path = examples/code/triangle-cpp_slow
+target_files = 
+	triangle.cpp.xml
+program = BasicProgram
+engine_rules = 
+	*.params : ConfigFileParamsEngine
+	*.xml : SrcmlEngine
+	* : LineEngine
+engine_config = 
+	*.params : [params]
+	*.xml : [srcml]
+init_cmd = 
+init_timeout = 60
+init_lengthout = -1
+setup_cmd = ./setup.sh
+setup_timeout = 
+setup_lengthout = 
+compile_cmd = ./compile.sh
+compile_timeout = 
+compile_lengthout = 
+test_cmd = ./build/test_triangle
+test_timeout = 
+test_lengthout = 
+run_cmd = perf stat -e instructions ./build/run_triangle
+run_timeout = 
+run_lengthout = 
+batch_timeout = 
+batch_lengthout = 
+batch_bin_fitness_strategy = aggregate
+batch_fitness_strategy = sum
+fitness = perf_instructions
+
+[srcml]
+rename = 
+	stmt: break continue decl_stmt do expr_stmt for goto if return switch while
+focus = block stmt
+internodes = block
+process_pseudo_blocks = True
+process_literals = False
+process_operators = False
+
+[params]
+timing = test run
+cli_prefix = --
+cli_glue = =
+cli_boolean = show
+cli_boolean_prefix_true = 
+cli_boolean_prefix_false = no-
+silent_prefix = @
+silent_suffix = $
+
+[search]
+protocol = BasicProtocol
+algorithm = RandomSearch
+possible_edits = 
+	StmtReplacement
+	StmtInsertion
+	StmtDeletion
+warmup = 100
+warmup_strategy = last
+max_steps = 0
+max_time = 0
+target_fitness = 
+cache_maxsize = 40
+cache_keep = 0.2
+batch_instances = 
+batch_shuffle = True
+batch_bin_shuffle = False
+batch_sample_size = 1
+
+[search.ls]
+delete_prob = 0.5
+max_neighbours = 
+when_trapped = continue
+accept_fail = False
+tabu_length = 10
+
+[search.gp]
+pop_size = 10
+delete_prob = 0.5
+offspring_elitism = 0.1
+offspring_crossover = 0.5
+offspring_mutation = 0.4
+uniform_rate = 0.5
+batch_reset = True
+
+[search.minify]
+do_cleanup = True
+do_rebuild = True
+do_simplify = True
+round_robin_limit = 3
+
+
+2023-12-27 21:20:01,628	[INFO]	==== WARMUP ====
+2023-12-27 21:20:04,308	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:04,308	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:05,298	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:05,299	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:06,308	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:06,308	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:07,315	[DEBUG]	EXEC>  SUCCESS 1204238
+2023-12-27 21:20:07,316	[INFO]	WARM    SUCCESS               1204238                 
+2023-12-27 21:20:08,332	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:08,333	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:09,375	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:09,375	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:10,404	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:10,405	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:11,429	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:20:11,430	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:20:12,402	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:12,403	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:13,437	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:13,438	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:14,439	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:14,439	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:15,518	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:15,519	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:16,612	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:16,612	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:17,639	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:17,640	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:18,663	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:18,663	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:19,699	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:19,699	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:20,659	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:20,660	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:21,674	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:21,675	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:22,716	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:22,717	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:23,734	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:23,735	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:24,788	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:24,788	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:25,819	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:25,819	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:26,875	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:20:26,875	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:20:28,103	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:28,103	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:29,071	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:29,071	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:30,133	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:30,133	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:31,164	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:31,164	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:32,117	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:32,118	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:33,056	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:33,057	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:34,090	[DEBUG]	EXEC>  SUCCESS 1204238
+2023-12-27 21:20:34,090	[INFO]	WARM    SUCCESS               1204238                 
+2023-12-27 21:20:35,055	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:35,056	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:36,112	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:36,112	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:37,034	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:37,034	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:37,962	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:37,963	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:38,878	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:38,879	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:39,805	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:39,805	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:40,728	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:40,729	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:41,672	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:41,673	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:42,615	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:42,616	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:43,541	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:43,541	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:44,493	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:44,493	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:45,557	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:45,557	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:46,658	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:46,658	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:47,786	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:47,787	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:48,847	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:48,847	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:49,863	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:49,863	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:50,819	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:50,819	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:51,835	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:20:51,836	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:20:52,904	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:52,905	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:54,041	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:54,042	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:55,142	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:55,142	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:56,168	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:20:56,168	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:20:57,305	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:57,306	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:20:58,416	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:20:58,416	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:20:59,510	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:20:59,511	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:00,643	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:00,644	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:01,743	[DEBUG]	EXEC>  SUCCESS 1204242
+2023-12-27 21:21:01,743	[INFO]	WARM    SUCCESS               1204242                 
+2023-12-27 21:21:02,837	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:21:02,837	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:21:03,801	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:03,802	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:04,711	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:04,711	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:05,635	[DEBUG]	EXEC>  SUCCESS 1204238
+2023-12-27 21:21:05,635	[INFO]	WARM    SUCCESS               1204238                 
+2023-12-27 21:21:06,690	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:06,690	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:07,844	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:07,845	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:08,997	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:08,998	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:10,088	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:10,089	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:11,198	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:11,198	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:12,286	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:12,286	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:13,321	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:13,321	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:14,408	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:14,409	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:15,503	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:15,503	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:16,591	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:16,591	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:17,715	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:17,716	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:18,768	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:18,768	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:19,848	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:19,849	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:20,920	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:21:20,921	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:21:21,994	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:21,995	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:23,071	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:23,072	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:24,069	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:24,069	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:25,151	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:25,151	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:26,238	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:21:26,239	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:21:27,352	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:27,352	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:28,412	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:28,413	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:29,495	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:21:29,495	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:21:30,570	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:30,570	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:31,638	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:31,639	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:32,726	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:32,726	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:33,644	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:33,644	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:34,543	[DEBUG]	EXEC>  SUCCESS 1204238
+2023-12-27 21:21:34,543	[INFO]	WARM    SUCCESS               1204238                 
+2023-12-27 21:21:35,458	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:35,458	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:36,383	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:36,383	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:37,287	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:37,287	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:38,221	[DEBUG]	EXEC>  SUCCESS 1204241
+2023-12-27 21:21:38,221	[INFO]	WARM    SUCCESS               1204241                 
+2023-12-27 21:21:39,126	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:39,126	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:40,031	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:40,031	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:40,935	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:40,935	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:41,868	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:41,869	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:42,961	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:42,961	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:44,030	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:44,031	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:45,097	[DEBUG]	EXEC>  SUCCESS 1204239
+2023-12-27 21:21:45,098	[INFO]	WARM    SUCCESS               1204239                 
+2023-12-27 21:21:46,012	[DEBUG]	EXEC>  SUCCESS 1204240
+2023-12-27 21:21:46,013	[INFO]	WARM    SUCCESS               1204240                 
+2023-12-27 21:21:46,013	[INFO]	INITIAL SUCCESS               1204240                 
+2023-12-27 21:21:46,013	[INFO]	==== START: RandomSearch ====
+2023-12-27 21:21:46,014	[INFO]	==== END ====
+2023-12-27 21:21:46,014	[INFO]	
+2023-12-27 21:21:46,014	[INFO]	==== REPORT ====
+2023-12-27 21:21:46,014	[INFO]	Termination: time budget
+2023-12-27 21:21:46,014	[INFO]	Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/triangle-cpp_slow_1703712001.log

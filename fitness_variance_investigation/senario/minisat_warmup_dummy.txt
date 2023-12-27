@@ -1,6 +1,6 @@
 [magpie]
 local_original_copy = True
-default_timeout = 30
+default_timeout = 300
 default_lengthout = 1e6
 
 [srcml]
@@ -21,12 +21,12 @@ fitness = perf_instructions
 setup_cmd = ./compile.sh
 compile_cmd = ./compile.sh
 test_cmd = ./test.sh
-run_cmd = perf stat ./run_fixed.sh
+run_cmd = perf stat -e instructions ./run_fixed.sh
 
 [search]
 max_steps = 0
 max_time = 0
-warmup = 1
+warmup = 100
 possible_edits =
     StmtReplacement
     StmtInsertion
