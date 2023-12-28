@@ -822,6 +822,7 @@ INSTS = [
         'uuf200-860/uuf200-097.cnf',
         'uuf200-860/uuf200-098.cnf',
         'uuf200-860/uuf200-099.cnf',
+        'uuf200-860/uuf200-100.cnf', # This was not in original
     ],
 
     [
