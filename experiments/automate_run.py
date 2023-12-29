@@ -29,6 +29,7 @@ def split_into_equal_random_subsets(arr, k):
 
 def set_up(args):
     num_folds = 5
+    num_replications = 1
 
     # 2. replication 0: train on 1-9, test on 10
     # 3. replication 1: train on 2-10, test on 1
@@ -44,10 +45,23 @@ def set_up(args):
         for i in range(num_folds):
             folds[i] += mini_fold[i]
         
-    # Save the folds
-    with open(f'experiments/{args.results_dir}/cross_val_split.json', 'w') as file:
-        json.dump(folds, file, indent=4)
+    assert num_replications <= num_folds
 
+    # Generate the replications
+    replications = {}
+    for replication_num in range(num_replications):
+        test_folds = [replication_num]
+        train_folds = [i for i in range(num_folds) if i not in test_folds]
+        replications[replication_num] = {"train_folds" : train_folds, "test_folds" : test_folds}
+    
+    cross_validation_setup = {}
+    cross_validation_setup['num_folds'] = num_folds
+    cross_validation_setup['num_replications'] = num_replications
+    cross_validation_setup['folds'] = {i : folds[i] for i in range(num_folds)}
+    cross_validation_setup['replications'] = replications
+
+    with open(f'experiments/{args.results_dir}/cross_val_setup.json', 'w') as file:
+        json.dump(cross_validation_setup, file, indent=4)
     
 
 if __name__ == '__main__':
