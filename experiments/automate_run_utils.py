@@ -51,7 +51,7 @@ def setup(args, num_folds=5, num_replications=5):
     cross_validation_setup['folds'] = {i : folds[i] for i in range(num_folds)}
     cross_validation_setup['replications'] = replications
 
-    with open(f'experiments/{args.results_dir}/cross_val_setup.json', 'w') as file:
+    with open(f'{args.results_dir}/cross_val_setup.json', 'w') as file:
         json.dump(cross_validation_setup, file, indent=4)
 
 def train(args, scenarios, search_algos):
@@ -69,15 +69,15 @@ def train(args, scenarios, search_algos):
     """
 
     # Load the cross validation setup
-    with open(f'experiments/{args.results_dir}/cross_val_setup.json', 'r') as file:
+    with open(f'{args.results_dir}/cross_val_setup.json', 'r') as file:
         cross_validation_setup = json.load(file)
     
     num_replications = cross_validation_setup['num_replications']
     replications = cross_validation_setup['replications']
     for i in range(num_replications):
         # TODO: make use of the train and test folds
-        train_folds = replications[i]['train_folds']
-        test_folds = replications[i]['test_folds']
+        # train_folds = replications[i]['train_folds']
+        # test_folds = replications[i]['test_folds']
 
         # Train on the training folds
         for scenario in scenarios:

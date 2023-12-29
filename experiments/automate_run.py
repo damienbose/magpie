@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--step', type=str, default='setup', choices=['setup', 'train', 'test'])
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--results_dir', type=str, default='results')
+    parser.add_argument('--results_dir', type=str, default='experiments/results')
     args = parser.parse_args()
 
     # Seed
@@ -30,3 +30,5 @@ if __name__ == '__main__':
     elif args.step == 'train':
         # Run GI on the training set
         utils.train(args, scenarios, search_algos)
+    elif args.step == 'test':
+        pass

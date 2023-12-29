@@ -14,26 +14,14 @@ rm -rf $result_dir
 
 # Redirect output
 mkdir -p $result_dir
-exec > $result_dir/experiment_run_statistics.txt
+exec > $result_dir/experiment_logs.txt
 
 # Record start time
 start_time=$(date +%s)
 
-
-# Experiments: Local Search
-for i in {1..10}
-do
-    # RandomSearch: baseline and e-greedy
-    python3 -m bin.local_search --scenario experiments/scenario/baseline.txt --algo RandomSearch --seed $i --output_dir $result_dir/RandomSearch/baseline/trial_$i &
-    python3 -m bin.local_search --scenario experiments/scenario/e-greedy.txt --algo RandomSearch --seed $i --output_dir $result_dir/RandomSearch/epsilon_greedy/trial_$i &
-
-    # BestImprovementNoTabu: baseline and e-greedy
-    python3 -m bin.local_search --scenario experiments/scenario/baseline.txt --algo BestImprovementNoTabu --seed $i --output_dir $result_dir/BestImprovementNoTabu/baseline/trial_$i &
-    python3 -m bin.local_search --scenario experiments/scenario/e-greedy.txt --algo BestImprovementNoTabu --seed $i --output_dir $result_dir/BestImprovementNoTabu/epsilon_greedy/trial_$i &
-done
-
-# Wait for all child processes to complete
-wait
+python3 experiments/automate_run.py --step setup --results_dir $result_dir
+python3 experiments/automate_run.py --step train --results_dir $result_dir
+python3 experiments/automate_run.py --step test --results_dir $result_dir
 
 echo "All experiments completed!" 
 
