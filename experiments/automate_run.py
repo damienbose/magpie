@@ -6,7 +6,7 @@ importlib.reload(utils) # Reload instead of using cached version
 
 # Cross validation setup
 num_folds = 5
-num_replications = 3
+num_replications = 1
 
 operator_selectors = [
     'UniformSelector',
