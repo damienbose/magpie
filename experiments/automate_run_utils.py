@@ -98,6 +98,6 @@ def train(args, operator_selectors, search_algos):
         for operator_selector in operator_selectors:
             for algo in search_algos:
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.txt"
-                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selectors}/trial_{i}"
+                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 print(command)
                 subprocess.run(command, shell=True, text=True)
