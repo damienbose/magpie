@@ -1,6 +1,8 @@
 import random
 import json
 import subprocess
+import configparser
+from pathlib import Path
 
 def seed(seed):
     random.seed(seed)
@@ -25,7 +27,7 @@ def split_into_equal_random_subsets(arr, k):
     return subsets
 
 
-def setup(args, num_folds=5, num_replications=5):
+def cross_val_setup(args, num_folds=5, num_replications=5):
     # Generate the folds
     with open('experiments/benchmark/sat_uniform.json', 'r') as file:
         bins = json.load(file)
@@ -54,8 +56,38 @@ def setup(args, num_folds=5, num_replications=5):
 
     with open(f'{args.results_dir}/cross_val_setup.json', 'w') as file:
         json.dump(cross_validation_setup, file, indent=4)
+    
+    return cross_validation_setup
 
-def train(args, scenarios, search_algos):
+def set_operator_selector_config(config, operator_selector):
+    config["search"]["operator_selector"] = operator_selector
+
+def set_batch_config(config, replication_num, cross_validation_setup):
+    train_folds = [cross_validation_setup['folds'][i] for i in cross_validation_setup['replications'][replication_num]['train_folds']]
+    config["search"]["batch_sample_size"] = str(sum([len(fold) for fold in train_folds]))
+    for i in range(len(train_folds)):
+        train_folds[i] = '\n'.join(train_folds[i])
+    train_folds = '\n' + '\n___\n'.join(train_folds)
+    config["search"]["batch_instances"] = train_folds
+
+def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup):
+    for operator_selector in operator_selectors:
+        for algo in search_algos:
+            for replication_num in range(num_replications):
+                config = configparser.ConfigParser()
+                config.read("experiments/scenario/template.txt")
+                set_operator_selector_config(config, operator_selector)
+                set_batch_config(config, replication_num, cross_validation_setup)
+                path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/scenario.txt"
+                Path(path).parent.mkdir(parents=True, exist_ok=True)
+                with open(path, 'w') as configfile:
+                    config.write(configfile)
+
+def setup(args, num_folds, num_replications, operator_selectors, search_algos):
+    cross_validation_setup = cross_val_setup(args, num_folds, num_replications)
+    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup)
+
+def train(args, operator_selectors, search_algos):
     # Load the cross validation setup
     with open(f'{args.results_dir}/cross_val_setup.json', 'r') as file:
         cross_validation_setup = json.load(file)
@@ -63,8 +95,9 @@ def train(args, scenarios, search_algos):
     num_replications = cross_validation_setup['num_replications']
     for i in range(num_replications):
         # Train on the training folds
-        for scenario in scenarios:
+        for operator_selector in operator_selectors:
             for algo in search_algos:
-                command = f"python3 -m bin.local_search --scenario experiments/scenario/{scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{scenario.split('.')[0]}/trial_{i}"
+                scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.txt"
+                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selectors}/trial_{i}"
                 print(command)
                 subprocess.run(command, shell=True, text=True)
