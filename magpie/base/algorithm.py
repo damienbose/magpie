@@ -14,6 +14,8 @@ class AbstractAlgorithm(ABC):
     def setup(self):
         self.config = {}
         self.config['possible_edits'] = []
+        self.config['operator_selector'] = None
+        self.experiment_report = {} # Used to keep track for itermediate results for experiment
         self.stop = {}
         self.stop['wall'] = None # seconds
         self.stop['steps'] = None
@@ -38,14 +40,14 @@ class AbstractAlgorithm(ABC):
         pass
 
     def create_edit(self):
-        edit_klass = random.choice(self.config['possible_edits'])
+        edit_klass = self.config['operator_selector'].select()
         tries = magpie_config.edit_retries
         while (edit := edit_klass.create(self.program)) is None:
             tries -= 1
             if tries == 0:
                 raise RuntimeError('unable to create an edit of class {}'.format(edit_klass.__name__))
         return edit
-
+    
     def evaluate_patch(self, patch, force=False, forget=False):
         contents = self.program.apply_patch(patch)
         return self.program.evaluate_contents(contents)
