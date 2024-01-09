@@ -1,6 +1,9 @@
 import io
 import os
 import random
+import pickle
+from pathlib import Path
+import shutil
 
 import magpie
 
@@ -10,6 +13,9 @@ class BasicProtocol:
         self.program = None
 
     def setup(self, config):
+        # Out file config
+        self.search.config['final_out_dir'] = config['magpie']['final_out_dir']
+
         # shared parameters
         sec = config['search']
         self.search.config['warmup'] = int(sec['warmup'])
@@ -173,3 +179,31 @@ class BasicProtocol:
 
         # cleanup temporary software copies
         self.program.clean_work_dir()
+
+        # Update the results with values from our experiment
+        result.update(self.search.experiment_report)
+        result['operator_selector'] = self.search.config['operator_selector']
+
+        result['config'] = self.search.config
+
+        # Get path of current experiment results
+        experiment_path = Path(self.search.config['final_out_dir'])
+        experiment_path.mkdir(parents=True, exist_ok=True)
+                
+        experiment_logs_path = (experiment_path / "logs")
+        experiment_logs_path.mkdir(parents=True, exist_ok=True)
+
+        # Store as pickle file in experiment directory
+        with open(experiment_logs_path / 'raw_result.pkl', 'wb') as file:
+            pickle.dump(result, file)
+
+        base_path = os.path.join(magpie.config.log_dir, self.program.run_label)
+        if os.path.isfile(f"{base_path}.log"):
+            shutil.copyfile(f"{base_path}.log", experiment_logs_path / "experiment.log")
+
+        if os.path.isfile(f"{base_path}.diff"):
+            shutil.copyfile(f"{base_path}.diff", experiment_logs_path / "experiment.diff")
+
+        if os.path.isfile(f"{base_path}.patch"):
+            shutil.copyfile(f"{base_path}.patch", experiment_logs_path / "experiment.patch")
+        
