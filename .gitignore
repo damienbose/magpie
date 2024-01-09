@@ -11,5 +11,3 @@ _magpie*
 .vscode/launch.json
 
 experiments/results
-experiments/minisat
-experiments/benchmarks
