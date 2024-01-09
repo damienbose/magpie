@@ -1,0 +1,46 @@
+[magpie]
+default_timeout = 30
+default_lengthout = 1e6
+
+[srcml]
+rename =
+focus = block break continue decl_stmt do expr_stmt for goto if return switch while
+internodes = block
+process_pseudo_blocks = True
+process_literals = False
+process_operators = False
+
+[software]
+path = examples/code/minisat
+target_files =
+    core/Solver.cc
+fitness = perf_instructions
+
+setup_cmd = ./compile.sh
+compile_cmd = ./compile.sh
+test_cmd = ./test.sh
+run_cmd = perf stat -e instructions ./run_fixed.sh
+
+[search]
+max_steps = 100
+max_time = 60
+warmup = 5
+warmup_strategy = last
+possible_edits =
+    DeclStmtReplacement
+    ExprStmtReplacement
+    IfReplacement
+    ReturnReplacement
+    DeclStmtInsertion
+    ExprStmtInsertion
+    IfInsertion
+    ReturnInsertion
+    DeclStmtDeletion
+    ExprStmtDeletion
+    IfDeletion
+    ReturnDeletion
+operator_selector = UniformSelector
+
+[search.ls]
+delete_prob = 0
+max_neighbours = 20
