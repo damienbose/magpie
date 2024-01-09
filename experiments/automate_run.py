@@ -35,7 +35,7 @@ if __name__ == '__main__':
             utils.setup(args, num_folds, num_replications, operator_selectors, search_algos)
         elif args.step == 'train':
             # Run GI on the training set
-            utils.train(args, operator_selectors, search_algos)
+            utils.train(args, operator_selectors, search_algos, num_replications)
         elif args.step == 'test':
             pass
     except Exception:

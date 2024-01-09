@@ -93,12 +93,7 @@ def setup(args, num_folds, num_replications, operator_selectors, search_algos):
         cross_validation_setup = None # TODO: Finalise crossvalidation to address to delete this case. 
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup)
 
-def train(args, operator_selectors, search_algos):
-    # Load the cross validation setup
-    with open(f'{args.results_dir}/cross_val_setup.json', 'r') as file:
-        cross_validation_setup = json.load(file)
-    
-    num_replications = cross_validation_setup['num_replications']
+def train(args, operator_selectors, search_algos, num_replications):
     for i in range(num_replications):
         # Train on the training folds
         for operator_selector in operator_selectors:
