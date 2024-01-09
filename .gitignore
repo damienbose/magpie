@@ -13,3 +13,7 @@ _magpie*
 experiments/results
 experiments/minisat
 experiments/benchmarks
+
+# TDOO: remove this
+examples/code/minisat/uf*
+examples/code/minisat/uuf*
