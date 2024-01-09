@@ -1,4 +1,5 @@
 [magpie]
+local_original_copy = True
 default_timeout = 30
 default_lengthout = 1e6
 
@@ -13,7 +14,7 @@ process_operators = False
 [software]
 path = examples/code/minisat
 target_files =
-    core/Solver.cc
+    core/Solver.cc.xml
 fitness = perf_instructions
 
 setup_cmd = ./compile.sh
@@ -24,7 +25,7 @@ run_cmd = perf stat -e instructions ./run_fixed.sh
 [search]
 max_steps = 100
 max_time = 60
-warmup = 5
+warmup = 3
 warmup_strategy = last
 possible_edits =
     DeclStmtReplacement
