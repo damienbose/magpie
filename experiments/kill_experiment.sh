@@ -1,15 +1,42 @@
 #!/bin/bash
 
-# Replace this with the name of your script
-SCRIPT_NAME="run.sh"
+# Default process name or PID
+DEFAULT_PROCESS="run.sh"
 
-# Find the PID of the script
-PARENT_PID=$(ps -ef | grep "$SCRIPT_NAME" | grep -v grep | awk '{print $2}')
+# Function to kill a process and all its children
+killtree() {
+    local _pid=$1
+    local _sig=${2:-TERM}
+    for _child in $(ps -o pid --no-headers --ppid ${_pid}); do
+        killtree "${_child}" "${_sig}"
+    done
+    echo "Killing PID: ${_pid} with signal: ${_sig}"
+    kill -"${_sig}" "${_pid}"
+}
 
-# Kill the parent process and its children
-if [ ! -z "$PARENT_PID" ]; then
-    pkill -TERM -P $PARENT_PID
-    kill -TERM $PARENT_PID
+# Function to get PID from process name
+get_pid_by_name() {
+    local _name=$1
+    pgrep -f "$_name"
+}
+
+# Main script
+arg=${1:-$DEFAULT_PROCESS}
+if [[ $arg =~ ^[0-9]+$ ]]; then
+    # Argument is a PID
+    pid=$arg
+else
+    # Argument is a process name, get its PID
+    pid=$(get_pid_by_name "$arg")
+    if [ -z "$pid" ]; then
+        echo "No process found with name: $arg"
+        exit 1
+    fi
 fi
+
+echo "Killing process and its sub-processes: PID $pid"
+killtree "$pid"
+
+exit 0
 
 # Note: use htop to see resource usage
