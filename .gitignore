@@ -11,3 +11,4 @@ _magpie*
 .vscode/launch.json
 
 experiments/results
+experiments/results_tmp
