@@ -6,12 +6,12 @@ importlib.reload(utils) # Reload instead of using cached version
 
 # Cross validation setup
 num_folds = 5
-num_replications = 1
+num_replications = 5
 
 operator_selectors = [
     'UniformSelector',
-    # 'WeightedSelector',
-    # 'EpsilonGreedy'
+    'WeightedSelector',
+    'EpsilonGreedy'
 ]
 
 search_algos = [
@@ -37,7 +37,7 @@ if __name__ == '__main__':
             # Run GI on the training set
             utils.train(args, operator_selectors, search_algos, num_replications)
         elif args.step == 'test':
-            pass
+            pass # TODO: Implement -- test the patches on the validation sets
     except Exception:
         with open(f"{args.results_dir}/error_{args.step}.txt", 'w') as f:
             print(traceback.format_exc(), file=f)

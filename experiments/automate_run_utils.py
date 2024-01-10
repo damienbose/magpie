@@ -61,6 +61,14 @@ def cross_val_setup(args, num_folds=5, num_replications=5):
 
 def set_operator_selector_config(config, operator_selector):
     config["search"]["operator_selector"] = operator_selector
+    if operator_selector == 'UniformSelector':
+        pass # No additional config required
+    elif operator_selector == 'WeightedSelector':
+        initial_weights = [1]*8 + [0]*4 # No delete operators
+        config["search"]["initial_weights"] = '\n' + '\n'.join([str(weight) for weight in initial_weights])
+    elif operator_selector == 'EpsilonGreedy':
+        config["search"]["epsilon"] = "0.2"
+
 
 def set_batch_config(config, replication_num, cross_validation_setup):
     if cross_validation_setup is not None:
@@ -78,10 +86,10 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
         for algo in search_algos:
             for replication_num in range(num_replications):
                 config = configparser.ConfigParser()
-                config.read("experiments/scenario/template.txt")
+                config.read("experiments/scenario/template.ini")
                 set_operator_selector_config(config, operator_selector)
                 set_batch_config(config, replication_num, cross_validation_setup)
-                path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/scenario.txt"
+                path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/scenario.ini"
                 Path(path).parent.mkdir(parents=True, exist_ok=True)
                 with open(path, 'w') as configfile:
                     config.write(configfile)
@@ -98,7 +106,7 @@ def train(args, operator_selectors, search_algos, num_replications):
         # Train on the training folds
         for operator_selector in operator_selectors:
             for algo in search_algos:
-                scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.txt"
+                scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
                 command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 print(command)
                 subprocess.run(command, shell=True, text=True)

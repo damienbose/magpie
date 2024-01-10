@@ -21,7 +21,7 @@ start_time=$(date +%s)
 
 python3 experiments/automate_run.py --step setup --results_dir $result_dir
 python3 experiments/automate_run.py --step train --results_dir $result_dir
-# python3 experiments/automate_run.py --step test --results_dir $result_dir
+python3 experiments/automate_run.py --step test --results_dir $result_dir
 
 echo "All experiments completed!" 
 
