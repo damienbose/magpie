@@ -42,6 +42,11 @@ class EpsilonGreedy(AbstractOperatorSelector):
         # Keep track of previous operator for update_quality
         self.prev_operator = None
 
+        # Logs
+        self.reward_log = [] # Index is time step
+        self.average_qualities_log = [self._average_qualities.copy()]
+        self.action_count_log = [self._action_count.copy()]
+
     def calculate_reward(self, initial_fitness, run):
         """ current 1, previous 5
         if run.status != 'SUCCESS':    
@@ -64,6 +69,11 @@ class EpsilonGreedy(AbstractOperatorSelector):
         # Sanity checks
         self._update_call_count += 1
         assert self._update_call_count == self._select_call_count
+
+        # Logs
+        self.reward_log.append(reward)
+        self.average_qualities_log.append(self._average_qualities.copy())
+        self.action_count_log.append(self._action_count.copy())
 
     def select(self):
         # Sanity checks
