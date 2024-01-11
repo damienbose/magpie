@@ -43,16 +43,16 @@ class EpsilonGreedy(AbstractOperatorSelector):
         self.prev_operator = None
 
     def calculate_reward(self, initial_fitness, run):
-                """ current 1, previous 5
-                if run.status != 'SUCCESS':    
-                    return 0
-                else:
-                    return previous / current # only update previous if it complied       
-                """
-                if run.status != 'SUCCESS':
-                    return 0
-                else:
-                    return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
+        """ current 1, previous 5
+        if run.status != 'SUCCESS':    
+            return 0
+        else:
+            return previous / current # only update previous if it complied       
+        """
+        if run.status != 'SUCCESS':
+            return 0
+        else:
+            return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
                 
     def update_quality(self, operator, initial_fitness, run):
 
