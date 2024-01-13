@@ -48,6 +48,9 @@ class BasicProtocol:
         elif sec['operator_selector'] == 'EpsilonGreedy':
             epsilon = float(sec['epsilon'])
             self.search.config['operator_selector'] = magpie.base.EpsilonGreedy(self.search.config['possible_edits'], epsilon)
+        elif sec['operator_selector'] == 'ProbabilityMatching':
+            p_min = float(sec['p_min'])
+            self.search.config['operator_selector'] = magpie.base.ProbabilityMatching(self.search.config['possible_edits'], p_min)
 
         bins = [[]]
         for s in sec['batch_instances'].splitlines():

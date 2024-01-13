@@ -85,7 +85,7 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
     def hook_evaluation(self, patch, run, accept=False, best=False):
         
         # Update quality for RL
-        if self.config['operator_selector'].__class__.__name__ == "EpsilonGreedy":
+        if self.config['operator_selector'].__class__.__name__ in ["EpsilonGreedy", "ProbabilityMatching"]: # TODO: Replace for an interface instead
             self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, self.report['initial_fitness'], run) # TODO: Change to use the previous fitness for other algorithms. Maybe incorporate the patch as a whole to contain this info. As in the patch contains info about the previous patch, creating a linked list of sorts. Major refactoring needed though. 
 
         if best:

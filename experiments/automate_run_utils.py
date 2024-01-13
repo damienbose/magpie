@@ -68,6 +68,9 @@ def set_operator_selector_config(config, operator_selector):
         config["search"]["initial_weights"] = '\n' + '\n'.join([str(weight) for weight in initial_weights])
     elif operator_selector == 'EpsilonGreedy':
         config["search"]["epsilon"] = "0.2"
+    elif operator_selector == 'ProbabilityMatching':
+        num_operators = 12
+        config["search"]["p_min"] = f"{1/(2 * num_operators)}"
 
 
 def set_batch_config(config, replication_num, cross_validation_setup):
