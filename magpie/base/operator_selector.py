@@ -137,7 +137,8 @@ class UCB(AbstractBanditsOperatorSelector):
     
     def select(self):
         super().select()
-        self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op] + self._c * np.sqrt(np.log(self._update_call_count) / self._action_count[op])) # TODO: validate
+        t = sum(self._action_count.values())
+        self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op] + self._c * np.sqrt(np.log(t) / self._action_count[op])) # TODO: validate
         return self.prev_operator
 
 
