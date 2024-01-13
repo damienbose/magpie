@@ -2,6 +2,7 @@ import random
 import json
 import subprocess
 import configparser
+import math
 from pathlib import Path
 
 def seed(seed):
@@ -69,10 +70,10 @@ def set_operator_selector_config(config, operator_selector):
     elif operator_selector == 'EpsilonGreedy':
         config["search"]["epsilon"] = "0.2"
     elif operator_selector == 'ProbabilityMatching':
-        num_operators = 12
+        num_operators = len(config["search"]["possible_edits"].split('\n')) - 1
         config["search"]["p_min"] = f"{1/(2 * num_operators)}"
     elif operator_selector == 'UCB':
-        config["search"]["c"] = "1.0" # TODO: Figure better value
+        config["search"]["c"] = f"{math.sqrt(2)}" # COMP0089: c=root(2) is used in the lectures for log expected regret
 
 
 def set_batch_config(config, replication_num, cross_validation_setup):
