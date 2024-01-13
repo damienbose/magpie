@@ -39,13 +39,11 @@ def calculate_reward(initial_fitness, run):
     else:
         return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
 
-class EpsilonGreedy(AbstractOperatorSelector):
-    def __init__(self, operators, epsilon):
+class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
+    def __init__(self, operators, initial_quality=0):
         super().__init__(operators)
         
-        self._epsilon = epsilon
-
-        self._average_qualities = {op: 0 for op in self._operators}
+        self._average_qualities = {op: initial_quality for op in self._operators}
         self._action_count = {op: 0 for op in self._operators}
 
         # Sanity checks
@@ -59,9 +57,8 @@ class EpsilonGreedy(AbstractOperatorSelector):
         self.reward_log = [] # Index is time step
         self.average_qualities_log = [self._average_qualities.copy()]
         self.action_count_log = [self._action_count.copy()]
-                
+    
     def update_quality(self, operator, initial_fitness, run):
-
         reward = calculate_reward(initial_fitness, run)
 
         self._action_count[operator] += 1
@@ -75,71 +72,52 @@ class EpsilonGreedy(AbstractOperatorSelector):
         self.reward_log.append(reward)
         self.average_qualities_log.append(self._average_qualities.copy())
         self.action_count_log.append(self._action_count.copy())
-
+    
     def select(self):
         # Sanity checks
         assert self._update_call_count == self._select_call_count
         self._select_call_count += 1
 
+class EpsilonGreedy(AbstractBanditsOperatorSelector):
+    def __init__(self, operators, epsilon):
+        super().__init__(operators, initial_quality=0)
+        
+        # Hyperparameters
+        self._epsilon = epsilon
+                
+    def update_quality(self, operator, initial_fitness, run):
+        super().update_quality(operator, initial_fitness, run)
+        
+    def select(self):
+        super().select()
         if random.random() < 1 - self._epsilon:
             self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op])
         else:
             self.prev_operator = random.choice(self._operators)
         return self.prev_operator
 
-class ProbabilityMatching(AbstractOperatorSelector):
+class ProbabilityMatching(AbstractBanditsOperatorSelector):
     def __init__(self, operators, p_min):
-        super().__init__(operators)
+        super().__init__(operators, initial_quality=1)
         
         # Hyperparameters
         self._p_min = p_min
-
-        self._average_qualities = {op: 1 for op in self._operators} # Start with 1 as Dirk Thierens paper suggests
-        self._action_count = {op: 0 for op in self._operators}
         self._probabilities = np.array([1/len(self._operators) for op in self._operators]) # Index matches operators
-
-        # Sanity checks
-        self._update_call_count = 0
-        self._select_call_count = 0
-        
-        # Keep track of previous operator for update_quality
-        self.prev_operator = None
-
-        # Logs
-        self.reward_log = [] # Index is time step
-        self.average_qualities_log = [self._average_qualities.copy()]
-        self.action_count_log = [self._action_count.copy()]
         self.probabilities_log = [self._probabilities.copy()]
     
     def update_quality(self, operator, initial_fitness, run):
-
-        reward = calculate_reward(initial_fitness, run)
-
-        self._action_count[operator] += 1
-        self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator]
+        super().update_quality(operator, initial_fitness, run)
 
         # Update probabilities
         total = sum(self._average_qualities.values())
         for i, operator in enumerate(self._operators): # TODO: parallelise
             self._probabilities[i] = self._p_min + (1 - len(self._operators) * self._p_min) * (self._average_qualities[operator] / total)
 
-        # Sanity checks
-        self._update_call_count += 1
-        assert self._update_call_count == self._select_call_count
-
-        # Logs
-        self.reward_log.append(reward)
-        self.average_qualities_log.append(self._average_qualities.copy())
-        self.action_count_log.append(self._action_count.copy())
         self.probabilities_log.append(self._probabilities.copy())
 
     def select(self):
-        # Sanity checks
-        assert self._update_call_count == self._select_call_count
-        self._select_call_count += 1
-
+        super().select()
         self.prev_operator = random.choices(self._operators, weights=self._probabilities, k=1)[0]
-
         return self.prev_operator
 
 # Algorithms (Lectures):
