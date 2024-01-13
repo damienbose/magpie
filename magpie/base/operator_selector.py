@@ -40,10 +40,10 @@ def calculate_reward(initial_fitness, run):
         return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
 
 class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
-    def __init__(self, operators, initial_quality=0):
+    def __init__(self, operators):
         super().__init__(operators)
         
-        self._average_qualities = {op: initial_quality for op in self._operators}
+        self._average_qualities = {op: 0 for op in self._operators} # Note: needs to be set to 0 for an accurate average. TODO: talk about how this differs from adaptive pursuit paper. 
         self._action_count = {op: 0 for op in self._operators}
 
         # Sanity checks
@@ -80,7 +80,7 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
 
 class EpsilonGreedy(AbstractBanditsOperatorSelector):
     def __init__(self, operators, epsilon):
-        super().__init__(operators, initial_quality=0)
+        super().__init__(operators)
         
         # Hyperparameters
         self._epsilon = epsilon
@@ -98,7 +98,7 @@ class EpsilonGreedy(AbstractBanditsOperatorSelector):
 
 class ProbabilityMatching(AbstractBanditsOperatorSelector):
     def __init__(self, operators, p_min):
-        super().__init__(operators, initial_quality=1)
+        super().__init__(operators)
         
         # Hyperparameters
         self._p_min = p_min
@@ -110,8 +110,13 @@ class ProbabilityMatching(AbstractBanditsOperatorSelector):
 
         # Update probabilities
         total = sum(self._average_qualities.values())
-        for i, operator in enumerate(self._operators): # TODO: parallelise
-            self._probabilities[i] = self._p_min + (1 - len(self._operators) * self._p_min) * (self._average_qualities[operator] / total)
+
+        # If the total is 0, then they are all equiprobable
+        if total == 0:
+            self._probabilities = np.array([1/len(self._operators) for op in self._operators])
+        else:
+            for i, operator in enumerate(self._operators): # TODO: parallelise
+                self._probabilities[i] = self._p_min + (1 - len(self._operators) * self._p_min) * (self._average_qualities[operator] / total)
 
         self.probabilities_log.append(self._probabilities.copy())
 
