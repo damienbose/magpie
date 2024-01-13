@@ -120,8 +120,23 @@ class ProbabilityMatching(AbstractBanditsOperatorSelector):
         self.prev_operator = random.choices(self._operators, weights=self._probabilities, k=1)[0]
         return self.prev_operator
 
+class UCB(AbstractBanditsOperatorSelector):
+    def __init__(self, operators, c): # TODO: Look for c in literature (note c=root(2) is used in the lectures for log expected regret)
+        super().__init__(operators) # TODO: look for initial quality
+
+        # Hyperparameters
+        self._c = c
+     
+    def update_quality(self, operator, initial_fitness, run):
+        super().update_quality(operator, initial_fitness, run)
+    
+    def select(self):
+        super().select()
+        self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op] + self._c * np.sqrt(np.log(self._update_call_count) / self._action_count[op])) # TODO: validate
+        return self.prev_operator
+
+
 # Algorithms (Lectures):
-# UCB
+# Bayesian bandits with UCB in slides
 # Policy gradients (Might be a lot more interesting)
-# Bayesian bandits
 # Thompson sampling (Optimistic in the face of uncertainty)

@@ -51,6 +51,9 @@ class BasicProtocol:
         elif sec['operator_selector'] == 'ProbabilityMatching':
             p_min = float(sec['p_min'])
             self.search.config['operator_selector'] = magpie.base.ProbabilityMatching(self.search.config['possible_edits'], p_min)
+        elif sec['operator_selector'] == 'UCB':
+            c = float(sec['c'])
+            self.search.config['operator_selector'] = magpie.base.UCB(self.search.config['possible_edits'], c)
 
         bins = [[]]
         for s in sec['batch_instances'].splitlines():

@@ -71,6 +71,8 @@ def set_operator_selector_config(config, operator_selector):
     elif operator_selector == 'ProbabilityMatching':
         num_operators = 12
         config["search"]["p_min"] = f"{1/(2 * num_operators)}"
+    elif operator_selector == 'UCB':
+        config["search"]["c"] = "1.0" # TODO: Figure better value
 
 
 def set_batch_config(config, replication_num, cross_validation_setup):
@@ -84,12 +86,13 @@ def set_batch_config(config, replication_num, cross_validation_setup):
     else:
         pass # TODO: Finalise crossvalidation to address to delete this case. Here we simply follow the template
 
-def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup):
+def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
     for operator_selector in operator_selectors:
         for algo in search_algos:
             for replication_num in range(num_replications):
                 config = configparser.ConfigParser()
-                config.read("experiments/scenario/template.ini")
+                config_file = "experiments/scenario/template.ini" if not debug_mode else "experiments/scenario/debug.ini"
+                config.read(config_file)
                 set_operator_selector_config(config, operator_selector)
                 set_batch_config(config, replication_num, cross_validation_setup)
                 path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/scenario.ini"
@@ -97,12 +100,12 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
                 with open(path, 'w') as configfile:
                     config.write(configfile)
 
-def setup(args, num_folds, num_replications, operator_selectors, search_algos):
+def setup(args, num_folds, num_replications, operator_selectors, search_algos, debug_mode=False):
     try: 
         cross_validation_setup = cross_val_setup(args, num_folds, num_replications)
     except:
         cross_validation_setup = None # TODO: Finalise crossvalidation to address to delete this case. 
-    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup)
+    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
 def train(args, operator_selectors, search_algos, num_replications):
     for i in range(num_replications):
