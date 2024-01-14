@@ -182,6 +182,12 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
             cached_run = self.cache_get(diff)
             # no return: now handled in evaluate_contents
         run = self.program.evaluate_contents(contents, cached_run)
+        
+        if self.report['initial_fitness'] is not None: # We are note warming up
+            if 'fitness_values' not in self.experiment_report: 
+                self.experiment_report['fitness_values'] = []
+            self.experiment_report['fitness_values'].append(run)
+
         if self.config['cache_maxsize'] > 0 and not forget:
             if not diff:
                 diff = self.program.diff_contents(contents)
