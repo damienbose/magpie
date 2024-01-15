@@ -68,7 +68,8 @@ class UniformSelector(AbstractBanditsOperatorSelector):
 
     def select(self):
         super().select()
-        return random.choice(self._operators)
+        self.prev_operator = random.choice(self._operators)
+        return self.prev_operator
 
 class WeightedSelector(AbstractBanditsOperatorSelector):
     def __init__(self, operators, weights):
@@ -79,7 +80,8 @@ class WeightedSelector(AbstractBanditsOperatorSelector):
         
     def select(self):
         super().select()
-        return random.choices(self._operators, weights=self._weights, k=1)[0]
+        self.prev_operator = random.choices(self._operators, weights=self._weights, k=1)[0]
+        return self.prev_operator
     
 class EpsilonGreedy(AbstractBanditsOperatorSelector):
     def __init__(self, operators, epsilon):
