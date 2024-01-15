@@ -6,3 +6,4 @@ from .engine import AbstractEngine
 from .program import AbstractProgram
 from .algorithm import AbstractAlgorithm
 from .operator_selector import UniformSelector, WeightedSelector, EpsilonGreedy, ProbabilityMatching, UCB
+from .operator_selector import AbstractBanditsOperatorSelector # Abstract interface

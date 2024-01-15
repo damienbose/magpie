@@ -10,23 +10,6 @@ class AbstractOperatorSelector(ABC):
     def select(self, **kwargs):
         pass
 
-class UniformSelector(AbstractOperatorSelector):
-    def __init__(self, operators):
-        super().__init__(operators)
-
-    def select(self):
-        return random.choice(self._operators)
-
-class WeightedSelector(AbstractOperatorSelector):
-    def __init__(self, operators, weights):
-        super().__init__(operators)
-        self._weights = weights
-
-        assert len(self._operators) == len(self._weights), 'number of operators and weights must match. Got {} operators and {} weights'.format(len(self._operators), len(self._weights))
-        
-    def select(self):
-        return random.choices(self._operators, weights=self._weights, k=1)[0]
-
 def calculate_reward(initial_fitness, run):
     """ current 1, previous 5
     if run.status != 'SUCCESS':    
@@ -78,6 +61,26 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
         assert self._update_call_count == self._select_call_count
         self._select_call_count += 1
 
+# Note: UniformSelector and WeightedSelector are not bandits algorithms; however, we use inheritance to track their running statistics for comparison to bandits
+class UniformSelector(AbstractBanditsOperatorSelector):
+    def __init__(self, operators):
+        super().__init__(operators)
+
+    def select(self):
+        super().select()
+        return random.choice(self._operators)
+
+class WeightedSelector(AbstractBanditsOperatorSelector):
+    def __init__(self, operators, weights):
+        super().__init__(operators)
+        self._weights = weights
+
+        assert len(self._operators) == len(self._weights), 'number of operators and weights must match. Got {} operators and {} weights'.format(len(self._operators), len(self._weights))
+        
+    def select(self):
+        super().select()
+        return random.choices(self._operators, weights=self._weights, k=1)[0]
+    
 class EpsilonGreedy(AbstractBanditsOperatorSelector):
     def __init__(self, operators, epsilon):
         super().__init__(operators)
