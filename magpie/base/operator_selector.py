@@ -131,14 +131,20 @@ class UCB(AbstractBanditsOperatorSelector):
 
         # Hyperparameters
         self._c = c
-     
+
+        self.num_arms_not_selected = operators.copy()
+
     def update_quality(self, operator, initial_fitness, run):
         super().update_quality(operator, initial_fitness, run)
     
     def select(self):
         super().select()
-        t = sum(self._action_count.values())
-        self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op] + self._c * np.sqrt(np.log(t) / self._action_count[op])) # Note: taken form COMP0098 slides
+
+        if len(self.num_arms_not_selected) > 0: # Makes sure each arm is selected at least once initially
+            self.prev_operator = self.num_arms_not_selected.pop()
+        else:
+            t = sum(self._action_count.values())
+            self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op] + self._c * np.sqrt(np.log(t) / self._action_count[op])) # Note: taken form COMP0098 slides
         return self.prev_operator
 
 
