@@ -1,6 +1,7 @@
 import argparse
 import configparser
 import pathlib
+import traceback
 
 import magpie
 
@@ -49,4 +50,9 @@ if __name__ == "__main__":
     protocol.setup(config)
 
     # run experiments
-    protocol.run()
+    try:
+        protocol.run()
+    except Exception:
+        with open(f"{str(args.output_dir)}/error.txt", 'w') as f:
+            print(traceback.format_exc(), file=f)
+        raise
