@@ -12,13 +12,14 @@ num_replications = 5
 
 operator_selectors = [
     'UniformSelector',
-    'WeightedSelector',
-    'EpsilonGreedy'
+    # 'WeightedSelector',
+    'EpsilonGreedy',
+    'ProbabilityMatching',
+    'UCB',
 ]
 
 search_algos = [
     'RandomSearch',
-    # 'BestImprovementNoTabu'
 ]
 
 if __name__ == '__main__':
