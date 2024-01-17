@@ -12,4 +12,5 @@ _magpie*
 
 experiments/results
 experiments/results_tmp
-experiments/mini_experiments
+experiments/mini_experiments/*
+!experiments/mini_experiments/results_all_rl_1_trial
