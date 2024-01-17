@@ -1,5 +1,6 @@
 # helper functions for processing results
 import pickle 
+import numpy as np
 
 def generate_pickle_object(log_files_folder):
     pkl_file = log_files_folder + "raw_result.pkl"
@@ -19,7 +20,6 @@ def get_patch(log_files_folder):
 def get_num_variants_evaluated(pkl_obj):
     run_results = pkl_obj['run_results']
     return len(run_results)
-     
 
 def get_num_successful_variants_evaluated(pkl_obj):
     run_results = pkl_obj['run_results']
@@ -28,3 +28,20 @@ def get_num_successful_variants_evaluated(pkl_obj):
         if result['status'] == 'SUCCESS':
             num_success += 1
     return num_success
+
+def get_unique_statuses(pkl_obj):
+    run_results = pkl_obj['run_results']
+    unique_statuses = set()
+    for result in run_results:
+        unique_statuses.add(result['status'])
+    return unique_statuses
+
+def get_status_cum_count(pkl_obj, status_name):
+    run_results = pkl_obj['run_results']
+    has_status_code = []
+    for result in run_results:
+        if result['status'] == status_name:
+            has_status_code.append(1)
+        else:
+            has_status_code.append(0)
+    return np.cumsum(has_status_code)
