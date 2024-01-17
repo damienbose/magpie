@@ -41,11 +41,11 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
         self.average_qualities_log = [self._average_qualities.copy()]
         self.action_count_log = [self._action_count.copy()]
     
-    def update_quality(self, operator, initial_fitness, run):
+    def update_quality(self, operator, initial_fitness, run): # TODO rename: 'update_agent_state' (note: bandit algos have a single environment state)
         reward = calculate_reward(initial_fitness, run)
 
         self._action_count[operator] += 1
-        self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator]
+        self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator] # TODO rename: 'action_value_estimates'
 
         # Sanity checks
         self._update_call_count += 1
