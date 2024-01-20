@@ -45,3 +45,14 @@ def get_status_cum_count(pkl_obj, status_name):
         else:
             has_status_code.append(0)
     return np.cumsum(has_status_code)
+
+def get_run_times(pkl_obj):
+    run_results = pkl_obj['run_results']
+    run_times = []
+    for result in run_results:
+        if result['status'] == 'SUCCESS':
+            run_times.append(result['fitness'])
+    return np.array(run_times)
+
+def get_average_vs_time(array):
+    return np.cumsum(array) / np.arange(1, len(array) + 1)
