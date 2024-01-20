@@ -1,0 +1,10 @@
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -449,6 +449,7 @@
+                 }
+             }
+         }
++        return;
+     }
+ 
+     return true;
