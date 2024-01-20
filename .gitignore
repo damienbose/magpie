@@ -15,3 +15,4 @@ experiments/results_tmp
 experiments/mini_experiments/*
 !experiments/mini_experiments/results_all_rl_1_trial
 !experiments/mini_experiments/results_triangle_sample
+!experiments/mini_experiments/results_100h_random_search
