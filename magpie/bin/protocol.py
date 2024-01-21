@@ -195,8 +195,12 @@ class BasicProtocol:
         # Get path of current experiment results
         experiment_path = Path(self.search.config['final_out_dir'])
         experiment_path.mkdir(parents=True, exist_ok=True)
-                
-        experiment_logs_path = (experiment_path / "logs")
+
+        if isinstance(self.search, magpie.algo.validation.ValidTest):
+            experiment_logs_path = (experiment_path / "validate_logs")
+        else:
+            experiment_logs_path = (experiment_path / "logs")
+
         experiment_logs_path.mkdir(parents=True, exist_ok=True)
 
         # Store as pickle file in experiment directory
