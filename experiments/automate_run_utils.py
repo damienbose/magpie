@@ -45,7 +45,7 @@ def cross_val_setup(args, num_folds=5, num_replications=5):
     for bin in bins:
         mini_fold = split_into_equal_random_subsets(bin, num_folds)
         for i in range(num_folds):
-            folds[i] += mini_fold[i]
+            folds[i].append(mini_fold[i])
         
     assert num_replications <= num_folds
 
@@ -63,7 +63,7 @@ def cross_val_setup(args, num_folds=5, num_replications=5):
     cross_validation_setup['replications'] = replications
 
     with open(f'{args.results_dir}/cross_val_setup.json', 'w') as file:
-        json.dump(cross_validation_setup, file, indent=4)
+        json.dump(cross_validation_setup, file, indent=4) # TODO: seperate into bins
     
     return cross_validation_setup
 
@@ -84,16 +84,14 @@ def set_operator_selector_config(config, operator_selector):
 
 
 def set_batch_config(config, replication_num, cross_validation_setup):
-    if cross_validation_setup is not None:
-        train_folds = [cross_validation_setup['folds'][i] for i in cross_validation_setup['replications'][replication_num]['train_folds']]
-        config["search"]["batch_sample_size"] = str(sum([len(fold) for fold in train_folds]))
-        for i in range(len(train_folds)):
-            train_folds[i] = '\n'.join(train_folds[i])
-        train_folds = '\n' + '\n___\n'.join(train_folds)
-        config["search"]["batch_instances"] = train_folds
-        config["search"]["batch_sample_size"] = "5"
-    else:
-        pass # TODO: Finalise crossvalidation to address to delete this case. Here we simply follow the template
+    return # TODO
+    train_folds = [cross_validation_setup['folds'][i] for i in cross_validation_setup['replications'][replication_num]['train_folds']]
+    # config["search"]["batch_sample_size"] = str(sum([len(fold) for fold in train_folds]))
+    for i in range(len(train_folds)):
+        train_folds[i] = '\n'.join(train_folds[i])
+    train_folds = '\n' + '\n___\n'.join(train_folds)
+    config["search"]["batch_instances"] = train_folds
+    config["search"]["batch_sample_size"] = "5" # Maybe add to template?
 
 def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
     for operator_selector in operator_selectors:
@@ -110,10 +108,7 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
                     config.write(configfile)
 
 def setup(args, num_folds, num_replications, operator_selectors, search_algos, debug_mode=False):
-    try: 
-        cross_validation_setup = cross_val_setup(args, num_folds, num_replications)
-    except:
-        cross_validation_setup = None # TODO: Finalise crossvalidation to address to delete this case. 
+    cross_validation_setup = cross_val_setup(args, num_folds, num_replications)
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
 def train(args, operator_selectors, search_algos, num_replications):
