@@ -30,11 +30,11 @@ def split_into_equal_random_subsets(arr, k):
 
 def cross_val_setup(args, num_folds=5, num_replications=5):
     # Generate the folds
-    with open('examples/code/minisat/benchmark/sat_uniform.json', 'r') as file:
+    with open('examples/code/benchmark/sat_uniform.json', 'r') as file:
         bins = json.load(file)
 
     # Instance path
-    in_path = "benchmark"
+    in_path = "/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark"
     for bin in bins:
         for i, elem in enumerate(bin):
             bin[i] = f"{in_path}/{elem}"
