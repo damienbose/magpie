@@ -30,9 +30,16 @@ def split_into_equal_random_subsets(arr, k):
 
 def cross_val_setup(args, num_folds=5, num_replications=5):
     # Generate the folds
-    with open('experiments/benchmark/sat_uniform.json', 'r') as file:
+    with open('examples/code/minisat/benchmark/sat_uniform.json', 'r') as file:
         bins = json.load(file)
 
+    # Instance path
+    in_path = "benchmark"
+    for bin in bins:
+        for i, elem in enumerate(bin):
+            bin[i] = f"{in_path}/{elem}"
+
+    # Make sure correct path is used
     folds = [[] for _ in range(num_folds)]
 
     for bin in bins:
@@ -84,6 +91,7 @@ def set_batch_config(config, replication_num, cross_validation_setup):
             train_folds[i] = '\n'.join(train_folds[i])
         train_folds = '\n' + '\n___\n'.join(train_folds)
         config["search"]["batch_instances"] = train_folds
+        config["search"]["batch_sample_size"] = "5"
     else:
         pass # TODO: Finalise crossvalidation to address to delete this case. Here we simply follow the template
 
@@ -117,3 +125,6 @@ def train(args, operator_selectors, search_algos, num_replications):
                 command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 print(command)
                 subprocess.run(command, shell=True, text=True)
+
+def test(args, operator_selectors, search_algos, num_replications):
+    pass
