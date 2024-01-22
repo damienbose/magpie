@@ -40,6 +40,7 @@ if __name__ == '__main__':
             # Run GI on the training set
             utils.train(args, operator_selectors, search_algos, num_replications)
         elif args.step == 'test':
+            # Run on validation set
             utils.test(args, operator_selectors, search_algos, num_replications)
     except Exception:
         with open(f"{args.results_dir}/error_{args.step}.txt", 'w') as f:
