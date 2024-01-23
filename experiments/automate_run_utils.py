@@ -4,6 +4,8 @@ import subprocess
 import configparser
 import math
 from pathlib import Path
+import os
+import copy
 
 def seed(seed):
     random.seed(seed)
@@ -43,6 +45,7 @@ def cross_val_setup(args, train_set_size=20, num_replications=5):
     cross_validation_setup['replications'] = replications
     cross_validation_setup['all_test_cases'] = bins
 
+    os.makedirs(args.results_dir, exist_ok=True)
     with open(f'{args.results_dir}/cross_val_setup.json', 'w') as file:
         json.dump(cross_validation_setup, file, indent=4)
     
@@ -65,14 +68,12 @@ def set_operator_selector_config(config, operator_selector):
 
 
 def set_batch_config(config, replication_num, cross_validation_setup):
-    return # TODO
-    train_folds = [cross_validation_setup['folds'][i] for i in cross_validation_setup['replications'][replication_num]['train_folds']]
-    # config["search"]["batch_sample_size"] = str(sum([len(fold) for fold in train_folds]))
-    for i in range(len(train_folds)):
-        train_folds[i] = '\n'.join(train_folds[i])
-    train_folds = '\n' + '\n___\n'.join(train_folds)
-    config["search"]["batch_instances"] = train_folds
-    config["search"]["batch_sample_size"] = "5" # Maybe add to template?
+    bins = copy.deepcopy(cross_validation_setup['replications'][replication_num]['train_test_cases'])
+    config["search"]["batch_sample_size"] = str(sum([len(bin) for bin in bins]))
+    for i in range(len(bins)):
+        bins[i] = '\n'.join(bins[i])
+    bins = '\n' + '\n___\n'.join(bins)
+    config["search"]["batch_instances"] = bins
 
 def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
     for operator_selector in operator_selectors:
