@@ -8,62 +8,43 @@ from pathlib import Path
 def seed(seed):
     random.seed(seed)
 
-def split_into_equal_random_subsets(arr, k):
+def sample_k_random_test_cases(arr, k):
+    return random.sample(arr, k)
 
-    arr_temp = arr.copy()
-
-    # Ensure the array can be divided into k equal subsets
-    n = len(arr_temp)
-    if n % k != 0:
-        raise ValueError("Array size is not divisible by k")
-
-    # Shuffle the array
-    random.shuffle(arr_temp)
-
-    # Calculate the size of each subset
-    subset_size = n // k
-
-    # Split the array into k subsets
-    subsets = [arr_temp[i*subset_size:(i+1)*subset_size] for i in range(k)]
-    return subsets
-
-
-def cross_val_setup(args, num_folds=5, num_replications=5):
+def cross_val_setup(args, train_set_size=20, num_replications=5):
     # Generate the folds
     with open('examples/code/benchmark/sat_uniform.json', 'r') as file:
         bins = json.load(file)
 
-    # Instance path
+    # Use absolute paths for test cases
     in_path = "/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark"
     for bin in bins:
         for i, elem in enumerate(bin):
             bin[i] = f"{in_path}/{elem}"
-
-    # Make sure correct path is used
-    folds = [[] for _ in range(num_folds)]
-
-    for bin in bins:
-        mini_fold = split_into_equal_random_subsets(bin, num_folds)
-        for i in range(num_folds):
-            folds[i].append(mini_fold[i])
-        
-    assert num_replications <= num_folds
-
+    
+    # Split into train test
+    train_sets = [[] for _ in range(num_replications)]
+    
+    assert train_set_size % len(bins) == 0, "There must be equal distribution of each test case type in train_set"
+    
+    num_from_each_type = train_set_size // len(bins)
+    for i in range(num_replications):
+        for bin in bins:
+            train_sets[i].append(sample_k_random_test_cases(bin, num_from_each_type))
+    
     # Generate the replications
     replications = {}
     for replication_num in range(num_replications):
-        test_folds = [replication_num]
-        train_folds = [i for i in range(num_folds) if i not in test_folds]
-        replications[replication_num] = {"train_folds" : train_folds, "test_folds" : test_folds}
+        replications[replication_num] = {"train_test_cases": train_sets[replication_num]}
     
     cross_validation_setup = {}
-    cross_validation_setup['num_folds'] = num_folds
+    cross_validation_setup['train_set_size'] = train_set_size
     cross_validation_setup['num_replications'] = num_replications
-    cross_validation_setup['folds'] = {i : folds[i] for i in range(num_folds)}
     cross_validation_setup['replications'] = replications
+    cross_validation_setup['all_test_cases'] = bins
 
     with open(f'{args.results_dir}/cross_val_setup.json', 'w') as file:
-        json.dump(cross_validation_setup, file, indent=4) # TODO: seperate into bins
+        json.dump(cross_validation_setup, file, indent=4)
     
     return cross_validation_setup
 
@@ -107,8 +88,8 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
                 with open(path, 'w') as configfile:
                     config.write(configfile)
 
-def setup(args, num_folds, num_replications, operator_selectors, search_algos, debug_mode=False):
-    cross_validation_setup = cross_val_setup(args, num_folds, num_replications)
+def setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=False):
+    cross_validation_setup = cross_val_setup(args, train_set_size, num_replications)
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
 def train(args, operator_selectors, search_algos, num_replications):

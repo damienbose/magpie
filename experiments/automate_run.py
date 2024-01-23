@@ -7,7 +7,7 @@ importlib.reload(utils) # Reload instead of using cached version
 is_debug_mode = False
 
 # Cross validation setup
-num_folds = 5
+train_set_size = 20
 num_replications = 5
 
 operator_selectors = [
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     try:
         if args.step == 'setup':
             # Generate the cross-validation split
-            utils.setup(args, num_folds, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode)
+            utils.setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode)
         elif args.step == 'train':
             # Run GI on the training set
             utils.train(args, operator_selectors, search_algos, num_replications)
