@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 import os
 import copy
+from tqdm import tqdm
 
 def seed(seed):
     random.seed(seed)
@@ -98,14 +99,20 @@ def setup(args, train_set_size, num_replications, operator_selectors, search_alg
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
 def train(args, operator_selectors, search_algos, num_replications):
+    commands = []
     for i in range(num_replications):
         # Train on the training folds
         for operator_selector in operator_selectors:
             for algo in search_algos:
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
                 command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
-                print(command)
-                subprocess.run(command, shell=True, text=True)
+                commands.append(command)
+    
+    for command in tqdm(commands, desc="Training Progress", file=open(f"{args.results_dir}/train_progress_logs.txt", 'a')):
+        print(command, flush=True, file=open(f"{args.results_dir}/train_commands_logs.txt", 'a'))
+        subprocess.run(command, shell=True, text=True)
 
+    # Delete the progress file
+    os.remove(f"{args.results_dir}/train_progress_logs.txt")
 def test(args, operator_selectors, search_algos, num_replications):
     pass

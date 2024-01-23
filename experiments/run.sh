@@ -19,9 +19,9 @@ exec > $result_dir/experiment_logs.txt
 # Record start time
 start_time=$(date +%s)
 
-python3 experiments/automate_run.py --step setup --results_dir $result_dir
-python3 experiments/automate_run.py --step train --results_dir $result_dir
-python3 experiments/automate_run.py --step test --results_dir $result_dir
+python3 experiments/automate_run.py --step setup --results_dir $result_dir &> $result_dir/setup_full_logs.txt 2>&1
+python3 experiments/automate_run.py --step train --results_dir $result_dir &> $result_dir/train_full_logs.txt 2>&1
+python3 experiments/automate_run.py --step test --results_dir $result_dir  &> $result_dir/test_full_logs.txt 2>&1
 
 echo "All experiments completed!" 
 
