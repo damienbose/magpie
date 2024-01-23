@@ -30,10 +30,13 @@ def cross_val_setup(args, train_set_size=20, num_replications=5):
     
     assert train_set_size % len(bins) == 0, "There must be equal distribution of each test case type in train_set"
     
+    test_cases_picked_so_far = set()
     num_from_each_type = train_set_size // len(bins)
     for i in range(num_replications):
         for bin in bins:
-            train_sets[i].append(sample_k_random_test_cases(bin, num_from_each_type))
+            test_cases = sample_k_random_test_cases(bin, num_from_each_type)
+            test_cases_picked_so_far.update(test_cases) # Make sure we don't pick the same test case twice
+            train_sets[i].append(sample_k_random_test_cases(set(bin) - test_cases_picked_so_far, num_from_each_type))
     
     # Generate the replications
     replications = {}
