@@ -60,6 +60,8 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
         self.reward_log.append(reward)
         self.average_qualities_log.append(self._average_qualities.copy())
         self.action_count_log.append(self._action_count.copy())
+
+        return reward # Only needed for policy gradients
     
     def select(self):
         # Sanity checks
@@ -157,8 +159,43 @@ class UCB(AbstractBanditsOperatorSelector):
             self.prev_operator = max(self._operators, key=lambda op: self._average_qualities[op] + self._c * np.sqrt(np.log(t) / self._action_count[op])) # Note: taken form COMP0098 slides
         return self.prev_operator
 
+class PolicyGradient(AbstractBanditsOperatorSelector):
+    def __init__(self, operators, alpha):
+        super().__init__(operators)
+        
+        # Hyperparameters
+        self._alpha = alpha
 
-# Algorithms (Lectures):
-# Bayesian bandits with UCB in slides
-# Policy gradients (Might be a lot more interesting)
-# Thompson sampling (Optimistic in the face of uncertainty)
+        self._preferences = np.zeros(len(self._operators)) # Index matches operators
+
+        exp_preferences = np.exp(self._preferences)
+        self._policy = exp_preferences / np.sum(exp_preferences)
+
+        self._average_reward = 0
+        self._total_rewards = 0
+        self._rewards_count = 0
+    
+    def update_quality(self, operator, initial_fitness, run):
+        reward = super().update_quality(operator, initial_fitness, run)
+
+        # Update preferences
+        for i, op in enumerate(self._operators):
+            if op == operator:
+                self._preferences[i] +=  self._alpha * (reward - self._average_reward) * (1 - self._policy[i]) 
+            else:
+                self._preferences[i] += -self._alpha * (reward - self._average_reward) * self._policy[i]
+
+        
+        # Update policy
+        exp_preferences = np.exp(self._preferences)
+        self._policy = exp_preferences / np.sum(exp_preferences)
+
+        # Update average reward
+        self._total_rewards += reward
+        self._rewards_count += 1
+        self._average_reward = self._total_rewards / self._rewards_count # this formula is not simplified for clarity
+    
+    def select(self):
+        super().select()
+        self.prev_operator = random.choices(self._operators, weights=self._policy, k=1)[0]
+        return self.prev_operator
