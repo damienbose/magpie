@@ -54,6 +54,9 @@ class BasicProtocol:
         elif sec['operator_selector'] == 'UCB':
             c = float(sec['c'])
             self.search.config['operator_selector'] = magpie.base.UCB(self.search.config['possible_edits'], c)
+        elif sec['operator_selector'] == 'PolicyGradient':
+            alpha = float(sec['alpha'])
+            self.search.config['operator_selector'] = magpie.base.PolicyGradient(self.search.config['possible_edits'], alpha)
 
         bins = [[]]
         for s in sec['batch_instances'].splitlines():
