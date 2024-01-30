@@ -20,6 +20,7 @@ def calculate_reward(initial_fitness, run):
     if run.status != 'SUCCESS':
         return 0
     else:
+        assert run.fitness is not None, f"run.fitness is None for {run.status} and {run.fitness}"
         return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
 
 class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
