@@ -174,6 +174,10 @@ class PolicyGradient(AbstractBanditsOperatorSelector):
         self._average_reward = 0
         self._total_rewards = 0
         self._rewards_count = 0
+
+        self._preferences_log = [self._preferences.copy()]
+        self._policy_log = [self._policy.copy()]
+        self._average_reward_log = [self._average_reward]
     
     def update_quality(self, operator, initial_fitness, run):
         reward = super().update_quality(operator, initial_fitness, run)
@@ -194,6 +198,11 @@ class PolicyGradient(AbstractBanditsOperatorSelector):
         self._total_rewards += reward
         self._rewards_count += 1
         self._average_reward = self._total_rewards / self._rewards_count # this formula is not simplified for clarity
+
+        # Logs
+        self._preferences_log.append(self._preferences.copy())
+        self._policy_log.append(self._policy.copy())
+        self._average_reward_log.append(self._average_reward)
     
     def select(self):
         super().select()
