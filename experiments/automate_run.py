@@ -6,16 +6,19 @@ importlib.reload(utils) # Reload instead of using cached version
 
 is_debug_mode = False
 
+MAX_SUB_PROCESSES = 4
+
 # Cross validation setup
 train_set_size = 20
-num_replications = 5
+num_replications = 4
 
 operator_selectors = [
-    'UniformSelector',
+    # 'UniformSelector',
     # 'WeightedSelector',
-    'EpsilonGreedy',
-    'ProbabilityMatching',
-    'UCB',
+    # 'EpsilonGreedy',
+    # 'ProbabilityMatching',
+    # 'UCB',
+    'PolicyGradient'
 ]
 
 search_algos = [
@@ -38,7 +41,7 @@ if __name__ == '__main__':
             utils.setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode)
         elif args.step == 'train':
             # Run GI on the training set
-            utils.train(args, operator_selectors, search_algos, num_replications)
+            utils.train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES)
         elif args.step == 'test':
             # Run on validation set
             utils.test(args, operator_selectors, search_algos, num_replications)
