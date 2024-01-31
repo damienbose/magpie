@@ -1,6 +1,7 @@
 import os
 import re
 import shlex
+import pickle
 
 import magpie
 
