@@ -370,6 +370,11 @@ class BasicProgram(magpie.base.AbstractProgram):
 
         # final process
         self.process_batch_final(run_result)
+
+        if run_result.status == 'SUCCESS' and run_result.fitness is None:
+            with open('error.pkl', 'wb') as file:
+                pickle.dump(run_result, file)
+            assert False, "What?"
         return run_result
 
     def process_init_exec(self, run_result, exec_result):
