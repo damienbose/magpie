@@ -100,7 +100,7 @@ def setup(args, train_set_size, num_replications, operator_selectors, search_alg
     cross_validation_setup = cross_val_setup(args, train_set_size, num_replications)
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
-def train(args, operator_selectors, search_algos, num_replications):
+def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
     commands = []
     for i in range(num_replications):
         # Train on the training folds
@@ -109,12 +109,38 @@ def train(args, operator_selectors, search_algos, num_replications):
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
                 command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 commands.append(command)
-    
-    for command in tqdm(commands, desc="Training Progress", file=open(f"{args.results_dir}/train_progress_logs.txt", 'a')):
-        print(command, flush=True, file=open(f"{args.results_dir}/train_commands_logs.txt", 'a'))
-        subprocess.run(command, shell=True, text=True)
 
-    # Delete the progress file
-    os.remove(f"{args.results_dir}/train_progress_logs.txt")
+    if MAX_SUB_PROCESSES == 1: 
+        for command in tqdm(commands, desc="Training Progress", file=open(f"{args.results_dir}/train_progress_logs.txt", 'a')):
+            print(command, flush=True, file=open(f"{args.results_dir}/train_commands_logs.txt", 'a'))
+            subprocess.run(command, shell=True, text=True)
+
+        # Delete the progress file
+        os.remove(f"{args.results_dir}/train_progress_logs.txt")
+    else:         
+        progress_bar = tqdm(total=len(commands), desc="Training Progress", file=open(f"{args.results_dir}/train_progress_logs.txt", 'a'))
+        processes = []
+        for command in commands:
+            print(command, flush=True, file=open(f"{args.results_dir}/train_commands_logs.txt", 'a'))
+
+            process = subprocess.Popen(command.split(' '))
+            
+            processes.append(process)
+
+            if len(processes) >= MAX_SUB_PROCESSES:
+                for process in processes:
+                    process.wait()
+                    progress_bar.update(1)
+                processes = []
+        
+        for process in processes:
+            process.wait()
+            progress_bar.update(1)
+
+        progress_bar.close()
+
+        # Delete the progress file
+        os.remove(f"{args.results_dir}/train_progress_logs.txt")
+    
 def test(args, operator_selectors, search_algos, num_replications):
     pass
