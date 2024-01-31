@@ -14,7 +14,7 @@ rm -rf $result_dir
 
 # Redirect output
 mkdir -p $result_dir
-exec > $result_dir/experiment_logs.txt
+exec > $result_dir/time.txt
 
 # Record start time
 start_time=$(date +%s)
