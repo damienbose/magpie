@@ -133,7 +133,7 @@ def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROC
                     progress_bar.update(1)
                 processes = []
         
-        for process in processes:
+        for process in processes: # Wait off the remaining processes
             process.wait()
             progress_bar.update(1)
 
