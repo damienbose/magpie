@@ -6,18 +6,18 @@ importlib.reload(utils) # Reload instead of using cached version
 
 is_debug_mode = False
 
-MAX_SUB_PROCESSES = 4
+MAX_SUB_PROCESSES = 5
 
 # Cross validation setup
 train_set_size = 20
-num_replications = 4
+num_replications = 5
 
 operator_selectors = [
-    # 'UniformSelector',
+    'UniformSelector',
     # 'WeightedSelector',
-    # 'EpsilonGreedy',
-    # 'ProbabilityMatching',
-    # 'UCB',
+    'EpsilonGreedy',
+    'ProbabilityMatching',
+    'UCB',
     'PolicyGradient'
 ]
 
