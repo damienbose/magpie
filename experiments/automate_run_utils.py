@@ -131,28 +131,19 @@ def setup(args, train_set_size, num_replications, operator_selectors, search_alg
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
     validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
-def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
-    commands = []
-    for i in range(num_replications):
-        # Train on the training folds
-        for operator_selector in operator_selectors:
-            for algo in search_algos:
-                scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
-                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
-                commands.append(command)
-
+def exec_commands(args, commands, MAX_SUB_PROCESSES=1):
     if MAX_SUB_PROCESSES == 1: 
-        for command in tqdm(commands, desc="Training Progress", file=open(f"{args.results_dir}/train_progress_logs.txt", 'a')):
-            print(command, flush=True, file=open(f"{args.results_dir}/train_commands_logs.txt", 'a'))
+        for command in tqdm(commands, desc="Progress", file=open(f"{args.results_dir}/progress_logs.txt", 'a')):
+            print(command, flush=True, file=open(f"{args.results_dir}/commands_logs.txt", 'a'))
             subprocess.run(command, shell=True, text=True)
 
         # Delete the progress file
-        os.remove(f"{args.results_dir}/train_progress_logs.txt")
+        os.remove(f"{args.results_dir}/progress_logs.txt")
     else:         
-        progress_bar = tqdm(total=len(commands), desc="Training Progress", file=open(f"{args.results_dir}/train_progress_logs.txt", 'a'))
+        progress_bar = tqdm(total=len(commands), desc="Progress", file=open(f"{args.results_dir}/progress_logs.txt", 'a'))
         processes = []
         for command in commands:
-            print(command, flush=True, file=open(f"{args.results_dir}/train_commands_logs.txt", 'a'))
+            print(command, flush=True, file=open(f"{args.results_dir}/commands_logs.txt", 'a'))
 
             process = subprocess.Popen(command.split(' '))
             
@@ -169,9 +160,32 @@ def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROC
             progress_bar.update(1)
 
         progress_bar.close()
-
         # Delete the progress file
-        os.remove(f"{args.results_dir}/train_progress_logs.txt")
+        os.remove(f"{args.results_dir}/progress_logs.txt")
+
+def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
+    commands = []
+    for i in range(num_replications):
+        # Train on the training folds
+        for operator_selector in operator_selectors:
+            for algo in search_algos:
+                scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
+                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
+                commands.append(command)
+    
+    exec_commands(args, commands, MAX_SUB_PROCESSES)
     
 def test(args, operator_selectors, search_algos, num_replications):
-    pass
+    commands = []
+    for i in range(num_replications):
+        # Validate on the validation folds
+        for operator_selector in operator_selectors:
+            for algo in search_algos:
+                scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/validate_scenario.ini"
+                patch = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/logs/experiment.patch"
+                # command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
+                command = f"python3 -m bin.revalidate_patch --scenario {scenario} --patch {patch} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
+                if os.path.exists(patch): # A valid patch exists
+                    commands.append(command)
+
+    exec_commands(args, commands, MAX_SUB_PROCESSES=1) # We run sequentially to minimise noise in the results
