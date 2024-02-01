@@ -82,6 +82,23 @@ def set_batch_config(config, replication_num, cross_validation_setup):
     bins = '\n' + '\n___\n'.join(bins)
     config["search"]["batch_instances"] = bins
 
+def set_validate_batch_config(config, replication_num, cross_validation_setup):
+    bins_all = copy.deepcopy(cross_validation_setup['all_test_cases'])
+    bins_train = copy.deepcopy(cross_validation_setup['replications'][replication_num]['train_test_cases'])
+
+    # Remove the train test cases from the bins
+    for i in range(len(bins_train)):
+        for j in range(len(bins_train[i])):
+            bins_all[i].remove(bins_train[i][j])
+    
+    # Validation bins
+    bins = bins_all
+    config["search"]["batch_sample_size"] = str(sum([len(bin) for bin in bins]))
+    for i in range(len(bins)):
+        bins[i] = '\n'.join(bins[i])
+    bins = '\n' + '\n___\n'.join(bins)
+    config["search"]["batch_instances"] = bins
+
 def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
     for operator_selector in operator_selectors:
         for algo in search_algos:
@@ -96,9 +113,23 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
                 with open(path, 'w') as configfile:
                     config.write(configfile)
 
+def validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
+    for operator_selector in operator_selectors:
+        for algo in search_algos:
+            for replication_num in range(num_replications):
+                config = configparser.ConfigParser()
+                config_file = "experiments/scenario/template.ini" if not debug_mode else "experiments/scenario/debug.ini"
+                config.read(config_file)
+                set_validate_batch_config(config, replication_num, cross_validation_setup)
+                path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/validate_scenario.ini"
+                Path(path).parent.mkdir(parents=True, exist_ok=True)
+                with open(path, 'w') as configfile:
+                    config.write(configfile)
+
 def setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=False):
     cross_validation_setup = cross_val_setup(args, train_set_size, num_replications)
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
+    validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
 
 def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
     commands = []
