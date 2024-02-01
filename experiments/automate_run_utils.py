@@ -12,7 +12,7 @@ def seed(seed):
     random.seed(seed)
 
 def sample_k_random_test_cases(arr, k):
-    return random.sample(arr, k)
+    return random.sample(arr, k) # TODO: update this for the gcover
 
 def cross_val_setup(args, train_set_size=20, num_replications=5):
     # Generate the folds
