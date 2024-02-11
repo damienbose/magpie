@@ -1,0 +1,1118 @@
+==== WARMUP ====
+WARM    SUCCESS               39885414460             
+WARM    SUCCESS               39885430864             
+WARM    SUCCESS               39885458408             
+WARM    SUCCESS               39885437620             
+WARM    SUCCESS               39885438063             
+WARM    SUCCESS               39885434952             
+WARM    SUCCESS               39885427156             
+WARM    SUCCESS               39885431647             
+WARM    SUCCESS               39885435818             
+WARM    SUCCESS               39885420262             
+INITIAL SUCCESS               39885434952             
+==== START: RandomSearch ====
+1       SUCCESS               41336478231 (103.64%) [1 edit(s)] 
+2       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+3       TEST_CODE_ERROR       None  [1 edit(s)]       
+4       SUCCESS              *39885414308 (100.0%) [1 edit(s)] 
+5       SUCCESS               39885436482 (100.0%) [1 edit(s)] 
+6       SUCCESS               39885435942 (100.0%) [1 edit(s)] 
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       SUCCESS               39885426136 (100.0%) [1 edit(s)] 
+9       TEST_CODE_ERROR       None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      SUCCESS               57435161123 (144.0%) [1 edit(s)] 
+12      SUCCESS               39885435159 (100.0%) [1 edit(s)] 
+13      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+15      SUCCESS               39886851442 (100.0%) [1 edit(s)] 
+16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+17      TEST_CODE_ERROR       None  [1 edit(s)]       
+18      SUCCESS               39885453613 (100.0%) [1 edit(s)] 
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+21      SUCCESS               39885445502 (100.0%) [1 edit(s)] 
+22      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+23      SUCCESS               39886263143 (100.0%) [1 edit(s)] 
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+26      TEST_CODE_ERROR       None  [1 edit(s)]       
+27      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+28      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+29      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+30      SUCCESS              *39802243258 (99.79%) [1 edit(s)] 
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+34      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+35      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+36      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+37      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+38      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      SUCCESS               39885273137 (100.0%) [1 edit(s)] 
+41      TEST_CODE_ERROR       None  [1 edit(s)]       
+42      TEST_CODE_ERROR       None  [1 edit(s)]       
+43      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+44      TEST_CODE_ERROR       None  [1 edit(s)]       
+45      SUCCESS               39887003514 (100.0%) [1 edit(s)] 
+46      TEST_TIMEOUT          None  [1 edit(s)]       
+47      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+48      SUCCESS               39885418912 (100.0%) [1 edit(s)] 
+49      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+50      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+51      SUCCESS               39885454607 (100.0%) [1 edit(s)] 
+52      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+53      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+54      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+55      SUCCESS               39885429178 (100.0%) [1 edit(s)] 
+56      TEST_TIMEOUT          None  [1 edit(s)]       
+57      TEST_CODE_ERROR       None  [1 edit(s)]       
+58      TEST_CODE_ERROR       None  [1 edit(s)]       
+59      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+60      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+61      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+62      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+63      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+64      SUCCESS               39885376322 (100.0%) [1 edit(s)] 
+65      SUCCESS               39885432729 (100.0%) [1 edit(s)] 
+66      SUCCESS               39885458799 (100.0%) [1 edit(s)] 
+67      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+68      SUCCESS               39885428348 (100.0%) [1 edit(s)] 
+69      TEST_CODE_ERROR       None  [1 edit(s)]       
+70      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+71      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+72      TEST_TIMEOUT          None  [1 edit(s)]       
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706047749.log
+Patch file: _magpie_logs/minisat_1706047749.patch
+Diff file: _magpie_logs/minisat_1706047749.diff
+Best fitness: 39802243258
+Best patch: ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 44))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -308,7 +308,7 @@
+     int index   = trail.size() - 1;
+ 
+     do{
+-        assert(confl != CRef_Undef); // (otherwise should be UIP)
++         // (otherwise should be UIP)
+         Clause& c = ca[confl];
+ 
+         if (c.learnt())
+
+==== WARMUP ====
+WARM    SUCCESS               39885436221             
+WARM    SUCCESS               39885427300             
+WARM    SUCCESS               39885426134             
+WARM    SUCCESS               39885426514             
+WARM    SUCCESS               39885428161             
+WARM    SUCCESS               39885427260             
+WARM    SUCCESS               39885427428             
+WARM    SUCCESS               39885427176             
+WARM    SUCCESS               39885432885             
+WARM    SUCCESS               39885428608             
+INITIAL SUCCESS               39885427428             
+==== START: RandomSearch ====
+1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2       TEST_CODE_ERROR       None  [1 edit(s)]       
+3       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       SUCCESS               44486647441 (111.54%) [1 edit(s)] 
+6       RUN_TIMEOUT           None  [1 edit(s)]       
+7       SUCCESS               40181021426 (100.74%) [1 edit(s)] 
+8       SUCCESS              *39885421759 (100.0%) [1 edit(s)] 
+9       TEST_CODE_ERROR       None  [1 edit(s)]       
+10      SUCCESS              *39885420032 (100.0%) [1 edit(s)] 
+11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+12      SUCCESS              *39883128979 (99.99%) [1 edit(s)] 
+13      SUCCESS              *39850664362 (99.91%) [1 edit(s)] 
+14      SUCCESS               39887093139 (100.0%) [1 edit(s)] 
+15      SUCCESS               39885433106 (100.0%) [1 edit(s)] 
+16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+17      TEST_CODE_ERROR       None  [1 edit(s)]       
+18      SUCCESS               39885442545 (100.0%) [1 edit(s)] 
+19      SUCCESS               39885442545 (100.0%) [1 edit(s)] 
+20      SUCCESS              *29393146255 (73.69%) [1 edit(s)] 
+21      SUCCESS               39883128979 (99.99%) [1 edit(s)] 
+22      SUCCESS               39548239634 (99.15%) [1 edit(s)] 
+23      TEST_CODE_ERROR       None  [1 edit(s)]       
+24      TEST_CODE_ERROR       None  [1 edit(s)]       
+25      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+26      SUCCESS               39885427462 (100.0%) [1 edit(s)] 
+27      SUCCESS               39885711214 (100.0%) [1 edit(s)] 
+28      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+29      SUCCESS               39884034896 (100.0%) [1 edit(s)] 
+30      TEST_CODE_ERROR       None  [1 edit(s)]       
+31      SUCCESS               39884034896 (100.0%) [1 edit(s)] 
+32      TEST_TIMEOUT          None  [1 edit(s)]       
+33      SUCCESS               39885421573 (100.0%) [1 edit(s)] 
+34      SUCCESS               39885421573 (100.0%) [1 edit(s)] 
+35      SUCCESS               39877623482 (99.98%) [1 edit(s)] 
+36      TEST_CODE_ERROR       None  [1 edit(s)]       
+37      SUCCESS               57150682803 (143.29%) [1 edit(s)] 
+38      SUCCESS               39885426834 (100.0%) [1 edit(s)] 
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      SUCCESS               39882771254 (99.99%) [1 edit(s)] 
+41      SUCCESS               39884034896 (100.0%) [1 edit(s)] 
+42      TEST_CODE_ERROR       None  [1 edit(s)]       
+43      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+44      SUCCESS               39881923456 (99.99%) [1 edit(s)] 
+45      SUCCESS               39885443014 (100.0%) [1 edit(s)] 
+46      TEST_TIMEOUT          None  [1 edit(s)]       
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706048571.log
+Patch file: _magpie_logs/minisat_1706048571.patch
+Diff file: _magpie_logs/minisat_1706048571.diff
+Best fitness: 29393146255
+Best patch: ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 136))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -738,7 +738,7 @@
+                 CRef cr = ca.alloc(learnt_clause, true);
+                 learnts.push(cr);
+                 attachClause(cr);
+-                claBumpActivity(ca[cr]);
++                
+                 uncheckedEnqueue(learnt_clause[0], cr);
+             }
+ 
+
+==== WARMUP ====
+WARM    SUCCESS               39885428557             
+WARM    SUCCESS               39885406825             
+WARM    SUCCESS               39885433957             
+WARM    SUCCESS               39885420077             
+WARM    SUCCESS               39885433686             
+WARM    SUCCESS               39885432237             
+WARM    SUCCESS               39885427843             
+WARM    SUCCESS               39885433842             
+WARM    SUCCESS               39885426959             
+WARM    SUCCESS               39885433729             
+INITIAL SUCCESS               39885432237             
+==== START: RandomSearch ====
+1       TEST_TIMEOUT          None  [1 edit(s)]       
+2       SUCCESS               40565837173 (101.71%) [1 edit(s)] 
+3       SUCCESS               39885432351 (100.0%) [1 edit(s)] 
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       SUCCESS               39885433648 (100.0%) [1 edit(s)] 
+9       TEST_CODE_ERROR       None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      TEST_CODE_ERROR       None  [1 edit(s)]       
+14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+15      TEST_CODE_ERROR       None  [1 edit(s)]       
+16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+17      SUCCESS               39885434747 (100.0%) [1 edit(s)] 
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+21      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+22      SUCCESS               46165511523 (115.75%) [1 edit(s)] 
+23      SUCCESS               57435174836 (144.0%) [1 edit(s)] 
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      SUCCESS              *33831744315 (84.82%) [1 edit(s)] 
+26      SUCCESS               39851328223 (99.91%) [1 edit(s)] 
+27      SUCCESS               39885362685 (100.0%) [1 edit(s)] 
+28      TEST_CODE_ERROR       None  [1 edit(s)]       
+29      SUCCESS               39884061634 (100.0%) [1 edit(s)] 
+30      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      TEST_CODE_ERROR       None  [1 edit(s)]       
+33      SUCCESS               39885434599 (100.0%) [1 edit(s)] 
+34      SUCCESS               39884067867 (100.0%) [1 edit(s)] 
+35      TEST_TIMEOUT          None  [1 edit(s)]       
+36      SUCCESS               39885424633 (100.0%) [1 edit(s)] 
+37      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+38      SUCCESS               39885422811 (100.0%) [1 edit(s)] 
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      SUCCESS               59712187401 (149.71%) [1 edit(s)] 
+41      SUCCESS               40597946907 (101.79%) [1 edit(s)] 
+42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+43      SUCCESS               39885421954 (100.0%) [1 edit(s)] 
+44      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+45      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+46      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+47      TEST_CODE_ERROR       None  [1 edit(s)]       
+48      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+49      TEST_CODE_ERROR       None  [1 edit(s)]       
+50      SUCCESS               39885421617 (100.0%) [1 edit(s)] 
+51      SUCCESS               39885356115 (100.0%) [1 edit(s)] 
+52      TEST_CODE_ERROR       None  [1 edit(s)]       
+53      SUCCESS               39885428252 (100.0%) [1 edit(s)] 
+54      SUCCESS               39885421381 (100.0%) [1 edit(s)] 
+55      TEST_CODE_ERROR       None  [1 edit(s)]       
+56      SUCCESS               39885430462 (100.0%) [1 edit(s)] 
+57      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+58      SUCCESS               39885434599 (100.0%) [1 edit(s)] 
+59      SUCCESS               49941835446 (125.21%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706049389.log
+Patch file: _magpie_logs/minisat_1706049389.patch
+Diff file: _magpie_logs/minisat_1706049389.diff
+Best fitness: 33831744315
+Best patch: IfDeletion(('core/Solver.cc.xml', 'if', 45))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -745,19 +745,7 @@
+             varDecayActivity();
+             claDecayActivity();
+ 
+-            if (--learntsize_adjust_cnt == 0){
+-                learntsize_adjust_confl *= learntsize_adjust_inc;
+-                learntsize_adjust_cnt    = (int)learntsize_adjust_confl;
+-                max_learnts             *= learntsize_inc;
+-
+-                if (verbosity >= 1)
+-                    /*auto*/{
+-                        printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
+-                           (int)conflicts, 
+-                           (int)dec_vars - (trail_lim.size() == 0 ? trail.size() : trail_lim[0]), nClauses(), (int)clauses_literals, 
+-                           (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100);
+-                    }/*auto*/
+-            }
++            
+ 
+         }else{
+             // NO CONFLICT
+
+==== WARMUP ====
+WARM    SUCCESS               39885420713             
+WARM    SUCCESS               39885421778             
+WARM    SUCCESS               39885413442             
+WARM    SUCCESS               39885421626             
+WARM    SUCCESS               39885420472             
+WARM    SUCCESS               39885428615             
+WARM    SUCCESS               39885414671             
+WARM    SUCCESS               39885422153             
+WARM    SUCCESS               39885422502             
+WARM    SUCCESS               39885428323             
+INITIAL SUCCESS               39885421778             
+==== START: RandomSearch ====
+1       TEST_CODE_ERROR       None  [1 edit(s)]       
+2       TEST_CODE_ERROR       None  [1 edit(s)]       
+3       SUCCESS               39885427997 (100.0%) [1 edit(s)] 
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       SUCCESS               41030322376 (102.87%) [1 edit(s)] 
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      SUCCESS              *39885414769 (100.0%) [1 edit(s)] 
+14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+15      SUCCESS               39885431970 (100.0%) [1 edit(s)] 
+16      SUCCESS               39885421629 (100.0%) [1 edit(s)] 
+17      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+21      SUCCESS               39885422045 (100.0%) [1 edit(s)] 
+22      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+23      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      SUCCESS               39885427162 (100.0%) [1 edit(s)] 
+26      SUCCESS              *39885402339 (100.0%) [1 edit(s)] 
+27      SUCCESS              *39884825503 (100.0%) [1 edit(s)] 
+28      SUCCESS               39885408571 (100.0%) [1 edit(s)] 
+29      SUCCESS               48080685566 (120.55%) [1 edit(s)] 
+30      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+31      SUCCESS               39885418223 (100.0%) [1 edit(s)] 
+32      SUCCESS               39885375286 (100.0%) [1 edit(s)] 
+33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+34      SUCCESS               39885427931 (100.0%) [1 edit(s)] 
+35      SUCCESS               39885416969 (100.0%) [1 edit(s)] 
+==== END ====
+Traceback (most recent call last):
+  File "/opt/Python/Python-3.10.1/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/opt/Python/Python-3.10.1/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/cs/student/ug/2020/damibose/projects/magpie/bin/local_search.py", line 54, in <module>
+    protocol.run()
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/bin/protocol.py", line 162, in run
+    self.search.run()
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/algo/local_search.py", line 38, in run
+    current_patch, current_fitness = self.explore(current_patch, current_fitness)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/algo/local_search.py", line 130, in explore
+    self.hook_evaluation(patch, run, False, best)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/bin/algorithm.py", line 89, in hook_evaluation
+    self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, self.report['initial_fitness'], run) # TODO: Change to use the previous fitness for other algorithms. Maybe incorporate the patch as a whole to contain this info. As in the patch contains info about the previous patch, creating a linked list of sorts. Major refactoring needed though. 
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/base/operator_selector.py", line 143, in update_quality
+    super().update_quality(operator, initial_fitness, run)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/base/operator_selector.py", line 45, in update_quality
+    reward = calculate_reward(initial_fitness, run)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/base/operator_selector.py", line 23, in calculate_reward
+    return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
+TypeError: unsupported operand type(s) for /: 'int' and 'NoneType'
+==== WARMUP ====
+WARM    SUCCESS               50339143450             
+WARM    SUCCESS               50339148021             
+WARM    SUCCESS               50339148831             
+WARM    SUCCESS               50339149681             
+WARM    SUCCESS               50339135105             
+WARM    SUCCESS               50339148846             
+WARM    SUCCESS               50339151022             
+WARM    SUCCESS               50339148175             
+WARM    SUCCESS               50339148673             
+WARM    SUCCESS               50339154078             
+INITIAL SUCCESS               50339148831             
+==== START: RandomSearch ====
+1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2       TEST_CODE_ERROR       None  [1 edit(s)]       
+3       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      TEST_CODE_ERROR       None  [1 edit(s)]       
+12      SUCCESS              *50339135570 (100.0%) [1 edit(s)] 
+13      SUCCESS              *50339114709 (100.0%) [1 edit(s)] 
+14      SUCCESS               50339134108 (100.0%) [1 edit(s)] 
+15      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+17      TEST_CODE_ERROR       None  [1 edit(s)]       
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      SUCCESS               50339147668 (100.0%) [1 edit(s)] 
+21      TEST_CODE_ERROR       None  [1 edit(s)]       
+22      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+23      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      SUCCESS               50339128693 (100.0%) [1 edit(s)] 
+26      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+27      SUCCESS               50339139995 (100.0%) [1 edit(s)] 
+28      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+29      SUCCESS               50339147901 (100.0%) [1 edit(s)] 
+30      SUCCESS               52010573642 (103.32%) [1 edit(s)] 
+31      SUCCESS               52104714229 (103.51%) [1 edit(s)] 
+32      SUCCESS              *44463079967 (88.33%) [1 edit(s)] 
+33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+34      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+35      SUCCESS               50339150131 (100.0%) [1 edit(s)] 
+36      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+37      SUCCESS               48467925015 (96.28%) [1 edit(s)] 
+38      SUCCESS               50339143250 (100.0%) [1 edit(s)] 
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      SUCCESS               50339143627 (100.0%) [1 edit(s)] 
+41      SUCCESS               50339153564 (100.0%) [1 edit(s)] 
+42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+43      SUCCESS               50339056905 (100.0%) [1 edit(s)] 
+44      SUCCESS               50326509733 (99.97%) [1 edit(s)] 
+45      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+46      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+47      TEST_CODE_ERROR       None  [1 edit(s)]       
+48      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+49      TEST_CODE_ERROR       None  [1 edit(s)]       
+50      SUCCESS               50339143626 (100.0%) [1 edit(s)] 
+51      SUCCESS               69263316231 (137.59%) [1 edit(s)] 
+52      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+53      SUCCESS               52101511357 (103.5%) [1 edit(s)] 
+54      SUCCESS               58262880400 (115.74%) [1 edit(s)] 
+55      SUCCESS               50337166221 (100.0%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706050775.log
+Patch file: _magpie_logs/minisat_1706050775.patch
+Diff file: _magpie_logs/minisat_1706050775.diff
+Best fitness: 44463079967
+Best patch: ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 118))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -656,7 +656,7 @@
+                 vs.push(v);
+             }/*auto*/
+         }/*auto*/
+-    order_heap.build(vs);
++    
+ }
+ 
+ 
+
+==== WARMUP ====
+WARM    SUCCESS               50339150665             
+WARM    SUCCESS               50339136099             
+WARM    SUCCESS               50339147839             
+WARM    SUCCESS               50339148280             
+WARM    SUCCESS               50339148842             
+WARM    SUCCESS               50339142679             
+WARM    SUCCESS               50339141196             
+WARM    SUCCESS               50339135143             
+WARM    SUCCESS               50339143056             
+WARM    SUCCESS               50339153563             
+INITIAL SUCCESS               50339147839             
+==== START: RandomSearch ====
+1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+3       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+4       SUCCESS              *50339147623 (100.0%) [1 edit(s)] 
+5       SUCCESS              *50339058671 (100.0%) [1 edit(s)] 
+6       TEST_CODE_ERROR       None  [1 edit(s)]       
+7       TEST_CODE_ERROR       None  [1 edit(s)]       
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       SUCCESS              *42870706313 (85.16%) [1 edit(s)] 
+10      SUCCESS               50327022247 (99.98%) [1 edit(s)] 
+11      SUCCESS               50335333621 (99.99%) [1 edit(s)] 
+12      SUCCESS               50339151555 (100.0%) [1 edit(s)] 
+13      TEST_CODE_ERROR       None  [1 edit(s)]       
+14      TEST_CODE_ERROR       None  [1 edit(s)]       
+15      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+16      SUCCESS               50339147239 (100.0%) [1 edit(s)] 
+17      SUCCESS               50339155220 (100.0%) [1 edit(s)] 
+18      SUCCESS               50339148732 (100.0%) [1 edit(s)] 
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      SUCCESS               50339147360 (100.0%) [1 edit(s)] 
+21      SUCCESS               50339112179 (100.0%) [1 edit(s)] 
+22      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+23      SUCCESS               50339147360 (100.0%) [1 edit(s)] 
+24      SUCCESS              *35719213255 (70.96%) [1 edit(s)] 
+25      SUCCESS               50339112179 (100.0%) [1 edit(s)] 
+26      SUCCESS               50339153041 (100.0%) [1 edit(s)] 
+27      SUCCESS               50339155220 (100.0%) [1 edit(s)] 
+28      SUCCESS               50339148732 (100.0%) [1 edit(s)] 
+29      SUCCESS               50339148732 (100.0%) [1 edit(s)] 
+30      SUCCESS               50338401912 (100.0%) [1 edit(s)] 
+31      SUCCESS               50339147102 (100.0%) [1 edit(s)] 
+32      SUCCESS               52105196993 (103.51%) [1 edit(s)] 
+33      SUCCESS               52105196993 (103.51%) [1 edit(s)] 
+34      TEST_TIMEOUT          None  [1 edit(s)]       
+35      TEST_TIMEOUT          None  [1 edit(s)]       
+36      SUCCESS               50339113205 (100.0%) [1 edit(s)] 
+37      SUCCESS               50339141141 (100.0%) [1 edit(s)] 
+38      TEST_TIMEOUT          None  [1 edit(s)]       
+39      SUCCESS               50339141141 (100.0%) [1 edit(s)] 
+40      TEST_CODE_ERROR       None  [1 edit(s)]       
+41      SUCCESS               50339123549 (100.0%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706051649.log
+Patch file: _magpie_logs/minisat_1706051649.patch
+Diff file: _magpie_logs/minisat_1706051649.diff
+Best fitness: 35719213255
+Best patch: ReturnDeletion(('core/Solver.cc.xml', 'return', 13))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -602,7 +602,7 @@
+     ClauseAllocator& ca;
+     reduceDB_lt(ClauseAllocator& ca_) : ca(ca_) {}
+     bool operator () (CRef x, CRef y) { 
+-        return ca[x].size() > 2 && (ca[y].size() == 2 || ca[x].activity() < ca[y].activity()); } 
++         } 
+ };
+ void Solver::reduceDB()
+ {
+
+==== WARMUP ====
+WARM    SUCCESS               50339146453             
+WARM    SUCCESS               50339143220             
+WARM    SUCCESS               50339154463             
+WARM    SUCCESS               50339155343             
+WARM    SUCCESS               50339147006             
+WARM    SUCCESS               50339167626             
+WARM    SUCCESS               50339165894             
+WARM    SUCCESS               50339148927             
+WARM    SUCCESS               50339156426             
+WARM    SUCCESS               50339153176             
+INITIAL SUCCESS               50339154463             
+==== START: RandomSearch ====
+1       SUCCESS              *50339154421 (100.0%) [1 edit(s)] 
+2       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+3       TEST_CODE_ERROR       None  [1 edit(s)]       
+4       TEST_CODE_ERROR       None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       TEST_CODE_ERROR       None  [1 edit(s)]       
+10      TEST_CODE_ERROR       None  [1 edit(s)]       
+11      SUCCESS              *50338393723 (100.0%) [1 edit(s)] 
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      SUCCESS               50339149180 (100.0%) [1 edit(s)] 
+14      SUCCESS               50339148836 (100.0%) [1 edit(s)] 
+15      SUCCESS               50339125925 (100.0%) [1 edit(s)] 
+16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+17      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      SUCCESS               50339154421 (100.0%) [1 edit(s)] 
+20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+21      SUCCESS               69486784564 (138.04%) [1 edit(s)] 
+22      SUCCESS               59735648550 (118.67%) [1 edit(s)] 
+23      SUCCESS              *49912357682 (99.15%) [1 edit(s)] 
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      SUCCESS               50386409257 (100.09%) [1 edit(s)] 
+26      SUCCESS               50339148103 (100.0%) [1 edit(s)] 
+27      SUCCESS               50339148836 (100.0%) [1 edit(s)] 
+28      SUCCESS               50339153464 (100.0%) [1 edit(s)] 
+29      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+30      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      SUCCESS               50339160063 (100.0%) [1 edit(s)] 
+33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+==== END ====
+Traceback (most recent call last):
+  File "/opt/Python/Python-3.10.1/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/opt/Python/Python-3.10.1/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/cs/student/ug/2020/damibose/projects/magpie/bin/local_search.py", line 54, in <module>
+    protocol.run()
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/bin/protocol.py", line 162, in run
+    self.search.run()
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/algo/local_search.py", line 38, in run
+    current_patch, current_fitness = self.explore(current_patch, current_fitness)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/algo/local_search.py", line 130, in explore
+    self.hook_evaluation(patch, run, False, best)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/bin/algorithm.py", line 89, in hook_evaluation
+    self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, self.report['initial_fitness'], run) # TODO: Change to use the previous fitness for other algorithms. Maybe incorporate the patch as a whole to contain this info. As in the patch contains info about the previous patch, creating a linked list of sorts. Major refactoring needed though. 
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/base/operator_selector.py", line 114, in update_quality
+    super().update_quality(operator, initial_fitness, run)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/base/operator_selector.py", line 45, in update_quality
+    reward = calculate_reward(initial_fitness, run)
+  File "/cs/student/ug/2020/damibose/projects/magpie/magpie/base/operator_selector.py", line 23, in calculate_reward
+    return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
+TypeError: unsupported operand type(s) for /: 'int' and 'NoneType'
+==== WARMUP ====
+WARM    SUCCESS               50339147682             
+WARM    SUCCESS               50339147537             
+WARM    SUCCESS               50339155391             
+WARM    SUCCESS               50339153650             
+WARM    SUCCESS               50339156959             
+WARM    SUCCESS               50339153970             
+WARM    SUCCESS               50339156857             
+WARM    SUCCESS               50339154194             
+WARM    SUCCESS               50339148367             
+WARM    SUCCESS               50339155901             
+INITIAL SUCCESS               50339154194             
+==== START: RandomSearch ====
+1       SUCCESS               50339154582 (100.0%) [1 edit(s)] 
+2       TEST_CODE_ERROR       None  [1 edit(s)]       
+3       SUCCESS              *50339064773 (100.0%) [1 edit(s)] 
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       SUCCESS               50339148411 (100.0%) [1 edit(s)] 
+9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      TEST_CODE_ERROR       None  [1 edit(s)]       
+14      SUCCESS               50339153793 (100.0%) [1 edit(s)] 
+15      TEST_CODE_ERROR       None  [1 edit(s)]       
+16      SUCCESS               50339146670 (100.0%) [1 edit(s)] 
+17      SUCCESS               50339153756 (100.0%) [1 edit(s)] 
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      TEST_CODE_ERROR       None  [1 edit(s)]       
+20      TEST_CODE_ERROR       None  [1 edit(s)]       
+21      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+22      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+23      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+24      SUCCESS               50339156647 (100.0%) [1 edit(s)] 
+25      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+26      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+27      SUCCESS               56907918128 (113.05%) [1 edit(s)] 
+28      SUCCESS               50339154582 (100.0%) [1 edit(s)] 
+29      SUCCESS               50339147174 (100.0%) [1 edit(s)] 
+30      SUCCESS               50339149448 (100.0%) [1 edit(s)] 
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      TEST_TIMEOUT          None  [1 edit(s)]       
+33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+34      SUCCESS              *50334408738 (99.99%) [1 edit(s)] 
+35      SUCCESS              *47523806085 (94.41%) [1 edit(s)] 
+36      TEST_CODE_ERROR       None  [1 edit(s)]       
+37      SUCCESS               50339155107 (100.0%) [1 edit(s)] 
+38      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+39      TEST_CODE_ERROR       None  [1 edit(s)]       
+40      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+41      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+43      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+44      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+45      SUCCESS               50339155271 (100.0%) [1 edit(s)] 
+46      SUCCESS               50339147864 (100.0%) [1 edit(s)] 
+47      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+48      SUCCESS               50339140676 (100.0%) [1 edit(s)] 
+49      SUCCESS               52104696796 (103.51%) [1 edit(s)] 
+50      SUCCESS               50343276841 (100.01%) [1 edit(s)] 
+51      SUCCESS               50339153359 (100.0%) [1 edit(s)] 
+52      SUCCESS               50339129103 (100.0%) [1 edit(s)] 
+53      TEST_CODE_ERROR       None  [1 edit(s)]       
+54      SUCCESS               50339147864 (100.0%) [1 edit(s)] 
+55      SUCCESS              *35719211940 (70.96%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706053118.log
+Patch file: _magpie_logs/minisat_1706053118.patch
+Diff file: _magpie_logs/minisat_1706053118.diff
+Best fitness: 35719211940
+Best patch: ReturnDeletion(('core/Solver.cc.xml', 'return', 13))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -602,7 +602,7 @@
+     ClauseAllocator& ca;
+     reduceDB_lt(ClauseAllocator& ca_) : ca(ca_) {}
+     bool operator () (CRef x, CRef y) { 
+-        return ca[x].size() > 2 && (ca[y].size() == 2 || ca[x].activity() < ca[y].activity()); } 
++         } 
+ };
+ void Solver::reduceDB()
+ {
+
+==== WARMUP ====
+WARM    SUCCESS               40520066287             
+WARM    SUCCESS               40520060774             
+WARM    SUCCESS               40520066682             
+WARM    SUCCESS               40520065621             
+WARM    SUCCESS               40520060056             
+WARM    SUCCESS               40520047196             
+WARM    SUCCESS               40520072015             
+WARM    SUCCESS               40520072295             
+WARM    SUCCESS               40520072874             
+WARM    SUCCESS               40520072850             
+INITIAL SUCCESS               40520066682             
+==== START: RandomSearch ====
+1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2       TEST_CODE_ERROR       None  [1 edit(s)]       
+3       TEST_CODE_ERROR       None  [1 edit(s)]       
+4       SUCCESS               44110901825 (108.86%) [1 edit(s)] 
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       SUCCESS               40520072689 (100.0%) [1 edit(s)] 
+7       SUCCESS              *40520060145 (100.0%) [1 edit(s)] 
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       TEST_CODE_ERROR       None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      SUCCESS               40520071462 (100.0%) [1 edit(s)] 
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+14      TEST_CODE_ERROR       None  [1 edit(s)]       
+15      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+17      SUCCESS               40520071102 (100.0%) [1 edit(s)] 
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      TEST_CODE_ERROR       None  [1 edit(s)]       
+20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+21      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+22      TEST_CODE_ERROR       None  [1 edit(s)]       
+23      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+26      SUCCESS              *40517270719 (99.99%) [1 edit(s)] 
+27      SUCCESS               40520060303 (100.0%) [1 edit(s)] 
+28      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+29      SUCCESS               40519426929 (100.0%) [1 edit(s)] 
+30      SUCCESS               40520072064 (100.0%) [1 edit(s)] 
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+33      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+34      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+35      SUCCESS              *40516981526 (99.99%) [1 edit(s)] 
+36      TEST_CODE_ERROR       None  [1 edit(s)]       
+37      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+38      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      SUCCESS               41115970182 (101.47%) [1 edit(s)] 
+41      SUCCESS               40520072732 (100.0%) [1 edit(s)] 
+42      SUCCESS               41273042589 (101.86%) [1 edit(s)] 
+43      TEST_CODE_ERROR       None  [1 edit(s)]       
+44      TEST_TIMEOUT          None  [1 edit(s)]       
+45      SUCCESS               40520073412 (100.0%) [1 edit(s)] 
+46      SUCCESS               40519430185 (100.0%) [1 edit(s)] 
+47      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+48      SUCCESS               40520060730 (100.0%) [1 edit(s)] 
+49      SUCCESS               40538783791 (100.05%) [1 edit(s)] 
+50      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+51      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+52      SUCCESS               41115970182 (101.47%) [1 edit(s)] 
+53      SUCCESS               40701563248 (100.45%) [1 edit(s)] 
+54      SUCCESS               41622464891 (102.72%) [1 edit(s)] 
+55      SUCCESS               40520059003 (100.0%) [1 edit(s)] 
+56      SUCCESS              *40176719186 (99.15%) [1 edit(s)] 
+57      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+58      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+59      SUCCESS               41115970182 (101.47%) [1 edit(s)] 
+60      SUCCESS               40520072573 (100.0%) [1 edit(s)] 
+61      SUCCESS               40520073091 (100.0%) [1 edit(s)] 
+62      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+63      SUCCESS              *35136160283 (86.71%) [1 edit(s)] 
+64      SUCCESS               40520072305 (100.0%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706053992.log
+Patch file: _magpie_logs/minisat_1706053992.patch
+Diff file: _magpie_logs/minisat_1706053992.diff
+Best fitness: 35136160283
+Best patch: ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 163))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -872,7 +872,7 @@
+ 
+     max_learnts               = nClauses() * learntsize_factor;
+     learntsize_adjust_confl   = learntsize_adjust_start_confl;
+-    learntsize_adjust_cnt     = (int)learntsize_adjust_confl;
++    
+     lbool   status            = l_Undef;
+ 
+     if (verbosity >= 1){
+
+==== WARMUP ====
+WARM    SUCCESS               40520064918             
+WARM    SUCCESS               40520071290             
+WARM    SUCCESS               40520065890             
+WARM    SUCCESS               40520071474             
+WARM    SUCCESS               40520071523             
+WARM    SUCCESS               40520064443             
+WARM    SUCCESS               40520065074             
+WARM    SUCCESS               40520065854             
+WARM    SUCCESS               40520072919             
+WARM    SUCCESS               40520071115             
+INITIAL SUCCESS               40520071115             
+==== START: RandomSearch ====
+1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+3       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+4       TEST_CODE_ERROR       None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+12      TEST_CODE_ERROR       None  [1 edit(s)]       
+13      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+15      SUCCESS              *40520064681 (100.0%) [1 edit(s)] 
+16      TEST_CODE_ERROR       None  [1 edit(s)]       
+17      SUCCESS               40520111168 (100.0%) [1 edit(s)] 
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      SUCCESS               114642751597 (282.93%) [1 edit(s)] 
+21      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+22      TEST_CODE_ERROR       None  [1 edit(s)]       
+23      TEST_CODE_ERROR       None  [1 edit(s)]       
+24      TEST_CODE_ERROR       None  [1 edit(s)]       
+25      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+26      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+27      SUCCESS              *40520060074 (100.0%) [1 edit(s)] 
+28      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+29      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+30      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+33      SUCCESS               40520065586 (100.0%) [1 edit(s)] 
+34      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+35      SUCCESS              *35541198929 (87.71%) [1 edit(s)] 
+36      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+37      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+38      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+41      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+43      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+44      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+45      SUCCESS               40520074806 (100.0%) [1 edit(s)] 
+46      SUCCESS               40520073039 (100.0%) [1 edit(s)] 
+47      SUCCESS               40526240470 (100.02%) [1 edit(s)] 
+48      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+49      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+50      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+51      SUCCESS               40520065306 (100.0%) [1 edit(s)] 
+52      SUCCESS               55704296986 (137.47%) [1 edit(s)] 
+53      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+54      TEST_CODE_ERROR       None  [1 edit(s)]       
+55      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+56      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+57      TEST_CODE_ERROR       None  [1 edit(s)]       
+58      SUCCESS               45570164609 (112.46%) [1 edit(s)] 
+59      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+60      SUCCESS               40520058821 (100.0%) [1 edit(s)] 
+61      SUCCESS               47278845873 (116.68%) [1 edit(s)] 
+62      SUCCESS               40520090141 (100.0%) [1 edit(s)] 
+63      TEST_CODE_ERROR       None  [1 edit(s)]       
+64      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+65      SUCCESS               40520105584 (100.0%) [1 edit(s)] 
+66      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+67      SUCCESS               41402671379 (102.18%) [1 edit(s)] 
+68      SUCCESS               40520039081 (100.0%) [1 edit(s)] 
+69      TEST_CODE_ERROR       None  [1 edit(s)]       
+70      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+71      SUCCESS               40537589530 (100.04%) [1 edit(s)] 
+72      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+73      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+74      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+75      SUCCESS               48985114908 (120.89%) [1 edit(s)] 
+76      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+77      SUCCESS               40520072685 (100.0%) [1 edit(s)] 
+78      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+79      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+80      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+81      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+82      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+83      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+84      SUCCESS               40520039081 (100.0%) [1 edit(s)] 
+85      TEST_CODE_ERROR       None  [1 edit(s)]       
+86      TEST_CODE_ERROR       None  [1 edit(s)]       
+87      SUCCESS               40520071763 (100.0%) [1 edit(s)] 
+88      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+89      TEST_CODE_ERROR       None  [1 edit(s)]       
+90      SUCCESS               40520071763 (100.0%) [1 edit(s)] 
+91      TEST_CODE_ERROR       None  [1 edit(s)]       
+92      SUCCESS               40520072106 (100.0%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706054821.log
+Patch file: _magpie_logs/minisat_1706054821.patch
+Diff file: _magpie_logs/minisat_1706054821.diff
+Best fitness: 35541198929
+Best patch: ExprStmtInsertion(('core/Solver.cc.xml', '_inter_block', 44), ('core/Solver.cc.xml', 'expr_stmt', 141))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -172,6 +172,7 @@
+ void Solver::attachClause(CRef cr) {
+     const Clause& c = ca[cr];
+     assert(c.size() > 1);
++    learntsize_adjust_cnt    = (int)learntsize_adjust_confl;
+     watches[~c[0]].push(Watcher(cr, c[1]));
+     watches[~c[1]].push(Watcher(cr, c[0]));
+     if (c.learnt()) /*auto*/{
+
+==== WARMUP ====
+WARM    SUCCESS               40520058300             
+WARM    SUCCESS               40520073112             
+WARM    SUCCESS               40520072195             
+WARM    SUCCESS               40520066813             
+WARM    SUCCESS               40520071436             
+WARM    SUCCESS               40520072297             
+WARM    SUCCESS               40520064106             
+WARM    SUCCESS               40520067319             
+WARM    SUCCESS               40520064677             
+WARM    SUCCESS               40520072085             
+INITIAL SUCCESS               40520071436             
+==== START: RandomSearch ====
+1       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+3       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       TEST_CODE_ERROR       None  [1 edit(s)]       
+9       TEST_CODE_ERROR       None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+15      SUCCESS               41622455484 (102.72%) [1 edit(s)] 
+16      SUCCESS               40521488238 (100.0%) [1 edit(s)] 
+17      SUCCESS              *40520070935 (100.0%) [1 edit(s)] 
+18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      SUCCESS              *40520052469 (100.0%) [1 edit(s)] 
+21      TEST_TIMEOUT          None  [1 edit(s)]       
+22      SUCCESS               40520059202 (100.0%) [1 edit(s)] 
+23      SUCCESS              *35533864823 (87.69%) [1 edit(s)] 
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      SUCCESS               40520066417 (100.0%) [1 edit(s)] 
+26      SUCCESS               40520066460 (100.0%) [1 edit(s)] 
+27      SUCCESS               46331581876 (114.34%) [1 edit(s)] 
+28      RUN_TIMEOUT           None  [1 edit(s)]       
+29      SUCCESS               40520045899 (100.0%) [1 edit(s)] 
+30      SUCCESS              *11911310880 (29.4%) [1 edit(s)] 
+31      SUCCESS               46331581876 (114.34%) [1 edit(s)] 
+32      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+33      SUCCESS               40521488238 (100.0%) [1 edit(s)] 
+34      TEST_CODE_ERROR       None  [1 edit(s)]       
+35      SUCCESS               40692973244 (100.43%) [1 edit(s)] 
+36      TEST_CODE_ERROR       None  [1 edit(s)]       
+37      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+38      SUCCESS               40520071400 (100.0%) [1 edit(s)] 
+39      SUCCESS               40520068649 (100.0%) [1 edit(s)] 
+40      TEST_CODE_ERROR       None  [1 edit(s)]       
+41      TEST_CODE_ERROR       None  [1 edit(s)]       
+42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+43      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+44      TEST_CODE_ERROR       None  [1 edit(s)]       
+45      TEST_CODE_ERROR       None  [1 edit(s)]       
+46      TEST_CODE_ERROR       None  [1 edit(s)]       
+47      TEST_CODE_ERROR       None  [1 edit(s)]       
+48      TEST_CODE_ERROR       None  [1 edit(s)]       
+49      SUCCESS               27009845839 (66.66%) [1 edit(s)] 
+50      SUCCESS               40520071598 (100.0%) [1 edit(s)] 
+51      TEST_CODE_ERROR       None  [1 edit(s)]       
+52      TEST_CODE_ERROR       None  [1 edit(s)]       
+53      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+54      SUCCESS               40520058448 (100.0%) [1 edit(s)] 
+55      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+56      TEST_CODE_ERROR       None  [1 edit(s)]       
+57      TEST_CODE_ERROR       None  [1 edit(s)]       
+58      SUCCESS               40520059691 (100.0%) [1 edit(s)] 
+59      SUCCESS               40516970615 (99.99%) [1 edit(s)] 
+60      TEST_CODE_ERROR       None  [1 edit(s)]       
+61      SUCCESS               43331499279 (106.94%) [1 edit(s)] 
+62      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+63      SUCCESS               35533853300 (87.69%) [1 edit(s)] 
+64      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+65      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+66      TEST_CODE_ERROR       None  [1 edit(s)]       
+67      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+68      TEST_CODE_ERROR       None  [1 edit(s)]       
+69      SUCCESS               40520048718 (100.0%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706055632.log
+Patch file: _magpie_logs/minisat_1706055632.patch
+Diff file: _magpie_logs/minisat_1706055632.diff
+Best fitness: 11911310880
+Best patch: IfDeletion(('core/Solver.cc.xml', 'if', 47))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -761,11 +761,7 @@
+ 
+         }else{
+             // NO CONFLICT
+-            if (nof_conflicts >= 0 && conflictC >= nof_conflicts || !withinBudget()){
+-                // Reached bound on number of conflicts:
+-                progress_estimate = progressEstimate();
+-                cancelUntil(0);
+-                return l_Undef; }
++            
+ 
+             // Simplify the set of problem clauses:
+             if (decisionLevel() == 0 && !simplify())
+
+==== WARMUP ====
+WARM    SUCCESS               40520059319             
+WARM    SUCCESS               40520060985             
+WARM    SUCCESS               40520066082             
+WARM    SUCCESS               40520059883             
+WARM    SUCCESS               40520066802             
+WARM    SUCCESS               40520065930             
+WARM    SUCCESS               40520060783             
+WARM    SUCCESS               40520047244             
+WARM    SUCCESS               40520060087             
+WARM    SUCCESS               40520060023             
+INITIAL SUCCESS               40520060783             
+==== START: RandomSearch ====
+1       SUCCESS              *40520054227 (100.0%) [1 edit(s)] 
+2       SUCCESS              *40482032823 (99.91%) [1 edit(s)] 
+3       TEST_CODE_ERROR       None  [1 edit(s)]       
+4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+5       TEST_CODE_ERROR       None  [1 edit(s)]       
+6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+8       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+9       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+11      SUCCESS               40520060438 (100.0%) [1 edit(s)] 
+12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+13      SUCCESS               40482032823 (99.91%) [1 edit(s)] 
+14      SUCCESS               40523433981 (100.01%) [1 edit(s)] 
+15      TEST_CODE_ERROR       None  [1 edit(s)]       
+16      SUCCESS               40520041860 (100.0%) [1 edit(s)] 
+17      SUCCESS              *22661160859 (55.93%) [1 edit(s)] 
+18      SUCCESS               40478682907 (99.9%) [1 edit(s)] 
+19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+21      SUCCESS               40520056172 (100.0%) [1 edit(s)] 
+22      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+23      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+25      TEST_CODE_ERROR       None  [1 edit(s)]       
+26      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+27      TEST_CODE_ERROR       None  [1 edit(s)]       
+28      SUCCESS               40518206097 (100.0%) [1 edit(s)] 
+29      TEST_CODE_ERROR       None  [1 edit(s)]       
+30      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+32      SUCCESS               40521490172 (100.0%) [1 edit(s)] 
+33      SUCCESS               41017141333 (101.23%) [1 edit(s)] 
+34      TEST_CODE_ERROR       None  [1 edit(s)]       
+35      SUCCESS               40520066471 (100.0%) [1 edit(s)] 
+36      SUCCESS               40519993119 (100.0%) [1 edit(s)] 
+37      SUCCESS               41109660660 (101.46%) [1 edit(s)] 
+38      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+40      SUCCESS               40520060603 (100.0%) [1 edit(s)] 
+41      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+43      SUCCESS               40520060272 (100.0%) [1 edit(s)] 
+44      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+45      TEST_CODE_ERROR       None  [1 edit(s)]       
+46      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+47      TEST_CODE_ERROR       None  [1 edit(s)]       
+48      SUCCESS               40512051756 (99.98%) [1 edit(s)] 
+49      SUCCESS               40598772925 (100.19%) [1 edit(s)] 
+50      SUCCESS               40520060541 (100.0%) [1 edit(s)] 
+51      TEST_CODE_ERROR       None  [1 edit(s)]       
+52      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+53      SUCCESS               40520058750 (100.0%) [1 edit(s)] 
+54      TEST_CODE_ERROR       None  [1 edit(s)]       
+55      SUCCESS               40520054743 (100.0%) [1 edit(s)] 
+56      SUCCESS               40522845482 (100.01%) [1 edit(s)] 
+57      TEST_TIMEOUT          None  [1 edit(s)]       
+58      SUCCESS               40520068201 (100.0%) [1 edit(s)] 
+59      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+60      SUCCESS               44110897709 (108.86%) [1 edit(s)] 
+==== END ====
+
+==== REPORT ====
+Termination: time budget
+Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706056457.log
+Patch file: _magpie_logs/minisat_1706056457.patch
+Diff file: _magpie_logs/minisat_1706056457.diff
+Best fitness: 22661160859
+Best patch: ReturnDeletion(('core/Solver.cc.xml', 'return', 13))
+Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -602,7 +602,7 @@
+     ClauseAllocator& ca;
+     reduceDB_lt(ClauseAllocator& ca_) : ca(ca_) {}
+     bool operator () (CRef x, CRef y) { 
+-        return ca[x].size() > 2 && (ca[y].size() == 2 || ca[x].activity() < ca[y].activity()); } 
++         } 
+ };
+ void Solver::reduceDB()
+ {
+

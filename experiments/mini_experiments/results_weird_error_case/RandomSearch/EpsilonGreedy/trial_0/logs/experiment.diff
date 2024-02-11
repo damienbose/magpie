@@ -1,0 +1,11 @@
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -738,7 +738,7 @@
+                 CRef cr = ca.alloc(learnt_clause, true);
+                 learnts.push(cr);
+                 attachClause(cr);
+-                claBumpActivity(ca[cr]);
++                
+                 uncheckedEnqueue(learnt_clause[0], cr);
+             }
+ 

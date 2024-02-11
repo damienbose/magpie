@@ -1,0 +1,998 @@
+2024-01-23 22:36:29,852	[DEBUG]	==== CONFIG ====
+[magpie]
+import = 
+seed = 0
+log_dir = _magpie_logs
+work_dir = _magpie_work
+final_out_dir = experiments/results/RandomSearch/ProbabilityMatching/trial_0
+local_original_copy = True
+local_original_name = __original__
+output_encoding = ascii
+edit_retries = 10
+default_timeout = 30
+default_lengthout = 1e6
+diff_method = unified
+trust_local_filesystem = True
+
+[software]
+path = examples/code/minisat
+target_files = 
+	core/Solver.cc.xml
+program = BasicProgram
+engine_rules = 
+	*.params : ConfigFileParamsEngine
+	*.xml : SrcmlEngine
+	* : LineEngine
+engine_config = 
+	*.params : [params]
+	*.xml : [srcml]
+init_cmd = 
+init_timeout = 60
+init_lengthout = -1
+setup_cmd = ./compile.sh
+setup_timeout = 
+setup_lengthout = 
+compile_cmd = ./compile.sh
+compile_timeout = 
+compile_lengthout = 
+test_cmd = ./test.sh
+test_timeout = 
+test_lengthout = 
+run_cmd = perf stat -e instructions ./run_single_with_code.sh {INST}
+run_timeout = 
+run_lengthout = 
+batch_timeout = 
+batch_lengthout = 
+batch_bin_fitness_strategy = aggregate
+batch_fitness_strategy = sum
+fitness = perf_instructions
+
+[srcml]
+rename = 
+focus = block break continue decl_stmt do expr_stmt for goto if return switch while
+internodes = block
+process_pseudo_blocks = True
+process_literals = False
+process_operators = False
+
+[params]
+timing = test run
+cli_prefix = --
+cli_glue = =
+cli_boolean = show
+cli_boolean_prefix_true = 
+cli_boolean_prefix_false = no-
+silent_prefix = @
+silent_suffix = $
+
+[search]
+protocol = BasicProtocol
+algorithm = RandomSearch
+possible_edits = 
+	DeclStmtReplacement
+	ExprStmtReplacement
+	IfReplacement
+	ReturnReplacement
+	DeclStmtInsertion
+	ExprStmtInsertion
+	IfInsertion
+	ReturnInsertion
+	DeclStmtDeletion
+	ExprStmtDeletion
+	IfDeletion
+	ReturnDeletion
+warmup = 10
+warmup_strategy = median
+max_steps = 
+max_time = 600
+target_fitness = 
+cache_maxsize = 40
+cache_keep = 0.2
+batch_instances = 
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT
+	___
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT
+	/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT
+batch_shuffle = True
+batch_bin_shuffle = False
+batch_sample_size = 20
+operator_selector = ProbabilityMatching
+p_min = 0.041666666666666664
+
+[search.ls]
+delete_prob = 0.5
+max_neighbours = 
+when_trapped = continue
+accept_fail = False
+tabu_length = 10
+
+[search.gp]
+pop_size = 10
+delete_prob = 0.5
+offspring_elitism = 0.1
+offspring_crossover = 0.5
+offspring_mutation = 0.4
+uniform_rate = 0.5
+batch_reset = True
+
+[search.minify]
+do_cleanup = True
+do_rebuild = True
+do_simplify = True
+round_robin_limit = 3
+
+
+2024-01-23 22:36:29,923	[INFO]	==== WARMUP ====
+2024-01-23 22:36:35,365	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581143
+2024-01-23 22:36:35,487	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5503031
+2024-01-23 22:36:35,601	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392241
+2024-01-23 22:36:35,718	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5736198
+2024-01-23 22:36:35,808	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009739
+2024-01-23 22:36:36,006	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298459
+2024-01-23 22:36:36,118	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483942
+2024-01-23 22:36:36,234	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086138
+2024-01-23 22:36:36,351	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700398
+2024-01-23 22:36:36,442	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804849
+2024-01-23 22:36:36,601	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910655
+2024-01-23 22:36:36,740	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944268
+2024-01-23 22:36:36,983	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359741043
+2024-01-23 22:36:37,103	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621017
+2024-01-23 22:36:37,628	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497469
+2024-01-23 22:36:38,220	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263012
+2024-01-23 22:36:38,780	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526947
+2024-01-23 22:36:39,010	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409419
+2024-01-23 22:36:46,245	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661560
+2024-01-23 22:36:55,290	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011257029
+2024-01-23 22:36:55,292	[INFO]	WARM    SUCCESS               39885428557             
+2024-01-23 22:36:55,702	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5574806
+2024-01-23 22:36:55,814	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5503053
+2024-01-23 22:36:55,921	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5385873
+2024-01-23 22:36:56,033	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5729476
+2024-01-23 22:36:56,147	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009441
+2024-01-23 22:36:56,260	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298021
+2024-01-23 22:36:56,384	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483784
+2024-01-23 22:36:56,498	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085843
+2024-01-23 22:36:56,615	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700231
+2024-01-23 22:36:56,728	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804485
+2024-01-23 22:36:56,856	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910435
+2024-01-23 22:36:56,981	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944314
+2024-01-23 22:36:57,235	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359741071
+2024-01-23 22:36:57,355	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620887
+2024-01-23 22:36:57,911	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497315
+2024-01-23 22:36:58,501	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263211
+2024-01-23 22:36:59,076	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527041
+2024-01-23 22:36:59,304	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409419
+2024-01-23 22:37:06,480	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661393
+2024-01-23 22:37:15,480	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256726
+2024-01-23 22:37:15,481	[INFO]	WARM    SUCCESS               39885406825             
+2024-01-23 22:37:15,861	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581220
+2024-01-23 22:37:15,993	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509356
+2024-01-23 22:37:16,095	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392331
+2024-01-23 22:37:16,207	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735718
+2024-01-23 22:37:16,317	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009471
+2024-01-23 22:37:16,431	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298450
+2024-01-23 22:37:16,544	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483782
+2024-01-23 22:37:16,660	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085872
+2024-01-23 22:37:16,770	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700460
+2024-01-23 22:37:16,882	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804798
+2024-01-23 22:37:17,023	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910704
+2024-01-23 22:37:17,164	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944367
+2024-01-23 22:37:17,412	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359741075
+2024-01-23 22:37:17,532	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620870
+2024-01-23 22:37:18,075	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497431
+2024-01-23 22:37:18,668	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263218
+2024-01-23 22:37:19,308	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526968
+2024-01-23 22:37:19,533	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409506
+2024-01-23 22:37:26,663	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661453
+2024-01-23 22:37:35,691	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256907
+2024-01-23 22:37:35,692	[INFO]	WARM    SUCCESS               39885433957             
+2024-01-23 22:37:36,084	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581225
+2024-01-23 22:37:36,207	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5503056
+2024-01-23 22:37:36,319	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392143
+2024-01-23 22:37:36,431	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5729477
+2024-01-23 22:37:36,544	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009468
+2024-01-23 22:37:36,657	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298368
+2024-01-23 22:37:36,774	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483947
+2024-01-23 22:37:36,884	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086058
+2024-01-23 22:37:37,001	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700491
+2024-01-23 22:37:37,120	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804416
+2024-01-23 22:37:37,255	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910694
+2024-01-23 22:37:37,379	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944303
+2024-01-23 22:37:37,649	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740977
+2024-01-23 22:37:37,752	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621084
+2024-01-23 22:37:38,285	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497474
+2024-01-23 22:37:38,875	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263036
+2024-01-23 22:37:39,443	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527095
+2024-01-23 22:37:39,674	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409258
+2024-01-23 22:37:46,838	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661499
+2024-01-23 22:37:54,990	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256008
+2024-01-23 22:37:54,992	[INFO]	WARM    SUCCESS               39885420077             
+2024-01-23 22:37:55,362	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581411
+2024-01-23 22:37:55,486	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509327
+2024-01-23 22:37:55,600	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392328
+2024-01-23 22:37:55,724	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735920
+2024-01-23 22:37:55,825	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009379
+2024-01-23 22:37:55,937	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298434
+2024-01-23 22:37:56,077	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483893
+2024-01-23 22:37:56,195	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085936
+2024-01-23 22:37:56,323	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700227
+2024-01-23 22:37:56,438	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804456
+2024-01-23 22:37:56,579	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910660
+2024-01-23 22:37:56,708	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944346
+2024-01-23 22:37:56,952	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740986
+2024-01-23 22:37:57,070	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621077
+2024-01-23 22:37:57,618	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497513
+2024-01-23 22:37:58,214	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263075
+2024-01-23 22:37:58,777	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527043
+2024-01-23 22:37:59,004	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409424
+2024-01-23 22:38:06,166	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661468
+2024-01-23 22:38:15,185	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256783
+2024-01-23 22:38:15,187	[INFO]	WARM    SUCCESS               39885433686             
+2024-01-23 22:38:15,575	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581002
+2024-01-23 22:38:15,686	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509388
+2024-01-23 22:38:15,790	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392470
+2024-01-23 22:38:15,895	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735797
+2024-01-23 22:38:16,008	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009193
+2024-01-23 22:38:16,121	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298156
+2024-01-23 22:38:16,246	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483895
+2024-01-23 22:38:16,361	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086087
+2024-01-23 22:38:16,477	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700284
+2024-01-23 22:38:16,589	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804428
+2024-01-23 22:38:16,725	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910687
+2024-01-23 22:38:16,868	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944250
+2024-01-23 22:38:17,132	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359741092
+2024-01-23 22:38:17,248	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620958
+2024-01-23 22:38:17,797	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497250
+2024-01-23 22:38:18,393	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047262867
+2024-01-23 22:38:18,952	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527094
+2024-01-23 22:38:19,177	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409441
+2024-01-23 22:38:26,647	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661813
+2024-01-23 22:38:34,789	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256085
+2024-01-23 22:38:34,790	[INFO]	WARM    SUCCESS               39885432237             
+2024-01-23 22:38:35,150	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581280
+2024-01-23 22:38:35,276	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509464
+2024-01-23 22:38:35,387	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5385881
+2024-01-23 22:38:35,509	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5736100
+2024-01-23 22:38:35,621	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009594
+2024-01-23 22:38:35,741	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298171
+2024-01-23 22:38:35,860	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483899
+2024-01-23 22:38:35,970	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086095
+2024-01-23 22:38:36,086	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700275
+2024-01-23 22:38:36,192	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804686
+2024-01-23 22:38:36,330	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910593
+2024-01-23 22:38:36,471	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944295
+2024-01-23 22:38:36,742	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740889
+2024-01-23 22:38:36,867	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621004
+2024-01-23 22:38:37,455	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497238
+2024-01-23 22:38:37,988	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263234
+2024-01-23 22:38:38,611	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526826
+2024-01-23 22:38:38,848	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409482
+2024-01-23 22:38:46,852	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662655
+2024-01-23 22:38:55,160	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256182
+2024-01-23 22:38:55,162	[INFO]	WARM    SUCCESS               39885427843             
+2024-01-23 22:38:55,516	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581322
+2024-01-23 22:38:55,628	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509318
+2024-01-23 22:38:55,727	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391964
+2024-01-23 22:38:55,839	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735798
+2024-01-23 22:38:55,946	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009401
+2024-01-23 22:38:56,056	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298442
+2024-01-23 22:38:56,165	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483912
+2024-01-23 22:38:56,276	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085875
+2024-01-23 22:38:56,387	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700538
+2024-01-23 22:38:56,497	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804506
+2024-01-23 22:38:56,639	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910642
+2024-01-23 22:38:56,782	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944350
+2024-01-23 22:38:57,031	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359741031
+2024-01-23 22:38:57,148	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621033
+2024-01-23 22:38:57,715	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497250
+2024-01-23 22:38:58,306	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263221
+2024-01-23 22:38:58,877	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527024
+2024-01-23 22:38:59,087	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409313
+2024-01-23 22:39:07,144	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662689
+2024-01-23 22:39:15,536	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256213
+2024-01-23 22:39:15,537	[INFO]	WARM    SUCCESS               39885433842             
+2024-01-23 22:39:15,901	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581243
+2024-01-23 22:39:16,014	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5508811
+2024-01-23 22:39:16,123	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392161
+2024-01-23 22:39:16,237	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735960
+2024-01-23 22:39:16,351	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009302
+2024-01-23 22:39:16,452	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298223
+2024-01-23 22:39:16,571	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483878
+2024-01-23 22:39:16,689	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086126
+2024-01-23 22:39:16,804	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700421
+2024-01-23 22:39:16,909	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7798086
+2024-01-23 22:39:17,046	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910630
+2024-01-23 22:39:17,172	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944343
+2024-01-23 22:39:17,445	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740963
+2024-01-23 22:39:17,552	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621029
+2024-01-23 22:39:18,144	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497260
+2024-01-23 22:39:18,693	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263289
+2024-01-23 22:39:19,313	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526931
+2024-01-23 22:39:19,546	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409538
+2024-01-23 22:39:26,906	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662716
+2024-01-23 22:39:35,048	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256049
+2024-01-23 22:39:35,050	[INFO]	WARM    SUCCESS               39885426959             
+2024-01-23 22:39:35,403	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581269
+2024-01-23 22:39:35,526	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509434
+2024-01-23 22:39:35,637	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392413
+2024-01-23 22:39:35,756	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735938
+2024-01-23 22:39:35,864	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009404
+2024-01-23 22:39:35,970	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298282
+2024-01-23 22:39:36,083	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483669
+2024-01-23 22:39:36,199	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086043
+2024-01-23 22:39:36,312	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700488
+2024-01-23 22:39:36,419	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804494
+2024-01-23 22:39:36,556	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910716
+2024-01-23 22:39:36,690	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944257
+2024-01-23 22:39:36,959	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740772
+2024-01-23 22:39:37,064	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621011
+2024-01-23 22:39:37,659	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497335
+2024-01-23 22:39:38,182	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263393
+2024-01-23 22:39:38,803	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526841
+2024-01-23 22:39:39,022	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409327
+2024-01-23 22:39:46,733	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662286
+2024-01-23 22:39:54,942	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256357
+2024-01-23 22:39:54,944	[INFO]	WARM    SUCCESS               39885433729             
+2024-01-23 22:39:54,944	[INFO]	INITIAL SUCCESS               39885432237             
+2024-01-23 22:39:54,945	[INFO]	==== START: RandomSearch ====
+2024-01-23 22:40:27,243	[DEBUG]	ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 42))
+2024-01-23 22:40:27,243	[INFO]	1       TEST_TIMEOUT          None  [1 edit(s)]       
+2024-01-23 22:40:29,686	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581257
+2024-01-23 22:40:29,796	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509250
+2024-01-23 22:40:29,908	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392498
+2024-01-23 22:40:30,015	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735762
+2024-01-23 22:40:30,123	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009685
+2024-01-23 22:40:30,233	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297774
+2024-01-23 22:40:30,362	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13668626
+2024-01-23 22:40:30,479	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 15954048
+2024-01-23 22:40:30,589	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699135
+2024-01-23 22:40:30,704	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804390
+2024-01-23 22:40:30,855	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63862994
+2024-01-23 22:40:31,001	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73931526
+2024-01-23 22:40:31,271	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359670016
+2024-01-23 22:40:31,377	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21619002
+2024-01-23 22:40:31,954	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1060389776
+2024-01-23 22:40:32,545	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1054388241
+2024-01-23 22:40:33,153	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114328067
+2024-01-23 22:40:33,406	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266363030
+2024-01-23 22:40:41,117	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 17409858349
+2024-01-23 22:40:49,237	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19045773747
+2024-01-23 22:40:49,239	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 27), ('core/Solver.cc.xml', 'stmt', 28))
+2024-01-23 22:40:49,239	[INFO]	2       SUCCESS               40565837173 (101.71%) [1 edit(s)] 
+2024-01-23 22:40:51,618	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581248
+2024-01-23 22:40:51,742	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509420
+2024-01-23 22:40:51,852	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391682
+2024-01-23 22:40:51,972	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735965
+2024-01-23 22:40:52,084	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009372
+2024-01-23 22:40:52,196	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298382
+2024-01-23 22:40:52,297	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483795
+2024-01-23 22:40:52,404	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086132
+2024-01-23 22:40:52,520	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700156
+2024-01-23 22:40:52,630	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804467
+2024-01-23 22:40:52,766	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910684
+2024-01-23 22:40:52,909	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944332
+2024-01-23 22:40:53,179	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740960
+2024-01-23 22:40:53,296	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620901
+2024-01-23 22:40:53,891	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497397
+2024-01-23 22:40:54,432	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263156
+2024-01-23 22:40:55,065	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526961
+2024-01-23 22:40:55,280	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409526
+2024-01-23 22:41:02,709	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661797
+2024-01-23 22:41:10,828	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256018
+2024-01-23 22:41:10,829	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 64))
+2024-01-23 22:41:10,830	[INFO]	3       SUCCESS               39885432351 (100.0%) [1 edit(s)] 
+2024-01-23 22:41:11,082	[DEBUG]	DeclStmtDeletion(('core/Solver.cc.xml', 'decl_stmt', 13))
+2024-01-23 22:41:11,082	[INFO]	4       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:11,318	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 157), ('core/Solver.cc.xml', 'stmt', 101))
+2024-01-23 22:41:11,319	[INFO]	5       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:11,560	[DEBUG]	ReturnReplacement(('core/Solver.cc.xml', 'return', 26), ('core/Solver.cc.xml', 'stmt', 131))
+2024-01-23 22:41:11,560	[INFO]	6       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:11,810	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 51))
+2024-01-23 22:41:11,810	[INFO]	7       COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:14,179	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580957
+2024-01-23 22:41:14,302	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509271
+2024-01-23 22:41:14,411	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392109
+2024-01-23 22:41:14,531	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735911
+2024-01-23 22:41:14,643	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009617
+2024-01-23 22:41:14,762	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298408
+2024-01-23 22:41:14,876	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483731
+2024-01-23 22:41:14,987	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086119
+2024-01-23 22:41:15,102	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700415
+2024-01-23 22:41:15,213	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804429
+2024-01-23 22:41:15,349	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910619
+2024-01-23 22:41:15,497	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944279
+2024-01-23 22:41:15,767	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740946
+2024-01-23 22:41:15,871	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621029
+2024-01-23 22:41:16,457	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497289
+2024-01-23 22:41:17,007	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263284
+2024-01-23 22:41:17,628	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527081
+2024-01-23 22:41:17,842	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409458
+2024-01-23 22:41:25,789	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662540
+2024-01-23 22:41:33,941	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256156
+2024-01-23 22:41:33,942	[DEBUG]	IfReplacement(('core/Solver.cc.xml', 'if', 62), ('core/Solver.cc.xml', 'stmt', 401))
+2024-01-23 22:41:33,942	[INFO]	8       SUCCESS               39885433648 (100.0%) [1 edit(s)] 
+2024-01-23 22:41:36,261	[DEBUG]	IfReplacement(('core/Solver.cc.xml', 'if', 53), ('core/Solver.cc.xml', 'stmt', 224))
+2024-01-23 22:41:36,262	[INFO]	9       TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:41:36,506	[DEBUG]	ExprStmtInsertion(('core/Solver.cc.xml', '_inter_block', 541), ('core/Solver.cc.xml', 'expr_stmt', 112))
+2024-01-23 22:41:36,507	[INFO]	10      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:36,727	[DEBUG]	ExprStmtInsertion(('core/Solver.cc.xml', '_inter_block', 475), ('core/Solver.cc.xml', 'expr_stmt', 108))
+2024-01-23 22:41:36,728	[INFO]	11      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:36,949	[DEBUG]	DeclStmtInsertion(('core/Solver.cc.xml', '_inter_block', 114), ('core/Solver.cc.xml', 'decl_stmt', 53))
+2024-01-23 22:41:36,949	[INFO]	12      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:39,230	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 195), ('core/Solver.cc.xml', 'stmt', 279))
+2024-01-23 22:41:39,231	[INFO]	13      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:41:39,498	[DEBUG]	IfInsertion(('core/Solver.cc.xml', '_inter_block', 428), ('core/Solver.cc.xml', 'if', 40))
+2024-01-23 22:41:39,498	[INFO]	14      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:41,635	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 33))
+2024-01-23 22:41:41,635	[INFO]	15      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:41:41,898	[DEBUG]	IfReplacement(('core/Solver.cc.xml', 'if', 69), ('core/Solver.cc.xml', 'stmt', 343))
+2024-01-23 22:41:41,898	[INFO]	16      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:41:44,307	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581524
+2024-01-23 22:41:44,420	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509297
+2024-01-23 22:41:44,532	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391794
+2024-01-23 22:41:44,642	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5736051
+2024-01-23 22:41:44,755	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009415
+2024-01-23 22:41:44,868	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298073
+2024-01-23 22:41:44,991	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13484028
+2024-01-23 22:41:45,106	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086117
+2024-01-23 22:41:45,220	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700449
+2024-01-23 22:41:45,335	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804625
+2024-01-23 22:41:45,456	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910749
+2024-01-23 22:41:45,599	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944273
+2024-01-23 22:41:45,860	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359741088
+2024-01-23 22:41:45,978	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620920
+2024-01-23 22:41:46,511	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497498
+2024-01-23 22:41:47,100	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263025
+2024-01-23 22:41:47,672	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526936
+2024-01-23 22:41:47,903	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409672
+2024-01-23 22:41:55,712	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662329
+2024-01-23 22:42:04,754	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256884
+2024-01-23 22:42:04,756	[DEBUG]	DeclStmtInsertion(('core/Solver.cc.xml', '_inter_block', 504), ('core/Solver.cc.xml', 'decl_stmt', 46))
+2024-01-23 22:42:04,756	[INFO]	17      SUCCESS               39885434747 (100.0%) [1 edit(s)] 
+2024-01-23 22:42:05,022	[DEBUG]	DeclStmtDeletion(('core/Solver.cc.xml', 'decl_stmt', 60))
+2024-01-23 22:42:05,023	[INFO]	18      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:42:05,271	[DEBUG]	IfReplacement(('core/Solver.cc.xml', 'if', 14), ('core/Solver.cc.xml', 'stmt', 223))
+2024-01-23 22:42:05,272	[INFO]	19      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:42:05,494	[DEBUG]	ExprStmtInsertion(('core/Solver.cc.xml', '_inter_block', 144), ('core/Solver.cc.xml', 'expr_stmt', 115))
+2024-01-23 22:42:05,494	[INFO]	20      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:42:05,712	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 9), ('core/Solver.cc.xml', 'stmt', 80))
+2024-01-23 22:42:05,712	[INFO]	21      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:42:07,997	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5565684
+2024-01-23 22:42:08,103	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5503989
+2024-01-23 22:42:08,214	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5428372
+2024-01-23 22:42:08,321	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5798503
+2024-01-23 22:42:08,435	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 10264147
+2024-01-23 22:42:08,548	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 9192241
+2024-01-23 22:42:08,650	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 12262909
+2024-01-23 22:42:08,761	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 14768971
+2024-01-23 22:42:08,876	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 14398593
+2024-01-23 22:42:08,988	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7738480
+2024-01-23 22:42:09,129	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 90979005
+2024-01-23 22:42:09,265	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 61071589
+2024-01-23 22:42:09,633	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 631457548
+2024-01-23 22:42:09,773	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 70279582
+2024-01-23 22:42:10,283	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 969475183
+2024-01-23 22:42:10,829	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 962258720
+2024-01-23 22:42:11,742	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1895160338
+2024-01-23 22:42:13,727	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 4066683659
+2024-01-23 22:42:20,003	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 14023440419
+2024-01-23 22:42:29,918	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 23303783591
+2024-01-23 22:42:29,920	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 18))
+2024-01-23 22:42:29,920	[INFO]	22      SUCCESS               46165511523 (115.75%) [1 edit(s)] 
+2024-01-23 22:42:32,278	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581054
+2024-01-23 22:42:32,389	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509139
+2024-01-23 22:42:32,488	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392372
+2024-01-23 22:42:32,601	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735666
+2024-01-23 22:42:32,714	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8008315
+2024-01-23 22:42:32,826	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 9742308
+2024-01-23 22:42:32,939	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 11789930
+2024-01-23 22:42:33,056	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 15835467
+2024-01-23 22:42:33,169	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 20926503
+2024-01-23 22:42:33,281	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7803957
+2024-01-23 22:42:33,414	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 62853721
+2024-01-23 22:42:33,550	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 56047153
+2024-01-23 22:42:34,450	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 1877476374
+2024-01-23 22:42:34,625	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 139060967
+2024-01-23 22:42:35,091	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 827572892
+2024-01-23 22:42:35,666	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 984392471
+2024-01-23 22:42:35,989	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 480654128
+2024-01-23 22:42:43,568	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 14886052864
+2024-01-23 22:42:52,612	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 19926065022
+2024-01-23 22:43:00,905	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 18098674533
+2024-01-23 22:43:00,907	[DEBUG]	ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 146))
+2024-01-23 22:43:00,907	[INFO]	23      SUCCESS               57435174836 (144.0%) [1 edit(s)] 
+2024-01-23 22:43:01,187	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 126), ('core/Solver.cc.xml', 'stmt', 123))
+2024-01-23 22:43:01,188	[INFO]	24      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:43:03,738	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581031
+2024-01-23 22:43:03,852	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509137
+2024-01-23 22:43:03,960	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392240
+2024-01-23 22:43:04,072	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735607
+2024-01-23 22:43:04,187	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8001763
+2024-01-23 22:43:04,292	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10261161
+2024-01-23 22:43:04,407	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 12748239
+2024-01-23 22:43:04,527	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 15930153
+2024-01-23 22:43:04,646	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 22008316
+2024-01-23 22:43:04,766	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804431
+2024-01-23 22:43:04,906	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 72839643
+2024-01-23 22:43:05,040	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 81160170
+2024-01-23 22:43:05,542	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 899863595
+2024-01-23 22:43:05,756	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 234509021
+2024-01-23 22:43:06,307	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1007506878
+2024-01-23 22:43:06,795	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 977606145
+2024-01-23 22:43:07,593	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1550814242
+2024-01-23 22:43:07,963	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 606312167
+2024-01-23 22:43:15,111	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 15799083625
+2024-01-23 22:43:20,191	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 12503076751
+2024-01-23 22:43:20,192	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 45))
+2024-01-23 22:43:20,192	[INFO]	25      SUCCESS              *33831744315 (84.82%) [1 edit(s)] 
+2024-01-23 22:43:20,200	[DEBUG]	--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -745,19 +745,7 @@
+             varDecayActivity();
+             claDecayActivity();
+ 
+-            if (--learntsize_adjust_cnt == 0){
+-                learntsize_adjust_confl *= learntsize_adjust_inc;
+-                learntsize_adjust_cnt    = (int)learntsize_adjust_confl;
+-                max_learnts             *= learntsize_inc;
+-
+-                if (verbosity >= 1)
+-                    /*auto*/{
+-                        printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
+-                           (int)conflicts, 
+-                           (int)dec_vars - (trail_lim.size() == 0 ? trail.size() : trail_lim[0]), nClauses(), (int)clauses_literals, 
+-                           (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100);
+-                    }/*auto*/
+-            }
++            
+ 
+         }else{
+             // NO CONFLICT
+
+2024-01-23 22:43:22,542	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5573821
+2024-01-23 22:43:22,653	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5508839
+2024-01-23 22:43:22,760	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391881
+2024-01-23 22:43:22,871	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5734625
+2024-01-23 22:43:22,986	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8005481
+2024-01-23 22:43:23,099	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10290709
+2024-01-23 22:43:23,222	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13471353
+2024-01-23 22:43:23,327	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16069218
+2024-01-23 22:43:23,442	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17684924
+2024-01-23 22:43:23,548	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7802552
+2024-01-23 22:43:23,685	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63833962
+2024-01-23 22:43:23,829	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73854906
+2024-01-23 22:43:24,099	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359343383
+2024-01-23 22:43:24,201	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21602499
+2024-01-23 22:43:24,785	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1053378774
+2024-01-23 22:43:25,310	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1046169135
+2024-01-23 22:43:25,927	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1113471319
+2024-01-23 22:43:26,142	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266149788
+2024-01-23 22:43:33,309	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16762632394
+2024-01-23 22:43:41,447	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 18995358660
+2024-01-23 22:43:41,448	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 12))
+2024-01-23 22:43:41,448	[INFO]	26      SUCCESS               39851328223 (99.91%) [1 edit(s)] 
+2024-01-23 22:43:44,018	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580185
+2024-01-23 22:43:44,128	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5501884
+2024-01-23 22:43:44,238	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391256
+2024-01-23 22:43:44,349	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5734850
+2024-01-23 22:43:44,448	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8007586
+2024-01-23 22:43:44,562	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10296299
+2024-01-23 22:43:44,676	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13481773
+2024-01-23 22:43:44,792	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16083643
+2024-01-23 22:43:44,903	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17696933
+2024-01-23 22:43:45,016	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7801208
+2024-01-23 22:43:45,160	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63907401
+2024-01-23 22:43:45,298	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73940790
+2024-01-23 22:43:45,571	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359736426
+2024-01-23 22:43:45,676	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21616627
+2024-01-23 22:43:46,274	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054492798
+2024-01-23 22:43:46,819	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047258806
+2024-01-23 22:43:47,385	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114521758
+2024-01-23 22:43:47,615	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266403988
+2024-01-23 22:43:55,607	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776657030
+2024-01-23 22:44:04,651	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011251444
+2024-01-23 22:44:04,652	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 1))
+2024-01-23 22:44:04,652	[INFO]	27      SUCCESS               39885362685 (100.0%) [1 edit(s)] 
+2024-01-23 22:44:06,810	[DEBUG]	DeclStmtReplacement(('core/Solver.cc.xml', 'decl_stmt', 31), ('core/Solver.cc.xml', 'stmt', 277))
+2024-01-23 22:44:06,810	[INFO]	28      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:44:09,204	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5574783
+2024-01-23 22:44:09,304	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509343
+2024-01-23 22:44:09,427	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392416
+2024-01-23 22:44:09,540	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735929
+2024-01-23 22:44:09,665	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009318
+2024-01-23 22:44:09,767	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298045
+2024-01-23 22:44:09,919	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483389
+2024-01-23 22:44:10,035	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085257
+2024-01-23 22:44:10,152	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699700
+2024-01-23 22:44:10,263	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804382
+2024-01-23 22:44:10,400	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63907635
+2024-01-23 22:44:10,551	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73940709
+2024-01-23 22:44:10,823	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359725493
+2024-01-23 22:44:10,940	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620373
+2024-01-23 22:44:11,515	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054452181
+2024-01-23 22:44:12,045	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047218642
+2024-01-23 22:44:12,667	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114485879
+2024-01-23 22:44:12,888	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266399225
+2024-01-23 22:44:20,815	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776099497
+2024-01-23 22:44:29,179	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19010619438
+2024-01-23 22:44:29,180	[DEBUG]	ReturnInsertion(('core/Solver.cc.xml', '_inter_block', 171), ('core/Solver.cc.xml', 'return', 20))
+2024-01-23 22:44:29,180	[INFO]	29      SUCCESS               39884061634 (100.0%) [1 edit(s)] 
+2024-01-23 22:44:29,421	[DEBUG]	DeclStmtDeletion(('core/Solver.cc.xml', 'decl_stmt', 35))
+2024-01-23 22:44:29,421	[INFO]	30      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:44:29,644	[DEBUG]	ExprStmtInsertion(('core/Solver.cc.xml', '_inter_block', 232), ('core/Solver.cc.xml', 'expr_stmt', 9))
+2024-01-23 22:44:29,644	[INFO]	31      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:44:31,723	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 21))
+2024-01-23 22:44:31,724	[INFO]	32      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:44:34,143	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581134
+2024-01-23 22:44:34,265	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509437
+2024-01-23 22:44:34,377	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392212
+2024-01-23 22:44:34,495	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735787
+2024-01-23 22:44:34,595	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009757
+2024-01-23 22:44:34,710	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298047
+2024-01-23 22:44:34,824	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483907
+2024-01-23 22:44:34,933	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16086091
+2024-01-23 22:44:35,049	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700309
+2024-01-23 22:44:35,168	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804444
+2024-01-23 22:44:35,304	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910749
+2024-01-23 22:44:35,454	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944267
+2024-01-23 22:44:35,725	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740944
+2024-01-23 22:44:35,840	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21621009
+2024-01-23 22:44:36,426	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497303
+2024-01-23 22:44:36,963	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263211
+2024-01-23 22:44:37,580	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527123
+2024-01-23 22:44:37,790	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409428
+2024-01-23 22:44:45,770	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662602
+2024-01-23 22:44:54,804	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256838
+2024-01-23 22:44:54,805	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 28))
+2024-01-23 22:44:54,806	[INFO]	33      SUCCESS               39885434599 (100.0%) [1 edit(s)] 
+2024-01-23 22:44:57,398	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581376
+2024-01-23 22:44:57,509	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509430
+2024-01-23 22:44:57,617	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392278
+2024-01-23 22:44:57,726	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735897
+2024-01-23 22:44:57,836	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009375
+2024-01-23 22:44:57,949	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297984
+2024-01-23 22:44:58,062	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483180
+2024-01-23 22:44:58,178	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085342
+2024-01-23 22:44:58,289	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699715
+2024-01-23 22:44:58,401	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804631
+2024-01-23 22:44:58,560	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63907388
+2024-01-23 22:44:58,701	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73940735
+2024-01-23 22:44:58,967	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359725603
+2024-01-23 22:44:59,086	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620349
+2024-01-23 22:44:59,622	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054452080
+2024-01-23 22:45:00,210	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047218832
+2024-01-23 22:45:00,773	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114485933
+2024-01-23 22:45:01,002	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266399344
+2024-01-23 22:45:08,211	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776098371
+2024-01-23 22:45:17,193	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19010620024
+2024-01-23 22:45:17,195	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 22))
+2024-01-23 22:45:17,195	[INFO]	34      SUCCESS               39884067867 (100.0%) [1 edit(s)] 
+2024-01-23 22:45:49,532	[DEBUG]	ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 137))
+2024-01-23 22:45:49,533	[INFO]	35      TEST_TIMEOUT          None  [1 edit(s)]       
+2024-01-23 22:45:51,955	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580866
+2024-01-23 22:45:52,081	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5508840
+2024-01-23 22:45:52,183	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392218
+2024-01-23 22:45:52,295	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5736220
+2024-01-23 22:45:52,403	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009434
+2024-01-23 22:45:52,516	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298124
+2024-01-23 22:45:52,641	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483363
+2024-01-23 22:45:52,758	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085335
+2024-01-23 22:45:52,862	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699749
+2024-01-23 22:45:52,971	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7803859
+2024-01-23 22:45:53,103	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63909891
+2024-01-23 22:45:53,245	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73943752
+2024-01-23 22:45:53,494	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740398
+2024-01-23 22:45:53,612	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620327
+2024-01-23 22:45:54,151	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054496902
+2024-01-23 22:45:54,741	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047262581
+2024-01-23 22:45:55,319	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526672
+2024-01-23 22:45:55,548	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409067
+2024-01-23 22:46:02,708	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776660899
+2024-01-23 22:46:11,769	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256136
+2024-01-23 22:46:11,774	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 16))
+2024-01-23 22:46:11,775	[INFO]	36      SUCCESS               39885424633 (100.0%) [1 edit(s)] 
+2024-01-23 22:46:12,065	[DEBUG]	DeclStmtInsertion(('core/Solver.cc.xml', '_inter_block', 339), ('core/Solver.cc.xml', 'decl_stmt', 44))
+2024-01-23 22:46:12,066	[INFO]	37      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:46:14,431	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580807
+2024-01-23 22:46:14,539	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5508746
+2024-01-23 22:46:14,650	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391907
+2024-01-23 22:46:14,749	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735617
+2024-01-23 22:46:14,858	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8008974
+2024-01-23 22:46:14,972	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297466
+2024-01-23 22:46:15,074	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483233
+2024-01-23 22:46:15,191	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085535
+2024-01-23 22:46:15,315	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699608
+2024-01-23 22:46:15,426	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7803898
+2024-01-23 22:46:15,568	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910153
+2024-01-23 22:46:15,708	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73943778
+2024-01-23 22:46:15,970	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740546
+2024-01-23 22:46:16,089	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620498
+2024-01-23 22:46:16,638	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054496924
+2024-01-23 22:46:17,224	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047262625
+2024-01-23 22:46:17,782	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526367
+2024-01-23 22:46:17,999	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266408903
+2024-01-23 22:46:25,227	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776660866
+2024-01-23 22:46:34,281	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256360
+2024-01-23 22:46:34,283	[DEBUG]	DeclStmtInsertion(('core/Solver.cc.xml', '_inter_block', 124), ('core/Solver.cc.xml', 'decl_stmt', 62))
+2024-01-23 22:46:34,283	[INFO]	38      SUCCESS               39885422811 (100.0%) [1 edit(s)] 
+2024-01-23 22:46:34,575	[DEBUG]	DeclStmtReplacement(('core/Solver.cc.xml', 'decl_stmt', 57), ('core/Solver.cc.xml', 'stmt', 0))
+2024-01-23 22:46:34,575	[INFO]	39      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:46:37,022	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5572254
+2024-01-23 22:46:37,132	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5507531
+2024-01-23 22:46:37,240	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5389916
+2024-01-23 22:46:37,351	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5727048
+2024-01-23 22:46:37,452	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8002858
+2024-01-23 22:46:37,567	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 9681056
+2024-01-23 22:46:37,698	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 11558695
+2024-01-23 22:46:37,823	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 15590693
+2024-01-23 22:46:37,943	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 20918520
+2024-01-23 22:46:38,060	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7801379
+2024-01-23 22:46:38,210	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63726464
+2024-01-23 22:46:38,356	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 56566005
+2024-01-23 22:46:39,345	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 1877401348
+2024-01-23 22:46:39,508	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 139032503
+2024-01-23 22:46:40,008	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 839486140
+2024-01-23 22:46:40,530	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 997309336
+2024-01-23 22:46:40,879	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 480632087
+2024-01-23 22:46:47,755	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 14885015377
+2024-01-23 22:46:57,814	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 21246733276
+2024-01-23 22:47:06,295	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19030534915
+2024-01-23 22:47:06,298	[DEBUG]	ExprStmtDeletion(('core/Solver.cc.xml', 'expr_stmt', 134))
+2024-01-23 22:47:06,298	[INFO]	40      SUCCESS               59712187401 (149.71%) [1 edit(s)] 
+2024-01-23 22:47:08,692	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5597856
+2024-01-23 22:47:08,812	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5519470
+2024-01-23 22:47:08,923	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5488390
+2024-01-23 22:47:09,039	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5829736
+2024-01-23 22:47:09,151	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8083470
+2024-01-23 22:47:09,261	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10405324
+2024-01-23 22:47:09,377	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13934304
+2024-01-23 22:47:09,487	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16533131
+2024-01-23 22:47:09,603	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 18035129
+2024-01-23 22:47:09,713	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7851401
+2024-01-23 22:47:09,851	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 65361657
+2024-01-23 22:47:09,992	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 75432887
+2024-01-23 22:47:10,267	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 366755608
+2024-01-23 22:47:10,383	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 22152588
+2024-01-23 22:47:10,980	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1071588322
+2024-01-23 22:47:11,543	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1064001694
+2024-01-23 22:47:12,155	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1136246249
+2024-01-23 22:47:12,390	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 273102309
+2024-01-23 22:47:20,489	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 17070619515
+2024-01-23 22:47:29,661	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19355407867
+2024-01-23 22:47:29,663	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 15))
+2024-01-23 22:47:29,663	[INFO]	41      SUCCESS               40597946907 (101.79%) [1 edit(s)] 
+2024-01-23 22:47:29,959	[DEBUG]	DeclStmtDeletion(('core/Solver.cc.xml', 'decl_stmt', 30))
+2024-01-23 22:47:29,960	[INFO]	42      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:47:32,379	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580609
+2024-01-23 22:47:32,503	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5508718
+2024-01-23 22:47:32,615	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391907
+2024-01-23 22:47:32,734	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735081
+2024-01-23 22:47:32,843	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8008970
+2024-01-23 22:47:32,940	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297654
+2024-01-23 22:47:33,055	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483340
+2024-01-23 22:47:33,162	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085268
+2024-01-23 22:47:33,279	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699685
+2024-01-23 22:47:33,390	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804073
+2024-01-23 22:47:33,528	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910122
+2024-01-23 22:47:33,669	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73943678
+2024-01-23 22:47:33,940	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740176
+2024-01-23 22:47:34,058	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620503
+2024-01-23 22:47:34,646	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054496808
+2024-01-23 22:47:35,254	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047262663
+2024-01-23 22:47:35,876	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526477
+2024-01-23 22:47:36,089	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266408917
+2024-01-23 22:47:44,092	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662080
+2024-01-23 22:47:52,207	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011255225
+2024-01-23 22:47:52,209	[DEBUG]	ReturnInsertion(('core/Solver.cc.xml', '_inter_block', 327), ('core/Solver.cc.xml', 'return', 6))
+2024-01-23 22:47:52,209	[INFO]	43      SUCCESS               39885421954 (100.0%) [1 edit(s)] 
+2024-01-23 22:47:52,477	[DEBUG]	ReturnInsertion(('core/Solver.cc.xml', '_inter_block', 96), ('core/Solver.cc.xml', 'return', 21))
+2024-01-23 22:47:52,477	[INFO]	44      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:47:52,695	[DEBUG]	DeclStmtReplacement(('core/Solver.cc.xml', 'decl_stmt', 16), ('core/Solver.cc.xml', 'stmt', 238))
+2024-01-23 22:47:52,695	[INFO]	45      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:47:52,913	[DEBUG]	ReturnReplacement(('core/Solver.cc.xml', 'return', 26), ('core/Solver.cc.xml', 'stmt', 125))
+2024-01-23 22:47:52,914	[INFO]	46      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:47:55,094	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 38))
+2024-01-23 22:47:55,094	[INFO]	47      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:47:55,371	[DEBUG]	ReturnInsertion(('core/Solver.cc.xml', '_inter_block', 21), ('core/Solver.cc.xml', 'return', 23))
+2024-01-23 22:47:55,371	[INFO]	48      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:47:57,505	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 0))
+2024-01-23 22:47:57,505	[INFO]	49      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:47:59,875	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580959
+2024-01-23 22:47:59,987	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5502775
+2024-01-23 22:48:00,092	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391712
+2024-01-23 22:48:00,204	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735640
+2024-01-23 22:48:00,322	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009264
+2024-01-23 22:48:00,436	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297690
+2024-01-23 22:48:00,565	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483379
+2024-01-23 22:48:00,682	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085827
+2024-01-23 22:48:00,806	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700066
+2024-01-23 22:48:00,923	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804184
+2024-01-23 22:48:01,057	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910468
+2024-01-23 22:48:01,199	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944106
+2024-01-23 22:48:01,472	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740707
+2024-01-23 22:48:01,598	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620714
+2024-01-23 22:48:02,189	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054496930
+2024-01-23 22:48:02,729	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263056
+2024-01-23 22:48:03,297	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114526841
+2024-01-23 22:48:03,519	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409201
+2024-01-23 22:48:10,705	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661243
+2024-01-23 22:48:19,798	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011256855
+2024-01-23 22:48:19,800	[DEBUG]	DeclStmtInsertion(('core/Solver.cc.xml', '_inter_block', 175), ('core/Solver.cc.xml', 'decl_stmt', 61))
+2024-01-23 22:48:19,800	[INFO]	50      SUCCESS               39885421617 (100.0%) [1 edit(s)] 
+2024-01-23 22:48:22,235	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580013
+2024-01-23 22:48:22,341	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5507909
+2024-01-23 22:48:22,454	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391062
+2024-01-23 22:48:22,580	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5728107
+2024-01-23 22:48:22,692	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8006945
+2024-01-23 22:48:22,807	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10295852
+2024-01-23 22:48:22,919	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13481538
+2024-01-23 22:48:23,042	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16083344
+2024-01-23 22:48:23,155	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17696581
+2024-01-23 22:48:23,266	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7801065
+2024-01-23 22:48:23,404	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63907016
+2024-01-23 22:48:23,548	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73940668
+2024-01-23 22:48:23,821	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359736016
+2024-01-23 22:48:23,934	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21616288
+2024-01-23 22:48:24,524	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054492467
+2024-01-23 22:48:25,049	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047258696
+2024-01-23 22:48:25,670	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114521546
+2024-01-23 22:48:25,902	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266403795
+2024-01-23 22:48:33,082	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776656064
+2024-01-23 22:48:42,131	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011251143
+2024-01-23 22:48:42,133	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 0))
+2024-01-23 22:48:42,133	[INFO]	51      SUCCESS               39885356115 (100.0%) [1 edit(s)] 
+2024-01-23 22:48:44,387	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 10))
+2024-01-23 22:48:44,387	[INFO]	52      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:48:46,864	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580856
+2024-01-23 22:48:46,983	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5508995
+2024-01-23 22:48:47,094	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5391918
+2024-01-23 22:48:47,201	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735724
+2024-01-23 22:48:47,306	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009172
+2024-01-23 22:48:47,419	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297904
+2024-01-23 22:48:47,534	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483676
+2024-01-23 22:48:47,652	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085815
+2024-01-23 22:48:47,770	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700063
+2024-01-23 22:48:47,890	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804360
+2024-01-23 22:48:48,032	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910342
+2024-01-23 22:48:48,184	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944063
+2024-01-23 22:48:48,457	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740661
+2024-01-23 22:48:48,573	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620695
+2024-01-23 22:48:49,168	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497083
+2024-01-23 22:48:49,704	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047262825
+2024-01-23 22:48:50,292	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527117
+2024-01-23 22:48:50,496	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409025
+2024-01-23 22:48:58,453	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662324
+2024-01-23 22:49:06,630	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011255634
+2024-01-23 22:49:06,632	[DEBUG]	DeclStmtInsertion(('core/Solver.cc.xml', '_inter_block', 295), ('core/Solver.cc.xml', 'decl_stmt', 30))
+2024-01-23 22:49:06,632	[INFO]	53      SUCCESS               39885428252 (100.0%) [1 edit(s)] 
+2024-01-23 22:49:09,011	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5580783
+2024-01-23 22:49:09,122	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509307
+2024-01-23 22:49:09,244	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5385620
+2024-01-23 22:49:09,357	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735710
+2024-01-23 22:49:09,470	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009632
+2024-01-23 22:49:09,584	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10297992
+2024-01-23 22:49:09,697	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483483
+2024-01-23 22:49:09,813	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085489
+2024-01-23 22:49:09,931	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17699988
+2024-01-23 22:49:10,047	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804462
+2024-01-23 22:49:10,180	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910400
+2024-01-23 22:49:10,322	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944070
+2024-01-23 22:49:10,564	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740702
+2024-01-23 22:49:10,682	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620636
+2024-01-23 22:49:11,220	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497165
+2024-01-23 22:49:11,809	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047263109
+2024-01-23 22:49:12,432	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527108
+2024-01-23 22:49:12,662	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409087
+2024-01-23 22:49:19,994	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776661307
+2024-01-23 22:49:28,107	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011255331
+2024-01-23 22:49:28,109	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 67))
+2024-01-23 22:49:28,109	[INFO]	54      SUCCESS               39885421381 (100.0%) [1 edit(s)] 
+2024-01-23 22:49:30,187	[DEBUG]	IfDeletion(('core/Solver.cc.xml', 'if', 17))
+2024-01-23 22:49:30,187	[INFO]	55      TEST_CODE_ERROR       None  [1 edit(s)]       
+2024-01-23 22:49:32,583	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5581214
+2024-01-23 22:49:32,701	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5509043
+2024-01-23 22:49:32,813	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5392203
+2024-01-23 22:49:32,932	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5735612
+2024-01-23 22:49:33,033	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8009324
+2024-01-23 22:49:33,148	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 10298156
+2024-01-23 22:49:33,260	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 13483725
+2024-01-23 22:49:33,377	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 16085599
+2024-01-23 22:49:33,495	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 17700120
+2024-01-23 22:49:33,612	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 7804566
+2024-01-23 22:49:33,748	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 63910472
+2024-01-23 22:49:33,891	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 73944092
+2024-01-23 22:49:34,159	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 359740740
+2024-01-23 22:49:34,276	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 21620851
+2024-01-23 22:49:34,864	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1054497147
+2024-01-23 22:49:35,397	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1047262936
+2024-01-23 22:49:36,023	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1114527005
+2024-01-23 22:49:36,242	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 266409488
+2024-01-23 22:49:44,165	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 16776662585
+2024-01-23 22:49:52,263	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 19011255584
+2024-01-23 22:49:52,264	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 148), ('core/Solver.cc.xml', 'stmt', 9))
+2024-01-23 22:49:52,265	[INFO]	56      SUCCESS               39885430462 (100.0%) [1 edit(s)] 
+2024-01-23 22:49:52,531	[DEBUG]	ExprStmtReplacement(('core/Solver.cc.xml', 'expr_stmt', 187), ('core/Solver.cc.xml', 'stmt', 51))
+2024-01-23 22:49:52,532	[INFO]	57      COMPILE_CODE_ERROR    None  [1 edit(s)]       
+2024-01-23 22:49:52,543	[DEBUG]	ReturnDeletion(('core/Solver.cc.xml', 'return', 28))
+2024-01-23 22:49:52,543	[INFO]	58      SUCCESS               39885434599 (100.0%) [1 edit(s)] 
+2024-01-23 22:49:54,933	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-059.cnf SAT SUCCESS 5668474
+2024-01-23 22:49:55,042	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf50-218/uf50-071.cnf SAT SUCCESS 5535869
+2024-01-23 22:49:55,160	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-016.cnf UNSAT SUCCESS 5401675
+2024-01-23 22:49:55,272	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf50-218/uuf50-076.cnf UNSAT SUCCESS 5819180
+2024-01-23 22:49:55,381	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-073.cnf SAT SUCCESS 8770082
+2024-01-23 22:49:55,495	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf100-430/uf100-042.cnf SAT SUCCESS 11110573
+2024-01-23 22:49:55,605	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-071.cnf UNSAT SUCCESS 14988554
+2024-01-23 22:49:55,723	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf100-430/uuf100-086.cnf UNSAT SUCCESS 18287563
+2024-01-23 22:49:55,834	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-057.cnf SAT SUCCESS 21300906
+2024-01-23 22:49:55,947	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf150-645/uf150-047.cnf SAT SUCCESS 8406643
+2024-01-23 22:49:56,079	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-051.cnf UNSAT SUCCESS 76674983
+2024-01-23 22:49:56,226	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf150-645/uuf150-023.cnf UNSAT SUCCESS 89714469
+2024-01-23 22:49:56,505	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-049.cnf SAT SUCCESS 466627266
+2024-01-23 22:49:56,627	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf200-860/uf200-018.cnf SAT SUCCESS 28359175
+2024-01-23 22:49:57,313	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-094.cnf UNSAT SUCCESS 1317625113
+2024-01-23 22:49:57,946	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf200-860/uuf200-018.cnf UNSAT SUCCESS 1304194928
+2024-01-23 22:49:58,690	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-010.cnf SAT SUCCESS 1470545339
+2024-01-23 22:49:58,953	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uf250-1065/uf250-098.cnf SAT SUCCESS 356822553
+2024-01-23 22:50:07,980	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-072.cnf UNSAT SUCCESS 20979747771
+2024-01-23 22:50:17,801	[DEBUG]	EXEC> /cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark/uuf250-1065/uuf250-079.cnf UNSAT SUCCESS 23746234330
+2024-01-23 22:50:17,803	[DEBUG]	ExprStmtInsertion(('core/Solver.cc.xml', '_inter_block', 254), ('core/Solver.cc.xml', 'expr_stmt', 144))
+2024-01-23 22:50:17,803	[INFO]	59      SUCCESS               49941835446 (125.21%) [1 edit(s)] 
+2024-01-23 22:50:17,813	[INFO]	==== END ====
+2024-01-23 22:50:17,814	[INFO]	
+2024-01-23 22:50:17,814	[INFO]	==== REPORT ====
+2024-01-23 22:50:17,814	[INFO]	Termination: time budget
+2024-01-23 22:50:17,815	[INFO]	Log file: /cs/student/ug/2020/damibose/projects/magpie/_magpie_logs/minisat_1706049389.log
+2024-01-23 22:50:17,824	[INFO]	Patch file: _magpie_logs/minisat_1706049389.patch
+2024-01-23 22:50:17,824	[INFO]	Diff file: _magpie_logs/minisat_1706049389.diff
+2024-01-23 22:50:17,824	[INFO]	Best fitness: 33831744315
+2024-01-23 22:50:17,825	[INFO]	Best patch: IfDeletion(('core/Solver.cc.xml', 'if', 45))
+2024-01-23 22:50:17,826	[INFO]	Diff:
+--- before: core/Solver.cc
++++ after: core/Solver.cc
+@@ -745,19 +745,7 @@
+             varDecayActivity();
+             claDecayActivity();
+ 
+-            if (--learntsize_adjust_cnt == 0){
+-                learntsize_adjust_confl *= learntsize_adjust_inc;
+-                learntsize_adjust_cnt    = (int)learntsize_adjust_confl;
+-                max_learnts             *= learntsize_inc;
+-
+-                if (verbosity >= 1)
+-                    /*auto*/{
+-                        printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
+-                           (int)conflicts, 
+-                           (int)dec_vars - (trail_lim.size() == 0 ? trail.size() : trail_lim[0]), nClauses(), (int)clauses_literals, 
+-                           (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100);
+-                    }/*auto*/
+-            }
++            
+ 
+         }else{
+             // NO CONFLICT
+
