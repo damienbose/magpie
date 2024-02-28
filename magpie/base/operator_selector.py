@@ -18,7 +18,7 @@ def calculate_reward(initial_fitness, run):
     else:
         return previous / current # only update previous if it complied       
     """
-    if run.status != 'SUCCESS':
+    if run is None or run.status != 'SUCCESS':
         return 0
     else:
         if run.fitness is None: # for debugging

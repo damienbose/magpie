@@ -39,8 +39,25 @@ class AbstractAlgorithm(ABC):
     def run(self):
         pass
 
+    def edit_klass_possible(self, edit_klass):
+        for locations_in_file in self.program.locations.values():
+            if edit_klass.NODE_TYPE in locations_in_file and len(locations_in_file[edit_klass.NODE_TYPE]) > 0:
+                return True
+        return False
+
     def create_edit(self):
-        edit_klass = self.config['operator_selector'].select()
+        # Check if an edit class is possible
+        max_select_ties = 10_000_000
+        while True:
+            edit_klass = self.config['operator_selector'].select()
+            if self.edit_klass_possible(edit_klass):
+                break
+            else:
+                self.config['operator_selector'].update_quality(operator=self.config['operator_selector'].prev_operator, initial_fitness=None, run=None) 
+            max_select_ties -= 1
+            if max_select_ties == 0:
+                raise RuntimeError('CANNOT FIND ANY POSSIBLE EDIT CLASSES TO SELECT FROM!')
+
         tries = magpie_config.edit_retries
         while (edit := edit_klass.create(self.program)) is None:
             tries -= 1
