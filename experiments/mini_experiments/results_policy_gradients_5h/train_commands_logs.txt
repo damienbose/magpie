@@ -1,3 +1,0 @@
-python3 -m bin.local_search --scenario experiments/results/RandomSearch/PolicyGradient/trial_0/scenario.ini --algo RandomSearch --seed 0 --output_dir experiments/results/RandomSearch/PolicyGradient/trial_0
-python3 -m bin.local_search --scenario experiments/results/RandomSearch/PolicyGradient/trial_1/scenario.ini --algo RandomSearch --seed 1 --output_dir experiments/results/RandomSearch/PolicyGradient/trial_1
-python3 -m bin.local_search --scenario experiments/results/RandomSearch/PolicyGradient/trial_2/scenario.ini --algo RandomSearch --seed 2 --output_dir experiments/results/RandomSearch/PolicyGradient/trial_2
