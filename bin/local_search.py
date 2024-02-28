@@ -2,7 +2,7 @@ import argparse
 import configparser
 import pathlib
 import traceback
-
+import os
 import magpie
 
 
@@ -53,6 +53,8 @@ if __name__ == "__main__":
     try:
         protocol.run()
     except Exception:
+        if not os.path.exists(args.output_dir):
+            os.makedirs(args.output_dir)
         with open(f"{str(args.output_dir)}/error.txt", 'w') as f:
             print(traceback.format_exc(), file=f)
         raise
