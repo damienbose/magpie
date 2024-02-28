@@ -22,6 +22,23 @@
             ]
         },
         {
+            "name": "Python: Traingle",
+            "type": "python",
+            "request": "launch",
+            "module": "bin.local_search",
+            "justMyCode": true,
+            "args": [
+                "--scenario",
+                "experiments/scenario/test_triangle.txt",
+                "--algo",
+                "RandomSearch",
+                "--seed",
+                "0",
+                "--output_dir",
+                "experiments/temp",
+            ]
+        },
+        {
             "name": "Python: Experiment RL MiniSats",
             "type": "python",
             "request": "launch",
@@ -73,7 +90,7 @@
             "module": "bin.revalidate_patch",
             "justMyCode": true,
             "args": [
-                "--scenario", 
+                "--scenario",
                 "examples/scenario/triangle-cpp_runtime.txt",
                 "--patch",
                 "StmtReplacement(('triangle.cpp.xml', 'stmt', 3), ('triangle.cpp.xml', 'stmt', 12))",
