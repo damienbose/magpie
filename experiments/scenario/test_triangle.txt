@@ -26,5 +26,36 @@ warmup = 1
 max_steps = 100
 max_time = 60
 possible_edits =
+    BreakDeletion
+    ContinueDeletion
+    DeclStmtDeletion
     DoDeletion
     ExprStmtDeletion
+    ForDeletion
+    GotoDeletion
+    IfDeletion
+    ReturnDeletion
+    SwitchDeletion
+    WhileDeletion
+    BreakReplacement
+    ContinueReplacement
+    DeclStmtReplacement
+    DoReplacement
+    ExprStmtReplacement
+    ForReplacement
+    GotoReplacement
+    IfReplacement
+    ReturnReplacement
+    SwitchReplacement
+    WhileReplacement
+    BreakInsertion
+    ContinueInsertion
+    DeclStmtInsertion
+    DoInsertion
+    ExprStmtInsertion
+    ForInsertion
+    GotoInsertion
+    IfInsertion
+    ReturnInsertion
+    SwitchInsertion
+    WhileInsertion
