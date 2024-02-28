@@ -83,6 +83,11 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
         pass
 
     def hook_evaluation(self, patch, run, accept=False, best=False):
+        
+        # Update quality for RL
+        if isinstance(self.config['operator_selector'], magpie.base.operator_selector.AbstractBanditsOperatorSelector) and not isinstance(self, magpie.algo.validation.ValidTest):
+            self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, self.report['initial_fitness'], run) # TODO: Change to use the previous fitness for other algorithms. Maybe incorporate the patch as a whole to contain this info. As in the patch contains info about the previous patch, creating a linked list of sorts. Major refactoring needed though. 
+
         if best:
             c = '*'
         elif accept:
@@ -93,8 +98,32 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
         # self.program.logger.debug(run) # uncomment for detail on last cmd
         counter = self.aux_log_counter()
         self.aux_log_eval(counter, run.status, c, run.fitness, self.report['initial_fitness'], len(patch.edits), run.log)
+        diff_string = None
         if accept or best:
-            self.program.logger.debug(self.program.diff_patch(patch)) # recomputes contents but meh
+            diff_string = self.program.diff_patch(patch)
+            self.program.logger.debug(diff_string) # recomputes contents but meh
+        
+        # Log for experiment
+        if 'run_results' not in self.experiment_report:
+            self.experiment_report['run_results'] = []
+
+        s = None
+        if run.fitness is not None and self.report['initial_fitness'] is not None:
+            if isinstance(run.fitness, list):
+                s = None
+            else:
+                s = 100 * run.fitness / self.report['initial_fitness']
+        self.experiment_report['run_results'].append({
+            'counter': counter,
+            'status': run.status,
+            'c': c, # tracks if current best
+            'fitness': run.fitness,
+            'percentage_of_initial' : s,
+            'patch_size': len(patch.edits),
+            'data': run.log,
+            'patch': patch,
+            'diff': diff_string # recomputes contents but meh
+        })
 
     def aux_log_eval(self, counter, status, c, fitness, baseline, patch_size, data):
         if fitness is not None and baseline is not None:
@@ -165,6 +194,9 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
         if self.program.base_fitness is None:
             self.program.base_fitness = current_fitness
 
+        # DB11: store results for experiment
+        self.experiment_report['warmup_values'] = warmup_values # Used to find standard deviation is runtime
+
     def evaluate_patch(self, patch, force=False, forget=False):
         contents = self.program.apply_patch(patch)
         diff = None
@@ -174,11 +206,18 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
             cached_run = self.cache_get(diff)
             # no return: now handled in evaluate_contents
         run = self.program.evaluate_contents(contents, cached_run)
+        
         if self.config['cache_maxsize'] > 0 and not forget:
             if not diff:
                 diff = self.program.diff_contents(contents)
             self.cache_set(diff, run)
         self.stats['budget'] += getattr(run, 'budget', 0) or 0
+
+        # if self.report['initial_fitness'] is not None: # We are note warming up
+        #     if 'fitness_values' not in self.experiment_report: 
+        #         self.experiment_report['fitness_values'] = []
+        #     self.experiment_report['fitness_values'].append(run)
+
         return run
 
     def cache_get(self, diff):
