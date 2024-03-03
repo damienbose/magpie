@@ -44,15 +44,13 @@ class LocalSearch(BasicAlgorithm):
             # the end
             self.hook_end()
 
-    def mutate(self, patch, force=None):
-        n = len(patch.edits)
-        if n == 0:
-            if self.config['delete_prob'] == 1:
-                self.report['stop'] = 'trapped'
-            else:
-                patch.edits.append(self.create_edit())
-        elif random.random() < self.config['delete_prob']:
-            del patch.edits[random.randrange(0, n)]
+    def mutate(self, patch, delete=False):
+        if delete:
+            n = len(patch.edits)
+            if n == 0:
+                raise RuntimeError("Cannot delete from an empty patch.")
+            else:  
+                del patch.edits[random.randrange(0, n)]
         else:
             patch.edits.append(self.create_edit())
 
