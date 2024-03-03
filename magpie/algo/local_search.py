@@ -1,6 +1,7 @@
 import copy
 import random
 import time
+from magpie.base.operator_selector import AbstractBanditsOperatorSelector
 
 from ..base import Patch
 from ..bin import BasicAlgorithm
@@ -54,6 +55,13 @@ class LocalSearch(BasicAlgorithm):
         else:
             patch.edits.append(self.create_edit())
 
+    def evaluate_patch_wrapper(self, patch, parent_fitness):
+        run = self.evaluate_patch(patch)
+        if isinstance(self.config['operator_selector'], AbstractBanditsOperatorSelector):
+            assert run is not None, "run should not be None"
+            self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, parent_fitness, run)
+        return run
+        
     def check_if_trapped(self):
         if self.config['max_neighbours'] is None:
             return
@@ -74,7 +82,7 @@ class RandomSearch(LocalSearch):
         self.mutate(patch)
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=self.report['initial_fitness'])
         best = False
         
         if run.status == 'SUCCESS':
