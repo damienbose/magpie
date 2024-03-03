@@ -63,6 +63,32 @@ class LocalSearch(BasicAlgorithm):
             self.report['stop'] = 'trapped'
         # TODO: restart, others?
 
+class RandomSearch(LocalSearch):
+    def setup(self):
+        super().setup()
+        self.name = 'Random Search'
+
+    def explore(self, current_patch, current_fitness):
+        # move
+        patch = Patch()
+        self.mutate(patch)
+
+        # compare
+        run = self.evaluate_patch(patch)
+        best = False
+        
+        if run.status == 'SUCCESS':
+            if self.dominates(run.fitness, self.report['best_fitness']):
+                self.report['best_fitness'] = run.fitness
+                self.report['best_patch'] = patch
+                best = True
+
+        # hook
+        self.hook_evaluation(patch, run, False, best)
+
+        # next
+        self.stats['steps'] += 1
+        return patch, run.fitness
 
 class DummySearch(LocalSearch):
     def setup(self):
@@ -105,31 +131,6 @@ class DebugSearch(LocalSearch):
         return current_patch, current_fitness
 
 
-class RandomSearch(LocalSearch):
-    def setup(self):
-        super().setup()
-        self.name = 'Random Search'
-
-    def explore(self, current_patch, current_fitness):
-        # move
-        patch = Patch()
-        self.mutate(patch)
-
-        # compare
-        run = self.evaluate_patch(patch)
-        best = False
-        if run.status == 'SUCCESS':
-            if self.dominates(run.fitness, self.report['best_fitness']):
-                self.report['best_fitness'] = run.fitness
-                self.report['best_patch'] = patch
-                best = True
-
-        # hook
-        self.hook_evaluation(patch, run, False, best)
-
-        # next
-        self.stats['steps'] += 1
-        return patch, run.fitness
 
 
 class RandomWalk(LocalSearch):
