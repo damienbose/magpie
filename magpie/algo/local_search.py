@@ -103,55 +103,65 @@ class FYPLocalSearch(LocalSearch):
     def setup(self):
         super().setup()
         self.name = 'FYP Local Search'
-        self.config['max_neighbours'] = 20
+
         self.local_best_patch = None
         self.local_best_fitness = None
-        self.local_tabu = set()
 
-    def explore(self, current_patch, current_fitness):
-        # move
-        while True:
+    def updateNeighbourhood(self, current_patch, current_fitness):
+        current_patch, current_fitness = self.local_best_patch, self.local_best_fitness
+        if self.dominates(current_fitness, self.report['best_fitness']):
+            self.report['best_patch'] = current_patch
+            self.report['best_fitness'] = current_fitness
+        else:
+            # Keep deleting until a variant that runs is found.
+            while True:
+                self.program.logger.debug("Deleting a random edit from patch...")
+
+                # Move
+                patch = copy.deepcopy(current_patch)
+                self.mutate(patch, delete=True)
+
+                # Compare
+                run = self.evaluate_patch(patch) # Use evaluate_patch() instead of wrapper because no mutation operator was selected
+
+                best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
+                self.hook_evaluation(patch, run, False, best)
+
+                current_patch, current_fitness = patch, run.fitness
+                if run.status == 'SUCCESS':
+                    break
+
+        self.local_best_patch, self.local_best_fitness = None, None
+        self.stats['neighbours'] = 0
+        return current_patch, current_fitness
+    
+    def localNeighbourhoodSearch(self, current_patch, current_fitness):
+            # move
             patch = copy.deepcopy(current_patch)
             self.mutate(patch)
-            if patch not in self.local_tabu:
-                break
 
-        # compare
-        run = self.evaluate_patch(patch)
-        accept = best = False
-        if run.status == 'SUCCESS':
-            if not self.dominates(current_fitness, run.fitness):
-                if not self.dominates(self.local_best_fitness, run.fitness):
+            # compare
+            run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
+
+            if run.status == 'SUCCESS':
+                if self.dominates(run.fitness, self.local_best_fitness):
                     self.local_best_patch = patch
                     self.local_best_fitness = run.fitness
-                    if self.dominates(run.fitness, self.report['best_fitness']):
-                        self.report['best_fitness'] = run.fitness
-                        self.report['best_patch'] = patch
-                        best = True
 
-        # accept
+            # hook
+            best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
+            self.hook_evaluation(patch, run, False, best)
+
+            # next
+            self.stats['neighbours'] += 1
+            self.stats['steps'] += 1
+
+    def explore(self, current_patch, current_fitness):
         accept = self.stats['neighbours'] >= self.config['max_neighbours']
         if accept:
-            if self.local_best_patch is not None:
-                current_patch = self.local_best_patch
-                current_fitness = self.local_best_fitness
-                self.local_best_patch = None
-                self.local_best_fitness = None
-                self.local_tabu.clear()
-                self.stats['neighbours'] = 0
-            else:
-                self.check_if_trapped()
+            current_patch, current_fitness = self.updateNeighbourhood(current_patch, current_fitness)
         else:
-            if len(patch.edits) < len(current_patch.edits):
-                self.local_tabu.add(patch)
-            self.stats['neighbours'] += 1
-            self.check_if_trapped()
-
-        # hook
-        self.hook_evaluation(patch, run, accept, best)
-
-        # next
-        self.stats['steps'] += 1
+            self.localNeighbourhoodSearch(current_patch, current_fitness)
         return current_patch, current_fitness
 
 class DummySearch(LocalSearch):
