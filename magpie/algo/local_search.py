@@ -13,6 +13,8 @@ class LocalSearch(BasicAlgorithm):
         self.config['delete_prob'] = 0.5
         self.config['max_neighbours'] = None
         self.config['when_trapped'] = 'continue'
+        self.last_operator_is_delete_edit = False
+        assert self.config['delete_prob'] >= 0 and self.config['delete_prob'] < 1, "delete_prob should be in [0, 1)"
 
     def reset(self):
         super().reset()
@@ -45,20 +47,27 @@ class LocalSearch(BasicAlgorithm):
             # the end
             self.hook_end()
 
-    def mutate(self, patch, delete=False):
+    def mutate_helper(self, patch, delete=False):
         if delete:
             n = len(patch.edits)
-            if n == 0:
-                raise RuntimeError("Cannot delete from an empty patch.")
-            else:  
-                del patch.edits[random.randrange(0, n)]
+            assert n > 0, "Cannot delete from an empty patch."
+            del patch.edits[random.randrange(0, n)]
+            self.last_operator_is_delete_edit = True
         else:
             patch.edits.append(self.create_edit())
+            self.last_operator_is_delete_edit = False
 
-    def evaluate_patch_wrapper(self, patch, parent_fitness):
+    def mutate(self, patch):
+        if len(patch.edits) > 0 and random.random() < self.config['delete_prob']:
+            self.mutate_helper(patch, delete=True)
+        else:
+            self.mutate_helper(patch, delete=False)
+
+    def evaluate_patch_wrapper(self, patch, parent_fitness=None):
         run = self.evaluate_patch(patch)
-        if isinstance(self.config['operator_selector'], AbstractBanditsOperatorSelector):
+        if isinstance(self.config['operator_selector'], AbstractBanditsOperatorSelector) and not self.last_operator_is_delete_edit:
             assert run is not None, "run should not be None"
+            assert parent_fitness is not None, "parent_fitness should not be None"
             self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, parent_fitness, run)
         return run
         
@@ -79,7 +88,7 @@ class RandomSearch(LocalSearch):
     def explore(self, current_patch, current_fitness):
         # move
         patch = Patch()
-        self.mutate(patch)
+        self.mutate_helper(patch, delete=False)
 
         # compare
         run = self.evaluate_patch_wrapper(patch, parent_fitness=self.report['initial_fitness'])
@@ -120,11 +129,10 @@ class FYPLocalSearch(LocalSearch):
 
             # Move
             patch = copy.deepcopy(current_patch)
-            self.mutate(patch, delete=True)
+            self.mutate_helper(patch, delete=True)
 
             # Compare
-            run = self.evaluate_patch(patch) # Use evaluate_patch() instead of wrapper because no mutation operator was selected
-
+            run = self.evaluate_patch_wrapper(patch)
             best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
             if best:
                 self.report['best_patch'] = patch
@@ -144,7 +152,7 @@ class FYPLocalSearch(LocalSearch):
     def localNeighbourhoodSearch(self, current_patch, current_fitness):
             # move
             patch = copy.deepcopy(current_patch)
-            self.mutate(patch)
+            self.mutate_helper(patch, delete=False)
 
             # compare
             run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
@@ -236,7 +244,7 @@ class RandomWalk(LocalSearch):
         self.mutate(patch)
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = self.config['accept_fail']
         best = False
         if run.status == 'SUCCESS':
@@ -278,7 +286,7 @@ class FirstImprovement(LocalSearch):
                 break
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = best = False
         if run.status == 'SUCCESS':
             if not self.dominates(current_fitness, run.fitness):
@@ -318,7 +326,7 @@ class FirstImprovementNoTabu(LocalSearch):
         self.mutate(patch)
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = best = False
         if run.status == 'SUCCESS':
             if not self.dominates(current_fitness, run.fitness):
@@ -363,7 +371,7 @@ class BestImprovement(LocalSearch):
                 break
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = best = False
         if run.status == 'SUCCESS':
             if not self.dominates(current_fitness, run.fitness):
@@ -414,7 +422,7 @@ class BestImprovementNoTabu(LocalSearch):
         self.mutate(patch)
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = best = False
         if run.status == 'SUCCESS':
             if not self.dominates(current_fitness, run.fitness):
@@ -467,7 +475,7 @@ class WorstImprovement(LocalSearch):
                 break
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = best = False
         if run.status == 'SUCCESS':
             if not self.dominates(current_fitness, run.fitness):
@@ -522,7 +530,7 @@ class TabuSearch(BestImprovement):
                 break
 
         # compare
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
         accept = best = False
         if run.status == 'SUCCESS':
             if not self.dominates(self.local_best_fitness, run.fitness):
