@@ -11,7 +11,7 @@ class AbstractOperatorSelector(ABC):
     def select(self, **kwargs):
         pass
 
-def calculate_reward(initial_fitness, run):
+def calculate_reward(parent_fitness, run):
     """ current 1, previous 5
     if run.status != 'SUCCESS':    
         return 0
@@ -25,7 +25,7 @@ def calculate_reward(initial_fitness, run):
             # with open('error.pkl', 'wb') as file:
             #     pickle.dump(run, file)
             assert False, f"run.fitness is None for {run.status} and {run.fitness}"
-        return initial_fitness / run.fitness # Return relative improvement from base fitness (TODO: change to previous fitness as discussed)
+        return parent_fitness / run.fitness
 
 class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
     def __init__(self, operators):
@@ -46,8 +46,8 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
         self.average_qualities_log = [self._average_qualities.copy()]
         self.action_count_log = [self._action_count.copy()]
     
-    def update_quality(self, operator, initial_fitness, run): # TODO rename: 'update_agent_state' (note: bandit algos have a single environment state)
-        reward = calculate_reward(initial_fitness, run)
+    def update_quality(self, operator, parent_fitness, run): # TODO rename: 'update_agent_state' (note: bandit algos have a single environment state)
+        reward = calculate_reward(parent_fitness, run)
 
         self._action_count[operator] += 1
         self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator] # TODO rename: 'action_value_estimates'
@@ -97,8 +97,8 @@ class EpsilonGreedy(AbstractBanditsOperatorSelector):
         # Hyperparameters
         self._epsilon = epsilon
                 
-    def update_quality(self, operator, initial_fitness, run):
-        super().update_quality(operator, initial_fitness, run)
+    def update_quality(self, operator, parent_fitness, run):
+        super().update_quality(operator, parent_fitness, run)
         
     def select(self):
         super().select()
@@ -117,8 +117,8 @@ class ProbabilityMatching(AbstractBanditsOperatorSelector):
         self._probabilities = np.array([1/len(self._operators) for op in self._operators]) # Index matches operators
         self.probabilities_log = [self._probabilities.copy()]
     
-    def update_quality(self, operator, initial_fitness, run):
-        super().update_quality(operator, initial_fitness, run)
+    def update_quality(self, operator, parent_fitness, run):
+        super().update_quality(operator, parent_fitness, run)
 
         # Update probabilities
         total = sum(self._average_qualities.values())
@@ -146,8 +146,8 @@ class UCB(AbstractBanditsOperatorSelector):
 
         self.num_arms_not_selected = operators.copy()
 
-    def update_quality(self, operator, initial_fitness, run):
-        super().update_quality(operator, initial_fitness, run)
+    def update_quality(self, operator, parent_fitness, run):
+        super().update_quality(operator, parent_fitness, run)
     
     def select(self):
         super().select()
@@ -179,8 +179,8 @@ class PolicyGradient(AbstractBanditsOperatorSelector):
         self._policy_log = [self._policy.copy()]
         self._average_reward_log = [self._average_reward]
     
-    def update_quality(self, operator, initial_fitness, run):
-        reward = super().update_quality(operator, initial_fitness, run)
+    def update_quality(self, operator, parent_fitness, run):
+        reward = super().update_quality(operator, parent_fitness, run)
 
         # Update preferences
         for i, op in enumerate(self._operators):

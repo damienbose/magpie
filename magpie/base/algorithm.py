@@ -53,7 +53,7 @@ class AbstractAlgorithm(ABC):
             if self.edit_klass_possible(edit_klass):
                 break
             else:
-                self.config['operator_selector'].update_quality(operator=self.config['operator_selector'].prev_operator, initial_fitness=None, run=None) 
+                self.config['operator_selector'].update_quality(operator=self.config['operator_selector'].prev_operator, parent_fitness=None, run=None) 
             max_select_ties -= 1
             if max_select_ties == 0:
                 raise RuntimeError('CANNOT FIND ANY POSSIBLE EDIT CLASSES TO SELECT FROM!')
