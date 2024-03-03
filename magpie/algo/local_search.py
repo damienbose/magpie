@@ -37,6 +37,7 @@ class LocalSearch(BasicAlgorithm):
             while not self.stopping_condition():
                 self.hook_main_loop()
                 current_patch, current_fitness = self.explore(current_patch, current_fitness)
+            current_patch, current_fitness = self.end_explore(current_patch, current_fitness)
 
         except KeyboardInterrupt:
             self.report['stop'] = 'keyboard interrupt'
@@ -44,6 +45,9 @@ class LocalSearch(BasicAlgorithm):
         finally:
             # the end
             self.hook_end()
+
+    def end_explore(self, current_patch, current_fitness):
+        pass 
 
     def mutate(self, patch, delete=False):
         if delete:
@@ -107,29 +111,37 @@ class FYPLocalSearch(LocalSearch):
         self.local_best_patch = None
         self.local_best_fitness = None
 
+    def delete_rand_edit(self, current_patch):
+        # Keep deleting until a feasible variant is found
+        while True:
+            self.program.logger.debug(f"Deleting a random edit from patch: {current_patch}")
+
+            # Move
+            patch = copy.deepcopy(current_patch)
+            self.mutate(patch, delete=True)
+
+            # Compare
+            run = self.evaluate_patch(patch) # Use evaluate_patch() instead of wrapper because no mutation operator was selected
+
+            # Hook
+            best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
+            self.hook_evaluation(patch, run, False, best)
+            self.stats['steps'] += 1
+
+            # Update search space
+            current_patch, current_fitness = patch, run.fitness
+            if run.status == 'SUCCESS':
+                break
+
+        return current_patch, current_fitness
+
     def updateNeighbourhood(self, current_patch, current_fitness):
         current_patch, current_fitness = self.local_best_patch, self.local_best_fitness
         if self.dominates(current_fitness, self.report['best_fitness']):
             self.report['best_patch'] = current_patch
             self.report['best_fitness'] = current_fitness
         else:
-            # Keep deleting until a variant that runs is found.
-            while True:
-                self.program.logger.debug("Deleting a random edit from patch...")
-
-                # Move
-                patch = copy.deepcopy(current_patch)
-                self.mutate(patch, delete=True)
-
-                # Compare
-                run = self.evaluate_patch(patch) # Use evaluate_patch() instead of wrapper because no mutation operator was selected
-
-                best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
-                self.hook_evaluation(patch, run, False, best)
-
-                current_patch, current_fitness = patch, run.fitness
-                if run.status == 'SUCCESS':
-                    break
+            current_patch, current_fitness = self.delete_rand_edit(current_patch)
 
         self.local_best_patch, self.local_best_fitness = None, None
         self.stats['neighbours'] = 0
@@ -143,20 +155,31 @@ class FYPLocalSearch(LocalSearch):
             # compare
             run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
 
+            best = False
             if run.status == 'SUCCESS':
                 if self.dominates(run.fitness, self.local_best_fitness):
                     self.local_best_patch = patch
                     self.local_best_fitness = run.fitness
-
+                    if self.dominates(run.fitness, self.report['best_fitness']):
+                        best = True
+            
             # hook
-            best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
             self.hook_evaluation(patch, run, False, best)
+            self.stats['steps'] += 1
 
             # next
             self.stats['neighbours'] += 1
-            self.stats['steps'] += 1
+    
+    def end_explore(self, current_patch, current_fitness):
+        current_patch, current_fitness = self.updateNeighbourhood(current_patch, current_fitness)
+        return current_patch, current_fitness
 
     def explore(self, current_patch, current_fitness):
+
+        # Initialise our local neighbourhood base
+        if self.local_best_patch is None:
+            self.local_best_patch, self.local_best_fitness = current_patch, current_fitness
+
         accept = self.stats['neighbours'] >= self.config['max_neighbours']
         if accept:
             current_patch, current_fitness = self.updateNeighbourhood(current_patch, current_fitness)
