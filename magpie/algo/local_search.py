@@ -37,7 +37,6 @@ class LocalSearch(BasicAlgorithm):
             while not self.stopping_condition():
                 self.hook_main_loop()
                 current_patch, current_fitness = self.explore(current_patch, current_fitness)
-            current_patch, current_fitness = self.end_explore(current_patch, current_fitness)
 
         except KeyboardInterrupt:
             self.report['stop'] = 'keyboard interrupt'
@@ -45,9 +44,6 @@ class LocalSearch(BasicAlgorithm):
         finally:
             # the end
             self.hook_end()
-
-    def end_explore(self, current_patch, current_fitness):
-        pass 
 
     def mutate(self, patch, delete=False):
         if delete:
@@ -113,8 +109,14 @@ class FYPLocalSearch(LocalSearch):
 
     def delete_rand_edit(self, current_patch):
         # Keep deleting until a feasible variant is found
+        if len(current_patch.edits) == 0:
+            return Patch(), self.report['initial_fitness']
+
         while True:
             self.program.logger.debug(f"Deleting a random edit from patch: {current_patch}")
+
+            if len(current_patch.edits) == 1:
+                return Patch(), self.report['initial_fitness']
 
             # Move
             patch = copy.deepcopy(current_patch)
@@ -123,8 +125,12 @@ class FYPLocalSearch(LocalSearch):
             # Compare
             run = self.evaluate_patch(patch) # Use evaluate_patch() instead of wrapper because no mutation operator was selected
 
-            # Hook
             best = run.status == 'SUCCESS' and self.dominates(run.fitness, self.report['best_fitness'])
+            if best:
+                self.report['best_patch'] = patch
+                self.report['best_fitness'] = run.fitness
+
+            # Hook
             self.hook_evaluation(patch, run, False, best)
             self.stats['steps'] += 1
 
@@ -133,18 +139,6 @@ class FYPLocalSearch(LocalSearch):
             if run.status == 'SUCCESS':
                 break
 
-        return current_patch, current_fitness
-
-    def updateNeighbourhood(self, current_patch, current_fitness):
-        current_patch, current_fitness = self.local_best_patch, self.local_best_fitness
-        if self.dominates(current_fitness, self.report['best_fitness']):
-            self.report['best_patch'] = current_patch
-            self.report['best_fitness'] = current_fitness
-        else:
-            current_patch, current_fitness = self.delete_rand_edit(current_patch)
-
-        self.local_best_patch, self.local_best_fitness = None, None
-        self.stats['neighbours'] = 0
         return current_patch, current_fitness
     
     def localNeighbourhoodSearch(self, current_patch, current_fitness):
@@ -167,24 +161,27 @@ class FYPLocalSearch(LocalSearch):
             self.hook_evaluation(patch, run, False, best)
             self.stats['steps'] += 1
 
-            # next
-            self.stats['neighbours'] += 1
-    
-    def end_explore(self, current_patch, current_fitness):
-        current_patch, current_fitness = self.updateNeighbourhood(current_patch, current_fitness)
-        return current_patch, current_fitness
-
     def explore(self, current_patch, current_fitness):
+        self.program.logger.info(f"Performing Random Search on {current_patch} with fitness={current_fitness}")
 
         # Initialise our local neighbourhood base
-        if self.local_best_patch is None:
-            self.local_best_patch, self.local_best_fitness = current_patch, current_fitness
+        self.local_best_patch, self.local_best_fitness = current_patch, current_fitness
 
-        accept = self.stats['neighbours'] >= self.config['max_neighbours']
-        if accept:
-            current_patch, current_fitness = self.updateNeighbourhood(current_patch, current_fitness)
-        else:
+        # RandomSearch
+        for _ in range(self.config['max_neighbours']):
+            if self.stopping_condition():
+                break
             self.localNeighbourhoodSearch(current_patch, current_fitness)
+        
+        # Take a step into new neighbourhood
+        self.program.logger.info("Updating the search space...")
+        current_patch, current_fitness = self.local_best_patch, self.local_best_fitness
+        if self.dominates(current_fitness, self.report['best_fitness']):
+            self.report['best_patch'] = current_patch
+            self.report['best_fitness'] = current_fitness
+        else:
+            current_patch, current_fitness = self.delete_rand_edit(current_patch)
+        
         return current_patch, current_fitness
 
 class DummySearch(LocalSearch):
