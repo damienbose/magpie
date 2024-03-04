@@ -7,13 +7,6 @@ RUN apt-get update \
         && apt-get clean -y \
         && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/catchorg/Catch2.git \
-    && cd Catch2 \
-    && cmake -B build -DBUILD_TESTING=OFF \
-    && cmake --build build \
-    && sudo cmake --install build/ \
-    && cd .. 
-
 # Python dependencies
 # RUN sudo apt install python3-pip -y \
 #     && pip install numpy
