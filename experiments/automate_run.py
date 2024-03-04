@@ -23,6 +23,7 @@ operator_selectors = [
 
 search_algos = [
     'RandomSearch',
+    'FYPLocalSearch'
 ]
 
 if __name__ == '__main__':
