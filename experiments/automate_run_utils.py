@@ -20,7 +20,8 @@ def cross_val_setup(args, train_set_size=20, num_replications=5):
         bins = json.load(file)
 
     # Use absolute paths for test cases & SAT/UNSAT label
-    in_path = "/cs/student/ug/2020/damibose/projects/magpie/examples/code/benchmark"
+    root_dir = os.getcwd()
+    in_path = root_dir + "/examples/code/benchmark"
     for bin in bins:
         for i, elem in enumerate(bin):
             test_case_type = 'SAT' if elem.split('/')[-1].count('u') == 1 else 'UNSAT'
