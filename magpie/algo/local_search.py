@@ -122,7 +122,7 @@ class FYPLocalSearch(LocalSearch):
             return Patch(), self.report['initial_fitness']
 
         while True:
-            self.program.logger.info(f"Deleting a random edit from patch: {current_patch}")
+            self.program.logger.info(f"Deleting a random edit from patch: [{len(current_patch.edits)} edit(s)]")
 
             if len(current_patch.edits) == 1:
                 return Patch(), self.report['initial_fitness']
@@ -171,7 +171,7 @@ class FYPLocalSearch(LocalSearch):
             self.stats['steps'] += 1
 
     def explore(self, current_patch, current_fitness):
-        self.program.logger.info(f"Performing Random Search on {current_patch} with fitness={current_fitness}")
+        self.program.logger.info(f"Performing Random Search on [{current_patch}] with fitness={current_fitness}")
 
         # Initialise our local neighbourhood base
         self.local_best_patch, self.local_best_fitness = current_patch, current_fitness
