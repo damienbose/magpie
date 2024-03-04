@@ -100,6 +100,12 @@ def set_validate_batch_config(config, replication_num, cross_validation_setup):
     bins = '\n' + '\n___\n'.join(bins)
     config["search"]["batch_instances"] = bins
 
+def set_budge_config(config, algo):
+    if algo == 'RandomSearch':
+        config["search"]["max_time"] = "10800" # 3 hours
+    elif algo == 'FYPLocalSearch':
+        config["search"]["max_time"] = "54000" # 15 hours
+
 def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
     for operator_selector in operator_selectors:
         for algo in search_algos:
@@ -108,6 +114,7 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
                 config_file = "experiments/scenario/template.ini" if not debug_mode else "experiments/scenario/debug.ini"
                 config.read(config_file)
                 set_operator_selector_config(config, operator_selector)
+                set_budge_config(config, algo)
                 set_batch_config(config, replication_num, cross_validation_setup)
                 path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/scenario.ini"
                 Path(path).parent.mkdir(parents=True, exist_ok=True)
