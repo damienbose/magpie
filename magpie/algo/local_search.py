@@ -182,15 +182,18 @@ class FYPLocalSearch(LocalSearch):
                 break
             self.localNeighbourhoodSearch(current_patch, current_fitness)
         
+        # Update global best
+        if self.dominates(self.local_best_fitness, self.report['best_fitness']):
+            self.report['best_patch'] = self.local_best_patch
+            self.report['best_fitness'] = self.local_best_fitness
+
         # Take a step into new neighbourhood
         self.program.logger.info("Updating the search space...")
-        current_patch, current_fitness = self.local_best_patch, self.local_best_fitness
-        if self.dominates(current_fitness, self.report['best_fitness']):
-            self.report['best_patch'] = current_patch
-            self.report['best_fitness'] = current_fitness
-        else:
+        if current_patch == self.local_best_patch:
             current_patch, current_fitness = self.delete_rand_edit(current_patch)
-        
+        else:
+            current_patch, current_fitness = self.local_best_patch, self.local_best_fitness
+
         return current_patch, current_fitness
 
 class DummySearch(LocalSearch):
