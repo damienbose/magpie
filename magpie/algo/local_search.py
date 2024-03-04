@@ -122,7 +122,7 @@ class FYPLocalSearch(LocalSearch):
             return Patch(), self.report['initial_fitness']
 
         while True:
-            self.program.logger.debug(f"Deleting a random edit from patch: {current_patch}")
+            self.program.logger.info(f"Deleting a random edit from patch: {current_patch}")
 
             if len(current_patch.edits) == 1:
                 return Patch(), self.report['initial_fitness']
@@ -157,16 +157,17 @@ class FYPLocalSearch(LocalSearch):
             # compare
             run = self.evaluate_patch_wrapper(patch, parent_fitness=current_fitness)
 
-            best = False
+            best = best_local = False
             if run.status == 'SUCCESS':
                 if self.dominates(run.fitness, self.local_best_fitness):
                     self.local_best_patch = patch
                     self.local_best_fitness = run.fitness
+                    best_local = True
                     if self.dominates(run.fitness, self.report['best_fitness']):
                         best = True
             
             # hook
-            self.hook_evaluation(patch, run, False, best)
+            self.hook_evaluation(patch, run, best_local, best)
             self.stats['steps'] += 1
 
     def explore(self, current_patch, current_fitness):
