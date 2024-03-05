@@ -1,6 +1,9 @@
 import random
 import json
 import subprocess
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
+
 import configparser
 import math
 from pathlib import Path
@@ -102,9 +105,9 @@ def set_validate_batch_config(config, replication_num, cross_validation_setup):
 
 def set_budge_config(config, algo):
     if algo == 'RandomSearch':
-        config["search"]["max_time"] = "10800" # 3 hours
+        config["search"]["max_time"] = "10" # 3 hours
     elif algo == 'FYPLocalSearch':
-        config["search"]["max_time"] = "54000" # 15 hours
+        config["search"]["max_time"] = "10" # 15 hours
 
 def set_fitness_config(config, is_mac=False):
     if is_mac:
@@ -146,37 +149,50 @@ def setup(args, train_set_size, num_replications, operator_selectors, search_alg
     scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac)
     validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac)
 
+def execute_bash_command(command, core_id):
+    # if core_id is not None:
+        # command = f"taskset -c {core_id} {command}" # Set core affinity
+    print("Running command: ", command, flush=True)
+    subprocess.run(command, shell=True, check=True, text=True) # Throws exception if non-zero exit code
+    return command, core_id
+
+def exec_single_commands_sequentially(args, commands):
+    for command in tqdm(commands, desc="Progress", file=open(f"{args.results_dir}/progress_logs.txt", 'a')):
+        execute_bash_command(command, None)
+        subprocess.run(command, shell=True, text=True)
+
+def exec_using_multiple_cores(args, commands, num_workers=2):
+    commands = copy.deepcopy(commands)
+    num_commands = len(commands)
+
+    progress_bar = tqdm(total=num_commands, desc="Progress", file=open(f"{args.results_dir}/progress_logs.txt", 'a'))
+
+    # Create a ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        futures = {}
+        for core_id in range(num_workers):
+            if len(commands) > 0:
+                cmd = commands.pop(0)
+                futures[core_id] = executor.submit(execute_bash_command, cmd, core_id)
+        
+        while futures:
+            for future in concurrent.futures.as_completed(futures.values()):
+                command_done, core_id_free = future.result()
+                print("Command done: ", command_done, flush=True)
+                print(command_done, flush=True, file=open(f"{args.results_dir}/commands_logs.txt", 'a'))
+                progress_bar.update(1)
+
+                if len(commands) > 0:
+                    del futures[core_id_free]
+                    cmd = commands.pop(0)
+                    futures[core_id_free] = executor.submit(execute_bash_command, cmd, core_id_free)
+                    break
+            
 def exec_commands(args, commands, MAX_SUB_PROCESSES=1):
     if MAX_SUB_PROCESSES == 1: 
-        for command in tqdm(commands, desc="Progress", file=open(f"{args.results_dir}/progress_logs.txt", 'a')):
-            print(command, flush=True, file=open(f"{args.results_dir}/commands_logs.txt", 'a'))
-            subprocess.run(command, shell=True, text=True)
-
-        # Delete the progress file
-        os.remove(f"{args.results_dir}/progress_logs.txt")
+        exec_single_commands_sequentially(args, commands)
     else:         
-        progress_bar = tqdm(total=len(commands), desc="Progress", file=open(f"{args.results_dir}/progress_logs.txt", 'a'))
-        processes = []
-        for command in commands:
-            print(command, flush=True, file=open(f"{args.results_dir}/commands_logs.txt", 'a'))
-
-            process = subprocess.Popen(command.split(' '))
-            
-            processes.append(process)
-
-            if len(processes) >= MAX_SUB_PROCESSES:
-                for process in processes:
-                    process.wait()
-                    progress_bar.update(1)
-                processes = []
-        
-        for process in processes: # Wait off the remaining processes
-            process.wait()
-            progress_bar.update(1)
-
-        progress_bar.close()
-        # Delete the progress file
-        os.remove(f"{args.results_dir}/progress_logs.txt")
+        exec_using_multiple_cores(args, commands, num_workers=MAX_SUB_PROCESSES)
 
 def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
     commands = []
