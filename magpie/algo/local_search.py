@@ -1,6 +1,8 @@
 import copy
 import random
 import time
+from functools import cache
+
 from magpie.base.operator_selector import AbstractBanditsOperatorSelector
 
 from ..base import Patch
@@ -63,8 +65,12 @@ class LocalSearch(BasicAlgorithm):
         else:
             self.mutate_helper(patch, delete=False)
 
+    @cache
+    def evaluate_patch_cached(self, patch):
+        return self.evaluate_patch(patch)
+
     def evaluate_patch_wrapper(self, patch, parent_fitness=None):
-        run = self.evaluate_patch(patch)
+        run = self.evaluate_patch_cached(patch)
         if isinstance(self.config['operator_selector'], AbstractBanditsOperatorSelector) and not self.last_operator_is_delete_edit:
             assert run is not None, "run should not be None"
             assert parent_fitness is not None, "parent_fitness should not be None"

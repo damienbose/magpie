@@ -195,6 +195,9 @@ class BasicProtocol:
         result.update(self.search.experiment_report)
         result['operator_selector'] = self.search.config['operator_selector']
 
+        cache_info = self.search.evaluate_patch_cached.cache_info()
+        # CacheInfo(hits=0, misses=3, maxsize=None, currsize=3)
+        result['cache_info'] = {"hits" : cache_info.hits, "misses" : cache_info.misses, "maxsize" : cache_info.maxsize, "currsize" : cache_info.currsize}
         result['config'] = self.search.config
 
         # Get path of current experiment results
