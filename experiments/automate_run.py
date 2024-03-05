@@ -5,7 +5,7 @@ import automate_run_utils as utils
 importlib.reload(utils) # Reload instead of using cached version
 
 is_debug_mode = False
-is_mac = True
+is_mac = False
 
 MAX_SUB_PROCESSES = 5
 
