@@ -5,6 +5,7 @@ import automate_run_utils as utils
 importlib.reload(utils) # Reload instead of using cached version
 
 is_debug_mode = False
+is_mac = True
 
 MAX_SUB_PROCESSES = 5
 
@@ -39,7 +40,7 @@ if __name__ == '__main__':
     try:
         if args.step == 'setup':
             # Generate the cross-validation split
-            utils.setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode)
+            utils.setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode, is_mac=is_mac)
         elif args.step == 'train':
             # Run GI on the training set
             utils.train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES)

@@ -106,13 +106,19 @@ def set_budge_config(config, algo):
     elif algo == 'FYPLocalSearch':
         config["search"]["max_time"] = "54000" # 15 hours
 
-def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
+def set_fitness_config(config, is_mac=False):
+    if is_mac:
+        config["software"]["fitness"] = "time"
+        config["software"]["run_cmd"] = ' '.join(config["software"]["run_cmd"].split(' ')[4:]) # Remove the 'perf' command
+
+def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False, is_mac=False):
     for operator_selector in operator_selectors:
         for algo in search_algos:
             for replication_num in range(num_replications):
                 config = configparser.ConfigParser()
                 config_file = "experiments/scenario/template.ini" if not debug_mode else "experiments/scenario/debug.ini"
                 config.read(config_file)
+                set_fitness_config(config, is_mac)
                 set_operator_selector_config(config, operator_selector)
                 set_budge_config(config, algo)
                 set_batch_config(config, replication_num, cross_validation_setup)
@@ -121,23 +127,24 @@ def scenario_config_setup(args, operator_selectors, search_algos, num_replicatio
                 with open(path, 'w') as configfile:
                     config.write(configfile)
 
-def validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False):
+def validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False, is_mac=False):
     for operator_selector in operator_selectors:
         for algo in search_algos:
             for replication_num in range(num_replications):
                 config = configparser.ConfigParser()
                 config_file = "experiments/scenario/template.ini" if not debug_mode else "experiments/scenario/debug.ini"
                 config.read(config_file)
+                set_fitness_config(config, is_mac)
                 set_validate_batch_config(config, replication_num, cross_validation_setup)
                 path = f"{args.results_dir}/{algo}/{operator_selector}/trial_{replication_num}/validate_scenario.ini"
                 Path(path).parent.mkdir(parents=True, exist_ok=True)
                 with open(path, 'w') as configfile:
                     config.write(configfile)
 
-def setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=False):
+def setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=False, is_mac=False):
     cross_validation_setup = cross_val_setup(args, train_set_size, num_replications)
-    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
-    validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode)
+    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac)
+    validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac)
 
 def exec_commands(args, commands, MAX_SUB_PROCESSES=1):
     if MAX_SUB_PROCESSES == 1: 
