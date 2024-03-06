@@ -3,4 +3,4 @@
 # Go to the root of this project
 cd $(git rev-parse --show-toplevel)
 
-python3 run.py
+python3 experiments/generate_coverage/run.py
