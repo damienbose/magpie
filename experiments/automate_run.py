@@ -9,6 +9,8 @@ is_mac = False
 
 MAX_SUB_PROCESSES = 5
 
+seed = 42
+
 # Cross validation setup
 train_set_size = 20
 num_replications = 5
@@ -30,12 +32,11 @@ search_algos = [
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--step', type=str, default='setup', choices=['setup', 'train', 'test'])
-    parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--results_dir', type=str, default='experiments/results')
     args = parser.parse_args()
 
     # Seed
-    utils.seed(args.seed)
+    utils.seed(seed)
 
     assert len(operator_selectors) % MAX_SUB_PROCESSES == 0, "See train() command so all processed are done in parrallel"
 

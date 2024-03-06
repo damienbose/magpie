@@ -185,7 +185,7 @@ def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROC
             # Train on the training folds
             for operator_selector in operator_selectors:
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
-                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
+                command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {random.randint(1, 1000)} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 commands.append(command)
     
     exec_commands(args, commands, MAX_SUB_PROCESSES)
