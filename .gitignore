@@ -10,3 +10,4 @@ _magpie*
 /*.egg-info
 experiments/results/*
 .venv/*
+experiments/generate_coverage/minisat

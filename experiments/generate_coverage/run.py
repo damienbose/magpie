@@ -16,4 +16,4 @@ if __name__ == "__main__":
             bin[i] = f"{in_path}/{elem} {test_case_type}"
     
     # Make a copy of minisat directory
-    subprocess.run(['cp', '-r', 'examples/code/minisat', 'experiments/generate_coverage/mini_copy'])
+    subprocess.run(['cp', '-r', 'examples/code/minisat', 'experiments/generate_coverage/minisat'])
