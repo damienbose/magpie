@@ -15,4 +15,5 @@ if __name__ == "__main__":
             test_case_type = 'SAT' if elem.split('/')[-1].count('u') == 1 else 'UNSAT'
             bin[i] = f"{in_path}/{elem} {test_case_type}"
     
-    print(bins)
+    # Make a copy of minisat directory
+    subprocess.run(['cp', '-r', 'examples/code/minisat', 'experiments/generate_coverage/mini_copy'])
