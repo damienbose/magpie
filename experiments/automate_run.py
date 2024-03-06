@@ -37,6 +37,8 @@ if __name__ == '__main__':
     # Seed
     utils.seed(args.seed)
 
+    assert len(operator_selectors) % MAX_SUB_PROCESSES == 0, "See train() command so all processed are done in parrallel"
+
     try:
         if args.step == 'setup':
             # Generate the cross-validation split
