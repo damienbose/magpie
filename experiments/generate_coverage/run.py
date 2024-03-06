@@ -1,6 +1,7 @@
 import subprocess
 import json
 import os
+import shutil
 
 def gen_for_test_case(test_case, root_dir, out_path):
     # Make a copy of minisat directory
@@ -10,12 +11,13 @@ def gen_for_test_case(test_case, root_dir, out_path):
 
     os.chdir('experiments/generate_coverage/minisat')
     subprocess.run(["./compile_coverage.sh"])
-    subprocess.run(f"./run_single_with_code.sh {test_case}")
+
+    subprocess.run(f"./run_single_with_code.sh {test_case}".split(' '))
     subprocess.run(f"gcovr --txt-metric branch --txt-report-covered -f core/Solver.cc > {out_path}/{test_case.split('/')[-1].split(' ')[0]}.txt", shell=True)
     os.chdir(root_dir)
 
     # Clean up
-    os.remove('experiments/generate_coverage/minisat')
+    shutil.rmtree('experiments/generate_coverage/minisat')
 
 
 if __name__ == "__main__":
@@ -23,7 +25,8 @@ if __name__ == "__main__":
     out_path = root_dir + "/experiments/generate_coverage/outputs"
 
     # Make sure clean 
-    os.remove('experiments/generate_coverage/minisat')
+    if os.path.exists('experiments/generate_coverage/minisat'):
+        shutil.rmtree('experiments/generate_coverage/minisat')
 
     # Generate the folds
     with open('examples/code/benchmark/sat_uniform.json', 'r') as file:
@@ -40,4 +43,6 @@ if __name__ == "__main__":
     os.makedirs(out_path, exist_ok=True)
     test_cases = [test_case for bin in bins for test_case in bin]
     for test_case in test_cases:
+        if os.path.exists(f"{out_path}/{test_case.split('/')[-1].split(' ')[0]}.txt"):
+            continue
         gen_for_test_case(test_case, root_dir, out_path)
