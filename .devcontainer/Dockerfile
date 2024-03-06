@@ -7,9 +7,10 @@ RUN apt-get update \
         && apt-get clean -y \
         && rm -rf /var/lib/apt/lists/*
 
-# Python dependencies
-# RUN sudo apt install python3-pip -y \
-#     && pip install numpy
+
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py \
+    && pip install --upgrade pip \
+    && pip install numpy
 
 # Customise my zhs taken from: https://github.com/deluan/zsh-in-docker
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
