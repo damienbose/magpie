@@ -11,3 +11,5 @@ _magpie*
 experiments/results/*
 .venv/*
 experiments/generate_coverage/minisat
+experiments/generate_coverage/coverage_data/
+experiments/generate_coverage/logs.txt
