@@ -13,7 +13,7 @@ seed = 42
 
 # Cross validation setup
 train_set_size = 20
-num_replications = 5
+num_replications = 1 # TODO: Make 5 in the future
 
 operator_selectors = [
     'UniformSelector',
