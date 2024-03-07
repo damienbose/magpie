@@ -13,3 +13,4 @@ experiments/results/*
 experiments/generate_coverage/minisat
 experiments/generate_coverage/coverage_data/
 experiments/generate_coverage/logs.txt
+*.DS_Store
