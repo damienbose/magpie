@@ -10,7 +10,7 @@ RUN apt-get update \
 
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py \
     && pip install --upgrade pip \
-    && pip install numpy gcovr
+    && pip install numpy gcovr tqdm
 
 # Customise my zhs taken from: https://github.com/deluan/zsh-in-docker
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
