@@ -7,7 +7,7 @@ importlib.reload(utils) # Reload instead of using cached version
 is_debug_mode = False
 is_mac = False
 
-MAX_SUB_PROCESSES = 5
+MAX_SUB_PROCESSES = 1
 
 seed = 42
 
