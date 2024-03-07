@@ -11,14 +11,7 @@ from tqdm import tqdm
 def seed(seed):
     random.seed(seed)
 
-def sample_k_random_test_cases(arr, k):
-    return random.sample(arr, k) # TODO: update this for the gcover
-
-def cross_val_setup(args, train_set_size=20, num_replications=5):
-    # Generate the folds
-    with open('examples/code/benchmark/sat_uniform.json', 'r') as file:
-        bins = json.load(file)
-
+def make_abs_path(bins):
     # Use absolute paths for test cases & SAT/UNSAT label
     root_dir = os.getcwd()
     in_path = root_dir + "/examples/code/benchmark"
@@ -26,20 +19,28 @@ def cross_val_setup(args, train_set_size=20, num_replications=5):
         for i, elem in enumerate(bin):
             test_case_type = 'SAT' if elem.split('/')[-1].count('u') == 1 else 'UNSAT'
             bin[i] = f"{in_path}/{elem} {test_case_type}"
+
+def cross_val_setup(args, train_set_size=20, num_replications=5):
+    # Generate the folds
+    with open('examples/code/benchmark/sat_uniform.json', 'r') as file:
+        bins = json.load(file)
+
+    # Make absolute paths
+    make_abs_path(bins)
     
     # Split into train test
-    train_sets = [[] for _ in range(num_replications)]
+    train_sets = [None for _ in range(num_replications)]
     
     assert train_set_size % len(bins) == 0, "There must be equal distribution of each test case type in train_set"
-    
-    test_cases_picked_so_far = set()
-    num_from_each_type = train_set_size // len(bins)
+
+    # Load the training sets
+    with open("experiments/generate_coverage/max_coverage_test_suites.json", 'r') as file:
+        possible_train_sets = json.load(file)
+
     for i in range(num_replications):
-        for bin in bins:
-            test_cases = sample_k_random_test_cases(bin, num_from_each_type)
-            test_cases_picked_so_far.update(test_cases) # Make sure we don't pick the same test case twice
-            train_sets[i].append(sample_k_random_test_cases(set(bin) - test_cases_picked_so_far, num_from_each_type))
-    
+        train_sets[i] = copy.deepcopy(possible_train_sets[str(i)])
+        make_abs_path(train_sets[i])
+
     # Generate the replications
     replications = {}
     for replication_num in range(num_replications):
