@@ -46,6 +46,9 @@
 				"xaver.clang-format",
 				"ms-azuretools.vscode-docker",
 				"josetr.cmake-language-support-vscode",
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"github.copilot",
 			]
 		}
 	},
