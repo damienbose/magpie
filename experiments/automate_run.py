@@ -18,6 +18,8 @@ num_replications = 1 # TODO: Make 5 in the future
 
 PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. If so, we penalise it for that
 
+SKIP_TEST = False
+
 operator_selectors = [
     'UniformSelector',
     # 'WeightedSelector',
@@ -50,7 +52,7 @@ if __name__ == '__main__':
         elif args.step == 'train':
             # Run GI on the training set
             utils.train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES)
-        elif args.step == 'test':
+        elif args.step == 'test' and not SKIP_TEST:
             # Run on validation set
             utils.test(args, operator_selectors, search_algos, num_replications)
     except Exception:
