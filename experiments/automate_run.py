@@ -15,6 +15,9 @@ seed = 42
 train_set_size = 20
 num_replications = 1 # TODO: Make 5 in the future
 
+
+PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. If so, we penalise it for that
+
 operator_selectors = [
     'UniformSelector',
     # 'WeightedSelector',
@@ -43,7 +46,7 @@ if __name__ == '__main__':
     try:
         if args.step == 'setup':
             # Generate the cross-validation split
-            utils.setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode, is_mac=is_mac)
+            utils.setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=is_debug_mode, is_mac=is_mac, penalise_dup_explore=PENALISE_DUP_EXPLORE)
         elif args.step == 'train':
             # Run GI on the training set
             utils.train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES)

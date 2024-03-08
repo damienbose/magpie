@@ -57,7 +57,15 @@ class BasicProtocol:
         elif sec['operator_selector'] == 'PolicyGradient':
             alpha = float(sec['alpha'])
             self.search.config['operator_selector'] = magpie.base.PolicyGradient(self.search.config['possible_edits'], alpha)
-
+        
+        # Set up penalty for rexploring a patch: this prevents greedy hopefully
+        if 'penalise_dup_explore' not in sec:
+            self.search.config['penalise_dup_explore'] = False
+        elif sec['penalise_dup_explore'] == 'True':
+            self.search.config['penalise_dup_explore'] = True
+        elif sec['penalise_dup_explore'] == 'False':
+            self.search.config['penalise_dup_explore'] = False
+    
         bins = [[]]
         for s in sec['batch_instances'].splitlines():
             if s == '':

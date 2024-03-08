@@ -112,13 +112,14 @@ def set_fitness_config(config, is_mac=False):
         config["software"]["fitness"] = "time"
         config["software"]["run_cmd"] = ' '.join(config["software"]["run_cmd"].split(' ')[4:]) # Remove the 'perf' command
 
-def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False, is_mac=False):
+def scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode=False, is_mac=False, penalise_dup_explore=False):
     for operator_selector in operator_selectors:
         for algo in search_algos:
             for replication_num in range(num_replications):
                 config = configparser.ConfigParser()
                 config_file = "experiments/scenario/template.ini" if not debug_mode else "experiments/scenario/debug.ini"
                 config.read(config_file)
+                config["search"]["penalise_dup_explore"] = str(penalise_dup_explore)
                 set_fitness_config(config, is_mac)
                 set_operator_selector_config(config, operator_selector)
                 set_budge_config(config, algo)
@@ -142,9 +143,9 @@ def validate_config_setup(args, operator_selectors, search_algos, num_replicatio
                 with open(path, 'w') as configfile:
                     config.write(configfile)
 
-def setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=False, is_mac=False):
+def setup(args, train_set_size, num_replications, operator_selectors, search_algos, debug_mode=False, is_mac=False, penalise_dup_explore=False):
     cross_validation_setup = cross_val_setup(args, train_set_size, num_replications)
-    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac)
+    scenario_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac, penalise_dup_explore=penalise_dup_explore)
     validate_config_setup(args, operator_selectors, search_algos, num_replications, cross_validation_setup, debug_mode, is_mac=is_mac)
 
 def exec_commands(args, commands, MAX_SUB_PROCESSES=1):
