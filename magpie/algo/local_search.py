@@ -80,9 +80,12 @@ class LocalSearch(BasicAlgorithm):
             self.experiment_report['unique_successful_run'] += 1 # This is our measure of experiment efficiency
 
         if isinstance(self.config['operator_selector'], AbstractBanditsOperatorSelector) and not self.last_operator_is_delete_edit:
-            assert run is not None, "run should not be None"
-            assert parent_fitness is not None, "parent_fitness should not be None"
-            self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, parent_fitness, run)
+            if self.config['penalise_dup_explore'] and not cache_miss:
+                self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, parent_fitness=None, run=None)
+            else:
+                assert run is not None, "run should not be None"
+                assert parent_fitness is not None, "parent_fitness should not be None"
+                self.config['operator_selector'].update_quality(self.config['operator_selector'].prev_operator, parent_fitness, run)
         return run
         
     def check_if_trapped(self):
