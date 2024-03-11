@@ -17,6 +17,10 @@ def get_patch(log_files_folder):
     except FileNotFoundError: # No patches found (i.e. variants with improved fitness)
         return None
 
+def get_num_unique_variants_evaluated(pkl_obj):
+    cache_info = pkl_obj['cache_info']
+    return cache_info['currsize']
+
 def get_num_variants_evaluated(pkl_obj):
     run_results = pkl_obj['run_results']
     return len(run_results)
