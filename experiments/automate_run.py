@@ -7,13 +7,13 @@ importlib.reload(utils) # Reload instead of using cached version
 is_debug_mode = False
 is_mac = False
 
-MAX_SUB_PROCESSES = 5
+MAX_SUB_PROCESSES = 1
 
 seed = 42
 
 # Cross validation setup
 train_set_size = 20
-num_replications = 1 # TODO: Make 5 in the future
+num_replications = 5
 
 
 PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. If so, we penalise it for that
@@ -24,14 +24,14 @@ operator_selectors = [
     'UniformSelector',
     # 'WeightedSelector',
     'EpsilonGreedy',
-    'ProbabilityMatching',
+    'ProbabilityMatching',1
     'UCB',
     'PolicyGradient'
 ]
 
 search_algos = [
     'RandomSearch',
-    'FYPLocalSearch'
+    # 'FYPLocalSearch'
 ]
 
 if __name__ == '__main__':
