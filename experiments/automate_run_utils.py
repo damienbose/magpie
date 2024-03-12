@@ -103,7 +103,7 @@ def set_validate_batch_config(config, replication_num, cross_validation_setup):
 
 def set_budge_config(config, algo):
     if algo == 'RandomSearch':
-        config["search"]["max_time"] = "10800" # 3 hours
+        config["search"]["max_time"] = "7200" # 2 hours
     elif algo == 'FYPLocalSearch':
         config["search"]["max_time"] = "54000" # 15 hours
 
