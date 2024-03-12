@@ -24,7 +24,7 @@ operator_selectors = [
     'UniformSelector',
     # 'WeightedSelector',
     'EpsilonGreedy',
-    'ProbabilityMatching',1
+    'ProbabilityMatching',
     'UCB',
     'PolicyGradient'
 ]
