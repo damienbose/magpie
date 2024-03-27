@@ -7,7 +7,7 @@ importlib.reload(utils) # Reload instead of using cached version
 is_debug_mode = False
 is_mac = False
 
-MAX_SUB_PROCESSES = 1
+MAX_SUB_PROCESSES = 4
 
 seed = 42
 
@@ -26,12 +26,12 @@ operator_selectors = [
     'EpsilonGreedy',
     'ProbabilityMatching',
     'UCB',
-    'PolicyGradient'
+    # 'PolicyGradient'
 ]
 
 search_algos = [
-    'RandomSearch',
-    # 'FYPLocalSearch'
+    # 'RandomSearch',
+    'FYPLocalSearch'
 ]
 
 if __name__ == '__main__':
