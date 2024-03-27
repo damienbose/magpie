@@ -105,7 +105,7 @@ def set_budge_config(config, algo):
     if algo == 'RandomSearch':
         config["search"]["max_time"] = "7200" # 2 hours
     elif algo == 'FYPLocalSearch':
-        config["search"]["max_time"] = "54000" # 15 hours
+        config["search"]["max_time"] = "12600" # 3.5 hours ((2 / (3000 / 475) ) * 10); we want to do 10 batches of 475, if we do 3000 iterations in 2 hours, then we can do 10 batches in 3.5 hours
 
 def set_fitness_config(config, is_mac=False):
     if is_mac:
