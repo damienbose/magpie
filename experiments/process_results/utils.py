@@ -33,6 +33,15 @@ def get_num_successful_variants_evaluated(pkl_obj):
             num_success += 1
     return num_success
 
+def num_iterations_till_patch_found(df):
+    pkl_obj, patch = df['pkl_obj'], df['patch']
+    run_results = pkl_obj['run_results']
+    for i, result in enumerate(run_results):
+        patch = patch.replace('\n', '')
+        if str(result['patch']) == str(patch):
+            return i
+    return -1 # Patch not found
+
 def get_unique_statuses(pkl_obj):
     run_results = pkl_obj['run_results']
     unique_statuses = set()
