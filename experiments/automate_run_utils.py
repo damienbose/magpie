@@ -73,7 +73,7 @@ def set_operator_selector_config(config, operator_selector):
     elif operator_selector == 'UCB':
         config["search"]["c"] = f"{math.sqrt(2)}" # COMP0089: c=root(2) is used in the lectures for log expected regret
     elif operator_selector == 'PolicyGradient':
-        config["search"]["alpha"] = "0.1" # Learning rate: sutton and barto
+        config["search"]["alpha"] = "0.01" # Learning rate: sutton and barto
 
 
 def set_batch_config(config, replication_num, cross_validation_setup):

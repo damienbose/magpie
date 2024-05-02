@@ -7,7 +7,7 @@ importlib.reload(utils) # Reload instead of using cached version
 is_debug_mode = False
 is_mac = False
 
-MAX_SUB_PROCESSES = 4
+MAX_SUB_PROCESSES = 5
 
 seed = 42
 
@@ -21,16 +21,16 @@ PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. 
 SKIP_TEST = False
 
 operator_selectors = [
-    'UniformSelector',
+    # 'UniformSelector',
     # 'WeightedSelector',
-    'EpsilonGreedy',
-    'ProbabilityMatching',
-    'UCB',
-    # 'PolicyGradient'
+    # 'EpsilonGreedy',
+    # 'ProbabilityMatching',
+    # 'UCB',
+    'PolicyGradient'
 ]
 
 search_algos = [
-    # 'RandomSearch',
+    'RandomSearch',
     'FYPLocalSearch'
 ]
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # Seed
     utils.seed(seed)
 
-    assert len(operator_selectors) % MAX_SUB_PROCESSES == 0, "See train() command so all processed are done in parrallel"
+    # assert len(operator_selectors) % MAX_SUB_PROCESSES == 0, "See train() command so all processed are done in parrallel"
 
     try:
         if args.step == 'setup':
