@@ -13,7 +13,7 @@ seed = 42
 
 # Cross validation setup
 train_set_size = 20
-num_replications = 5
+num_replications = 10
 
 
 PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. If so, we penalise it for that
@@ -21,11 +21,11 @@ PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. 
 SKIP_TEST = False
 
 operator_selectors = [
-    # 'UniformSelector',
+    'UniformSelector',
     # 'WeightedSelector',
-    # 'EpsilonGreedy',
-    # 'ProbabilityMatching',
-    # 'UCB',
+    'EpsilonGreedy',
+    'ProbabilityMatching',
+    'UCB',
     'PolicyGradient'
 ]
 
@@ -43,8 +43,6 @@ if __name__ == '__main__':
     # Seed
     utils.seed(seed)
 
-    # assert len(operator_selectors) % MAX_SUB_PROCESSES == 0, "See train() command so all processed are done in parrallel"
-
     try:
         if args.step == 'setup':
             # Generate the cross-validation split
@@ -54,7 +52,7 @@ if __name__ == '__main__':
             utils.train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES)
         elif args.step == 'test' and not SKIP_TEST:
             # Run on validation set
-            utils.test(args, operator_selectors, search_algos, num_replications)
+            utils.test(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES)
     except Exception:
         with open(f"{args.results_dir}/error_{args.step}.txt", 'w') as f:
             print(traceback.format_exc(), file=f)

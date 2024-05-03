@@ -184,6 +184,7 @@ def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROC
     commands = []
     for algo in search_algos:
         for i in range(num_replications):
+            if i < 5: continue
             # Train on the training folds
             for operator_selector in operator_selectors:
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
@@ -192,9 +193,10 @@ def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROC
     
     exec_commands(args, commands, MAX_SUB_PROCESSES)
     
-def test(args, operator_selectors, search_algos, num_replications):
+def test(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
     commands = []
     for i in range(num_replications):
+        if i < 5: continue
         # Validate on the validation folds
         for operator_selector in operator_selectors:
             for algo in search_algos:
@@ -205,4 +207,4 @@ def test(args, operator_selectors, search_algos, num_replications):
                 if os.path.exists(patch): # A valid patch exists
                     commands.append(command)
 
-    exec_commands(args, commands, MAX_SUB_PROCESSES=1) # We run sequentially to minimise noise in the results
+    exec_commands(args, commands, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES) # We run sequentially to minimise noise in the results
