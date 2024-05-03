@@ -182,8 +182,8 @@ def exec_commands(args, commands, MAX_SUB_PROCESSES=1):
 
 def train(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCESSES=1):
     commands = []
-    for i in range(num_replications):
-        for algo in search_algos:
+    for algo in search_algos:
+        for i in range(num_replications):
             # Train on the training folds
             for operator_selector in operator_selectors:
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/scenario.ini"
