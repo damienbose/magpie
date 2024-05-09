@@ -1,7 +1,0 @@
-numpy
-gcovr
-tqdm
-notebook
-pandas
-scipy
-matplotlib
