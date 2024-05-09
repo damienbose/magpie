@@ -208,11 +208,6 @@ class BasicAlgorithm(magpie.base.AbstractAlgorithm):
             self.cache_set(diff, run)
         self.stats['budget'] += getattr(run, 'budget', 0) or 0
 
-        # if self.report['initial_fitness'] is not None: # We are note warming up
-        #     if 'fitness_values' not in self.experiment_report: 
-        #         self.experiment_report['fitness_values'] = []
-        #     self.experiment_report['fitness_values'].append(run)
-
         return run
 
     def cache_get(self, diff):
