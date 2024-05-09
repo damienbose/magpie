@@ -1,6 +1,9 @@
 import io
 import os
 import random
+import pickle
+from pathlib import Path
+import shutil
 
 import magpie
 
@@ -10,6 +13,9 @@ class BasicProtocol:
         self.program = None
 
     def setup(self, config):
+        # Out file config
+        self.search.config['final_out_dir'] = config['magpie']['final_out_dir']
+
         # shared parameters
         sec = config['search']
         self.search.config['warmup'] = int(sec['warmup'])
@@ -30,10 +36,41 @@ class BasicProtocol:
                 raise ValueError('Invalid config file: unknown edit type "{}" in "[software] possible_edits"'.format(edit))
         if self.search.config['possible_edits'] == []:
             raise ValueError('Invalid config file: "[search] possible_edits" must be non-empty!')
-
+        
+        # Set up our operator selector
+        if 'operator_selector' not in sec:
+            self.search.config['operator_selector'] = magpie.base.UniformSelector(self.search.config['possible_edits'])
+        elif sec['operator_selector'] == 'UniformSelector':
+            self.search.config['operator_selector'] = magpie.base.UniformSelector(self.search.config['possible_edits'])
+        elif sec['operator_selector'] == 'WeightedSelector':
+            initial_weights = [float(w) for w in sec['initial_weights'].split()]
+            self.search.config['operator_selector'] = magpie.base.WeightedSelector(self.search.config['possible_edits'], initial_weights)
+        elif sec['operator_selector'] == 'EpsilonGreedy':
+            epsilon = float(sec['epsilon'])
+            self.search.config['operator_selector'] = magpie.base.EpsilonGreedy(self.search.config['possible_edits'], epsilon)
+        elif sec['operator_selector'] == 'ProbabilityMatching':
+            p_min = float(sec['p_min'])
+            self.search.config['operator_selector'] = magpie.base.ProbabilityMatching(self.search.config['possible_edits'], p_min)
+        elif sec['operator_selector'] == 'UCB':
+            c = float(sec['c'])
+            self.search.config['operator_selector'] = magpie.base.UCB(self.search.config['possible_edits'], c)
+        elif sec['operator_selector'] == 'PolicyGradient':
+            alpha = float(sec['alpha'])
+            self.search.config['operator_selector'] = magpie.base.PolicyGradient(self.search.config['possible_edits'], alpha)
+        
+        # Set up penalty for rexploring a patch: this prevents greedy hopefully
+        if 'penalise_dup_explore' not in sec:
+            self.search.config['penalise_dup_explore'] = False
+        elif sec['penalise_dup_explore'] == 'True':
+            self.search.config['penalise_dup_explore'] = True
+        elif sec['penalise_dup_explore'] == 'False':
+            self.search.config['penalise_dup_explore'] = False
+    
         bins = [[]]
         for s in sec['batch_instances'].splitlines():
-            if s == '___':
+            if s == '':
+                continue
+            elif s == '___':
                 if not bins[-1]:
                     raise ValueError('Invalid config file: empty bin in "{}"'.format(sec['search']['batch_all_samples']))
                 bins.append([])
@@ -161,3 +198,38 @@ class BasicProtocol:
 
         # cleanup temporary software copies
         self.program.clean_work_dir()
+
+        # Update the results with values from our experiment
+        result.update(self.search.experiment_report)
+        result['operator_selector'] = self.search.config['operator_selector']
+
+        cache_info = self.search.evaluate_patch_cached.cache_info()
+        # CacheInfo(hits=0, misses=3, maxsize=None, currsize=3)
+        result['cache_info'] = {"hits" : cache_info.hits, "misses" : cache_info.misses, "maxsize" : cache_info.maxsize, "currsize" : cache_info.currsize}
+        result['config'] = self.search.config
+
+        # Get path of current experiment results
+        experiment_path = Path(self.search.config['final_out_dir'])
+        experiment_path.mkdir(parents=True, exist_ok=True)
+
+        if isinstance(self.search, magpie.algo.validation.ValidTest):
+            experiment_logs_path = (experiment_path / "validate_logs")
+        else:
+            experiment_logs_path = (experiment_path / "logs")
+
+        experiment_logs_path.mkdir(parents=True, exist_ok=True)
+
+        # Store as pickle file in experiment directory
+        with open(experiment_logs_path / 'raw_result.pkl', 'wb') as file:
+            pickle.dump(result, file)
+
+        base_path = os.path.join(magpie.config.log_dir, self.program.run_label)
+        if os.path.isfile(f"{base_path}.log"):
+            shutil.copyfile(f"{base_path}.log", experiment_logs_path / "experiment.log")
+
+        if os.path.isfile(f"{base_path}.diff"):
+            shutil.copyfile(f"{base_path}.diff", experiment_logs_path / "experiment.diff")
+
+        if os.path.isfile(f"{base_path}.patch"):
+            shutil.copyfile(f"{base_path}.patch", experiment_logs_path / "experiment.patch")
+        

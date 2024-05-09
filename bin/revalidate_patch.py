@@ -13,6 +13,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Magpie patch revalidator')
     parser.add_argument('--scenario', type=pathlib.Path, required=True)
     parser.add_argument('--patch', type=str, required=True)
+    parser.add_argument('--output_dir', type=str, required=True)
+    
     args = parser.parse_args()
 
     # read config file
@@ -29,6 +31,8 @@ if __name__ == "__main__":
 
     # setup
     config['search']['algorithm'] = 'ValidTest'
+    config['magpie']['final_out_dir'] = str(args.output_dir)
+
     magpie.bin.setup(config)
     protocol = magpie.bin.protocol_from_string(config['search']['protocol'])()
     protocol.search = magpie.bin.algo_from_string(config['search']['algorithm'])()
