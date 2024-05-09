@@ -202,7 +202,6 @@ def test(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCE
             for algo in search_algos:
                 scenario = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/validate_scenario.ini"
                 patch = f"{args.results_dir}/{algo}/{operator_selector}/trial_{i}/logs/experiment.patch"
-                # command = f"python3 -m bin.local_search --scenario {scenario} --algo {algo} --seed {i} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 command = f"python3 -m bin.revalidate_patch --scenario {scenario} --patch {patch} --output_dir {args.results_dir}/{algo}/{operator_selector}/trial_{i}"
                 if os.path.exists(patch): # A valid patch exists
                     commands.append(command)
