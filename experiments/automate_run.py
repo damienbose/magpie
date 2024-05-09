@@ -7,13 +7,13 @@ importlib.reload(utils) # Reload instead of using cached version
 is_debug_mode = False
 is_mac = False
 
-MAX_SUB_PROCESSES = 5
+MAX_SUB_PROCESSES = 4
 
 seed = 42
 
 # Cross validation setup
 train_set_size = 20
-num_replications = 10
+num_replications = 5
 
 
 PENALISE_DUP_EXPLORE = False # This keep track if our argent reselects a patch. If so, we penalise it for that
