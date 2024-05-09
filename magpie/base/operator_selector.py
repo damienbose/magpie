@@ -31,7 +31,7 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
     def __init__(self, operators):
         super().__init__(operators)
         
-        self._average_qualities = {op: 0 for op in self._operators} # Note: needs to be set to 0 for an accurate average. TODO: talk about how this differs from adaptive pursuit paper. 
+        self._average_qualities = {op: 0 for op in self._operators} # Note: needs to be set to 0 for an accurate average.
         self._action_count = {op: 0 for op in self._operators}
 
         # Sanity checks
@@ -46,11 +46,11 @@ class AbstractBanditsOperatorSelector(AbstractOperatorSelector):
         self.average_qualities_log = [self._average_qualities.copy()]
         self.action_count_log = [self._action_count.copy()]
     
-    def update_quality(self, operator, parent_fitness, run): # TODO rename: 'update_agent_state' (note: bandit algos have a single environment state)
+    def update_quality(self, operator, parent_fitness, run): 
         reward = calculate_reward(parent_fitness, run)
 
         self._action_count[operator] += 1
-        self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator] # TODO rename: 'action_value_estimates'
+        self._average_qualities[operator] += (reward - self._average_qualities[operator]) / self._action_count[operator] 
 
         # Sanity checks
         self._update_call_count += 1
@@ -127,7 +127,7 @@ class ProbabilityMatching(AbstractBanditsOperatorSelector):
         if total == 0:
             self._probabilities = np.array([1/len(self._operators) for op in self._operators])
         else:
-            for i, operator in enumerate(self._operators): # TODO: parallelise
+            for i, operator in enumerate(self._operators): 
                 self._probabilities[i] = self._p_min + (1 - len(self._operators) * self._p_min) * (self._average_qualities[operator] / total)
 
         self.probabilities_log.append(self._probabilities.copy())
@@ -138,8 +138,8 @@ class ProbabilityMatching(AbstractBanditsOperatorSelector):
         return self.prev_operator
 
 class UCB(AbstractBanditsOperatorSelector):
-    def __init__(self, operators, c): # TODO: Look for c in literature (note c=root(2) is used in the lectures for log expected regret)
-        super().__init__(operators) # TODO: look for initial quality
+    def __init__(self, operators, c): 
+        super().__init__(operators) 
 
         # Hyperparameters
         self._c = c

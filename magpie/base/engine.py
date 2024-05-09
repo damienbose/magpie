@@ -26,7 +26,7 @@ class AbstractEngine(ABC):
             tmp_file.write(dump)
 
     def random_target(self, locations, weights, target_file, target_type):
-        assert target_type is not None # target_types should always be defined ideally?
+        assert target_type is not None # target_types should always be defined
         if weights and target_file in weights and target_type in weights[target_file]:
             total_weight = sum(weights[target_file][target_type])
             r = random.uniform(0, total_weight)
