@@ -206,4 +206,4 @@ def test(args, operator_selectors, search_algos, num_replications, MAX_SUB_PROCE
                 if os.path.exists(patch): # A valid patch exists
                     commands.append(command)
 
-    exec_commands(args, commands, MAX_SUB_PROCESSES=MAX_SUB_PROCESSES) # We run sequentially to minimise noise in the results
+    exec_commands(args, commands, MAX_SUB_PROCESSES=1) # We run sequentially to minimise noise in the results
